@@ -1,0 +1,112 @@
+{
+  "world_state": {
+    "hero": {
+      "location": "scene_1",
+      "inventory": [],
+      "attributes": {
+        "type": "чупакабра",
+        "goal": "в лес повадилась ходить чупакабра"
+      }
+    },
+    "locations": {
+      "scene_1": {
+        "visited": false,
+        "accessible": true
+      },
+      "scene_2": {
+        "visited": false,
+        "accessible": false
+      },
+      "scene_3": {
+        "visited": false,
+        "accessible": false
+      },
+      "scene_4": {
+        "visited": false,
+        "accessible": false
+      },
+      "scene_4_ext_1": {
+        "visited": false,
+        "accessible": false
+      }
+    },
+    "objects": {},
+    "flags": {}
+  },
+  "story_actions": [
+    {
+      "id": "scene_1_choice_0",
+      "description": "Продолжить исследовать лес",
+      "next_scene": "scene_2",
+      "preconditions": [],
+      "effects": [],
+      "required_objects": []
+    },
+    {
+      "id": "scene_2_choice_0",
+      "description": "Продолжить исследовать лес",
+      "next_scene": "scene_3",
+      "preconditions": [],
+      "effects": [],
+      "required_objects": []
+    },
+    {
+      "id": "scene_3_choice_0",
+      "description": "Напасть на фигуру",
+      "next_scene": "scene_4",
+      "preconditions": [],
+      "effects": [],
+      "required_objects": []
+    },
+    {
+      "id": "scene_4_choice_0",
+      "description": "Сразиться с таинственной фигурой",
+      "next_scene": "scene_4_ext_1",
+      "preconditions": [],
+      "effects": [],
+      "required_objects": []
+    }
+  ],
+  "preconditions": {
+    "scene_1_choice_0": [],
+    "scene_2_choice_0": [],
+    "scene_3_choice_0": [],
+    "scene_4_choice_0": []
+  },
+  "effects": {
+    "scene_1_choice_0": [],
+    "scene_2_choice_0": [],
+    "scene_3_choice_0": [],
+    "scene_4_choice_0": []
+  },
+  "action_graph": {
+    "scene_1": [
+      {
+        "action_id": "scene_1_choice_0",
+        "next_scene": "scene_2",
+        "available": true
+      }
+    ],
+    "scene_2": [
+      {
+        "action_id": "scene_2_choice_0",
+        "next_scene": "scene_3",
+        "available": true
+      }
+    ],
+    "scene_3": [
+      {
+        "action_id": "scene_3_choice_0",
+        "next_scene": "scene_4",
+        "available": true
+      }
+    ],
+    "scene_4": [
+      {
+        "action_id": "scene_4_choice_0",
+        "next_scene": "scene_4_ext_1",
+        "available": true
+      }
+    ]
+  }
+}

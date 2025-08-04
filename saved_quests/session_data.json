@@ -1,0 +1,2728 @@
+{
+  "quest_history": [
+    {
+      "timestamp": "2025-08-04T19:58:12.505921",
+      "quest": {
+        "title": "Хроники теней: Взломать замок на двери, найти",
+        "genre": "киберпанк",
+        "hero": "хакер- одиночка",
+        "goal": "взломать замок\nна двери, найти и забрать чип \nс вирусом",
+        "scenes": [
+          {
+            "scene_id": "scene_1",
+            "text": "Ты стоишь на влажной улице, окруженный неоновыми огнями и дождем, падающим с небес. Под ногами мокрый асфальт, отражающий огни корпоративных небоскребов. Твой дождевик из хромированной кожи отбрасывает капли дождя, пока ты прокручиваешь задание в своем нейроимпланте. Твоей целью является взлом замка и поиск вирусного чипа. Ты чувствуешь накал напряжения и готовность к действию. На твоей кибердеке мигает новое сообщение от незнакомца: 'Ты уверен, что хочешь продолжить? Это опасно.' Сердце бьется быстрее, но ты знаешь, что ты здесь не случайно. Ты готов к испытанию.",
+            "choices": [
+              {
+                "text": "Принять вызов и продолжить",
+                "next_scene": "scene_2",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "неоновая улица",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_2",
+            "text": "Ты идешь по неоново освещенной улице, ступая по мокрому асфальту, который отражает бесконечные небоскребы вокруг. Дождь не перестает, его шум перебивает все остальные звуки города. В руках у тебя кибердека, отражающая огни и призрачно мерцающая в ночи. Твой нейроимплант показывает тебе путь через мокрые улицы и темные переулки. Сердце стучит, адреналин бьет ключом. Вирусный чип, который тебе нужно найти, где-то очень близко. Ты останавливаешься перед дверью, за которой, как ты знаешь, искомый чип. Дверь выглядит старой и надежной, но ты уверен, что сможешь справиться. Внезапно, в твоем нейроимпланте появляется предупреждение: 'Это последний шанс повернуть назад. Ты уверен, что хочешь продолжить?'",
+            "choices": [
+              {
+                "text": "Продолжить и попытаться взломать дверь",
+                "next_scene": "scene_3",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "неоновая улица перед дверью",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_3",
+            "text": "Вокруг царит мрачная тишина, нарушаемая лишь стуком дождя по холодному металлу и стеклу. Ты стоишь перед массивной дверью, ослепительно отражающей неоновые огни. Твой нейроимплант сопрягается с кибердекой, и ты ощущаешь, как твоя сознательность уходит в глубины виртуального мира. Неоновые линии и цифровые руины формируют окружение, в котором ты встречаешь замок. Не просто замок, а колоссальную стену защиты. Ты чувствуешь напряжение в воздухе, словно оно молнией пронзает твое тело. 'Ну что, пора начинать', - думаешь ты, глядя на мерцающие иконки кибердеки. Вдруг, ты ощущаешь, как кто-то или что-то пытается проникнуть в твою систему. Это охрана. Времени все меньше.",
+            "choices": [
+              {
+                "text": "Принять вызов и броситься в бой с охраной",
+                "next_scene": "scene_4",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "виртуальный мир, замок на двери",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4",
+            "text": "Твоё сознание окутано холодной тишиной цифрового мира. Неоновые сети прокручиваются вокруг, мелькая в отражении хромированного замка, преграждающего путь к чипу с вирусом. Сквозь дождь из нолей и единиц ты ощущаешь мощь защиты, отражающуюся в каждом электронном звене стены. Пальцы скользят по кибердеке, готовясь к последнему рывку. 'Всё или ничего', - думаешь ты, ощущая как напряжение молнией пронзает каждую клетку твоего тела. В нереальности цифрового мира это напряжение становится твоей реальностью, заряжая тебя решимостью и смелостью. Защитные механизмы замка кажутся неприступными, но ты знаешь, что не имеешь права на ошибку. Сейчас каждый твой шаг решает всё. Ты готов вступить в последнюю битву с системой.",
+            "choices": [
+              {
+                "text": "Собрать все силы и начать взлом",
+                "next_scene": "scene_4_ext_1",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "тензионная",
+            "location": "цифровой мир",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4_ext_1",
+            "text": "Вокруг тебя витает мерцающий океан информации, всплески данных вспыхивают, как нейоновые огни в ночном городе. Ты чувствуешь, как твой нейроимплант вибрирует от напряжения, открывая перед тобой мир цифровой реальности. Замок стоит перед тобой, как неприступная крепость, его хромированные стены отражают бурный поток информации. Ты вглядываешься в его структуру, анализируешь, ищешь слабое звено. 'Я могу сделать это. Я должен сделать это,' - молния решимости пронзает твое сознание. 'Следующий шаг может стоить мне жизни или дать свободу.'",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "цифровая реальность",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          }
+        ],
+        "start_scene": "scene_1",
+        "paths": [
+          {
+            "path_id": "path_1",
+            "scenes": [
+              "scene_1",
+              "scene_2",
+              "scene_3",
+              "scene_4",
+              "scene_4_ext_1"
+            ],
+            "length": 5,
+            "is_main": true,
+            "outcome": "нейтральный"
+          }
+        ],
+        "metadata": {
+          "warnings": [],
+          "total_branches": 0,
+          "max_depth": 5,
+          "generation_time": 90.69659852981567,
+          "tokens_used": 7815
+        },
+        "target_audience": null,
+        "estimated_duration": null,
+        "complexity_level": null,
+        "content_warnings": null,
+        "tags": null,
+        "version": "1.0",
+        "personalization_data": null,
+        "quality_metrics": null,
+        "generation_config": null
+      },
+      "type": "advanced",
+      "enhancements": {
+        "logic": {
+          "world_state": {
+            "hero": {
+              "location": "scene_1",
+              "inventory": [],
+              "attributes": {
+                "type": "хакер- одиночка",
+                "goal": "взломать замок\nна двери, найти и забрать чип \nс вирусом"
+              }
+            },
+            "locations": {
+              "scene_1": {
+                "visited": false,
+                "accessible": true
+              },
+              "scene_2": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_3": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4_ext_1": {
+                "visited": false,
+                "accessible": false
+              }
+            },
+            "objects": {},
+            "flags": {}
+          },
+          "story_actions": [
+            {
+              "id": "scene_1_choice_0",
+              "description": "Принять вызов и продолжить",
+              "next_scene": "scene_2",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_2_choice_0",
+              "description": "Продолжить и попытаться взломать дверь",
+              "next_scene": "scene_3",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_3_choice_0",
+              "description": "Принять вызов и броситься в бой с охраной",
+              "next_scene": "scene_4",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_4_choice_0",
+              "description": "Собрать все силы и начать взлом",
+              "next_scene": "scene_4_ext_1",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            }
+          ],
+          "preconditions": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "effects": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "action_graph": {
+            "scene_1": [
+              {
+                "action_id": "scene_1_choice_0",
+                "next_scene": "scene_2",
+                "available": true
+              }
+            ],
+            "scene_2": [
+              {
+                "action_id": "scene_2_choice_0",
+                "next_scene": "scene_3",
+                "available": true
+              }
+            ],
+            "scene_3": [
+              {
+                "action_id": "scene_3_choice_0",
+                "next_scene": "scene_4",
+                "available": true
+              }
+            ],
+            "scene_4": [
+              {
+                "action_id": "scene_4_choice_0",
+                "next_scene": "scene_4_ext_1",
+                "available": true
+              }
+            ]
+          }
+        },
+        "visualization": {
+          "quest_id": "хроники_теней:_взломать_замок_на_двери,_найти",
+          "scenes": [],
+          "quest_map": "output\\quest_viz\\quest_map.json",
+          "enhanced_features": {
+            "multi_view_scenes": 0,
+            "scene_layouts": [],
+            "visual_consistency_score": 0.0
+          }
+        },
+        "integrated": {
+          "interactive_scenes": [],
+          "object_interactions": {},
+          "visual_triggers": []
+        }
+      }
+    },
+    {
+      "timestamp": "2025-08-04T20:41:50.619417",
+      "quest": {
+        "title": "Дело о Ищет пульт от телевизора",
+        "genre": "детектив",
+        "hero": "Джон",
+        "goal": "Ищет пульт от телевизора",
+        "scenes": [
+          {
+            "scene_id": "scene_1",
+            "text": "В ту ночь город окутал густой туман, который скрывал улицы и делал их еще более зловещими. Джон сидел в своем кабинете, освещенном лишь тусклым светом лампы, и смотрел на беспорядок, царивший вокруг. Стопки документов, наполовину заполненные записные книжки и пустые чашки от кофе создавали атмосферу хаоса. Он чувствовал, как давление на его плечах растет, когда очередной случай завладел его мыслями. 'Где же этот чертов пульт от телевизора?' - думал он, теряя терпение. Внутри него возникало подозрение, что его пропажа не случайна. Возможно, это связано с последними событиями в городе. Вдруг раздался стук в дверь. Джон резко обернулся, его сердце заколотилось. В дверь вошел его знакомый полицейский с серьезным выражением на лице. 'Джон, у нас проблема. Ты должен это увидеть.' Он протянул ему записку с адресом. 'Это может быть связано с твоим делом.' Джон вздохнул, зная, что придется снова выйти в эту туманную ночь, полную тайн и опасностей.",
+            "choices": [
+              {
+                "text": "Отправиться по адресу",
+                "next_scene": "scene_2",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "таинственная",
+            "location": "кабинет детектива",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_2",
+            "text": "Ночь окутала город, а туман плыл по улицам, словно живое существо, скрывающее опасности. Джон, выйдя из своего кабинета, шагал по мокрой брусчатке, его ботинки издавали тихий звук, смешиваясь с глухими шагами в переулках. В воздухе витал запах дождя и тайны. Каждый шаг приближал его к ответу, но одновременно наполнял его все большим беспокойством. 'Где же этот пульт?' - снова и снова вертелось в голове. Он вспомнил о последнем разговоре с соседями, которые упоминали о странном человеке, бродившем в округе. Внезапно он услышал звук, похожий на скрип двери, и его сердце забилось быстрее. Неужели кто-то следит за ним? Джон резко обернулся, но только туман смотрел в ответ. Его внутренний голос шептал о том, что он не одинок в этой ночи. Он почувствовал, как что-то пронзило его сознание: не время медлить, нужно найти пульт и выяснить, что происходит в этом городе, полном тайн и подозрений.",
+            "choices": [
+              {
+                "text": "Вернуться в кабинет и изучить записи",
+                "next_scene": "scene_3",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "туманные улицы города",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_3",
+            "text": "Туман окутал улицы, словно покров, скрывающий тайны и опасности. Джон стоял на перекрестке, его сердце стучало в унисон с каплями дождя, стекающими по лицу. Вокруг царила мертвая тишина, прерываемая лишь редкими шагами прохожих, которые, казалось, тоже искали что-то важное. Его разум метался между воспоминаниями о странном человеке, бродившем в ночи, и словами соседей, которые могли стать ключом к разгадке. 'Где этот пульт?' - снова и снова звучало в его голове. Вдруг он заметил тень, мелькнувшую в переулке, и его инстинкты сработали: это могло быть как раз то, что он искал. Но стоит ли следовать за этой тенью в темноту, где каждый шаг может стать последним? Впереди простирались два пути: один вел к загадочной фигуре, другой — к полицейскому участку, где могли быть важные улики. У Джона не было времени на раздумья, и он знал, что каждое его решение может изменить ход дела.",
+            "choices": [
+              {
+                "text": "Следовать за тенью в переулке",
+                "next_scene": "scene_4",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "городские улицы, туманный переулок",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4",
+            "text": "Тень, мелькнувшая в переулке, оказалась всего лишь кошкой, но Джон не мог избавиться от чувства, что его наблюдают. Вокруг него ночной туман медленно окутывал улицы, погружая город в зловещую безмолвие. Птицы уже не пели, а лишь порой в воздухе раздавался треск веток под лапами. Вспомнив о пропавшем пульте, он почувствовал, как его охватывает невыносимое напряжение: 'Где же он?' - шептал он себе, обводя взглядом темные углы. Вдруг его внимание привлекло блеск в одном из переулков. Это могло быть что угодно - улика, или, возможно, тот самый пульт, который он так долго искал. Но как бы то ни было, он знал, что должен быть осторожен. Каждый шаг мог привести к неожиданной опасности. Его сердце забилось быстрее, когда он приближался к источнику света, и он почувствовал, как надвигается опасность.  \"Я не могу упустить этот шанс\", - подумал он, готовясь к любому повороту событий.",
+            "choices": [
+              {
+                "text": "Подойти к блеску в переулке",
+                "next_scene": "scene_4_ext_1",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "таинственная",
+            "location": "туманный переулок",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4_ext_1",
+            "text": "Джон медленно подошел к переулку, откуда исходил таинственный блеск. Туманные облака вились вокруг него, создавая ощущение, что сам город дышит в унисон с его волнением. Он прижал ладонь к холодной стене, почувствовав сырость кирпичей, и напряжение в его груди нарастало. Взгляд Джона скользнул по темным углам, где тени, казалось, прятали нечто большее, чем просто мусор и старые ящики. В этот момент он вспомнил о пульте от телевизора, который мог быть ключом к разгадке его поисков. \"Может, он здесь, среди этих теней?\" - подумал он, вздыхая. Внезапно с улицы послышался треск, и Джон насторожился. Его сердце забилось быстрее, когда он заметил, что блеск усиливается, словно кто-то или что-то ждало его решения. Вдруг из-за угла выскочила фигура, и Джон чуть не вскрикнул от неожиданности.",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "темный переулок",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          }
+        ],
+        "start_scene": "scene_1",
+        "paths": [
+          {
+            "path_id": "path_1",
+            "scenes": [
+              "scene_1",
+              "scene_2",
+              "scene_3",
+              "scene_4",
+              "scene_4_ext_1"
+            ],
+            "length": 5,
+            "is_main": true,
+            "outcome": "нейтральный"
+          }
+        ],
+        "metadata": {
+          "warnings": [],
+          "total_branches": 0,
+          "max_depth": 5,
+          "generation_time": 38.17426538467407,
+          "tokens_used": 5445
+        },
+        "target_audience": null,
+        "estimated_duration": null,
+        "complexity_level": null,
+        "content_warnings": null,
+        "tags": null,
+        "version": "1.0",
+        "personalization_data": null,
+        "quality_metrics": null,
+        "generation_config": null
+      },
+      "type": "advanced",
+      "enhancements": {
+        "logic": {
+          "world_state": {
+            "hero": {
+              "location": "scene_1",
+              "inventory": [],
+              "attributes": {
+                "type": "Джон",
+                "goal": "Ищет пульт от телевизора"
+              }
+            },
+            "locations": {
+              "scene_1": {
+                "visited": false,
+                "accessible": true
+              },
+              "scene_2": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_3": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4_ext_1": {
+                "visited": false,
+                "accessible": false
+              }
+            },
+            "objects": {},
+            "flags": {}
+          },
+          "story_actions": [
+            {
+              "id": "scene_1_choice_0",
+              "description": "Отправиться по адресу",
+              "next_scene": "scene_2",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_2_choice_0",
+              "description": "Вернуться в кабинет и изучить записи",
+              "next_scene": "scene_3",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_3_choice_0",
+              "description": "Следовать за тенью в переулке",
+              "next_scene": "scene_4",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_4_choice_0",
+              "description": "Подойти к блеску в переулке",
+              "next_scene": "scene_4_ext_1",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            }
+          ],
+          "preconditions": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "effects": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "action_graph": {
+            "scene_1": [
+              {
+                "action_id": "scene_1_choice_0",
+                "next_scene": "scene_2",
+                "available": true
+              }
+            ],
+            "scene_2": [
+              {
+                "action_id": "scene_2_choice_0",
+                "next_scene": "scene_3",
+                "available": true
+              }
+            ],
+            "scene_3": [
+              {
+                "action_id": "scene_3_choice_0",
+                "next_scene": "scene_4",
+                "available": true
+              }
+            ],
+            "scene_4": [
+              {
+                "action_id": "scene_4_choice_0",
+                "next_scene": "scene_4_ext_1",
+                "available": true
+              }
+            ]
+          }
+        },
+        "visualization": {
+          "quest_id": "дело_о_ищет_пульт_от_телевизора",
+          "scenes": [
+            {
+              "scene_id": "scene_1",
+              "layout_path": "output\\quest_viz\\scene_1\\layout.json",
+              "image_paths": [
+                "output\\quest_viz\\scene_1\\view_0.png"
+              ],
+              "composite_path": "output\\quest_viz\\scene_1\\composite.png",
+              "visualization_dir": "output\\quest_viz\\scene_1"
+            },
+            {
+              "scene_id": "scene_2",
+              "layout_path": "output\\quest_viz\\scene_2\\layout.json",
+              "image_paths": [
+                "output\\quest_viz\\scene_2\\view_0.png"
+              ],
+              "composite_path": "output\\quest_viz\\scene_2\\composite.png",
+              "visualization_dir": "output\\quest_viz\\scene_2"
+            },
+            {
+              "scene_id": "scene_3",
+              "layout_path": "output\\quest_viz\\scene_3\\layout.json",
+              "image_paths": [
+                "output\\quest_viz\\scene_3\\view_0.png"
+              ],
+              "composite_path": "output\\quest_viz\\scene_3\\composite.png",
+              "visualization_dir": "output\\quest_viz\\scene_3"
+            },
+            {
+              "scene_id": "scene_4",
+              "layout_path": "output\\quest_viz\\scene_4\\layout.json",
+              "image_paths": [
+                "output\\quest_viz\\scene_4\\view_0.png"
+              ],
+              "composite_path": "output\\quest_viz\\scene_4\\composite.png",
+              "visualization_dir": "output\\quest_viz\\scene_4"
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "layout_path": "output\\quest_viz\\scene_4_ext_1\\layout.json",
+              "image_paths": [
+                "output\\quest_viz\\scene_4_ext_1\\view_0.png"
+              ],
+              "composite_path": "output\\quest_viz\\scene_4_ext_1\\composite.png",
+              "visualization_dir": "output\\quest_viz\\scene_4_ext_1"
+            }
+          ],
+          "quest_map": "output\\quest_viz\\quest_map.json",
+          "enhanced_features": {
+            "multi_view_scenes": 5,
+            "scene_layouts": [],
+            "visual_consistency_score": 0.85
+          }
+        },
+        "integrated": {
+          "interactive_scenes": [
+            {
+              "scene_id": "scene_1",
+              "visual_data": {
+                "scene_id": "scene_1",
+                "layout_path": "output\\quest_viz\\scene_1\\layout.json",
+                "image_paths": [
+                  "output\\quest_viz\\scene_1\\view_0.png"
+                ],
+                "composite_path": "output\\quest_viz\\scene_1\\composite.png",
+                "visualization_dir": "output\\quest_viz\\scene_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_2",
+              "visual_data": {
+                "scene_id": "scene_2",
+                "layout_path": "output\\quest_viz\\scene_2\\layout.json",
+                "image_paths": [
+                  "output\\quest_viz\\scene_2\\view_0.png"
+                ],
+                "composite_path": "output\\quest_viz\\scene_2\\composite.png",
+                "visualization_dir": "output\\quest_viz\\scene_2"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_3",
+              "visual_data": {
+                "scene_id": "scene_3",
+                "layout_path": "output\\quest_viz\\scene_3\\layout.json",
+                "image_paths": [
+                  "output\\quest_viz\\scene_3\\view_0.png"
+                ],
+                "composite_path": "output\\quest_viz\\scene_3\\composite.png",
+                "visualization_dir": "output\\quest_viz\\scene_3"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4",
+              "visual_data": {
+                "scene_id": "scene_4",
+                "layout_path": "output\\quest_viz\\scene_4\\layout.json",
+                "image_paths": [
+                  "output\\quest_viz\\scene_4\\view_0.png"
+                ],
+                "composite_path": "output\\quest_viz\\scene_4\\composite.png",
+                "visualization_dir": "output\\quest_viz\\scene_4"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "visual_data": {
+                "scene_id": "scene_4_ext_1",
+                "layout_path": "output\\quest_viz\\scene_4_ext_1\\layout.json",
+                "image_paths": [
+                  "output\\quest_viz\\scene_4_ext_1\\view_0.png"
+                ],
+                "composite_path": "output\\quest_viz\\scene_4_ext_1\\composite.png",
+                "visualization_dir": "output\\quest_viz\\scene_4_ext_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            }
+          ],
+          "object_interactions": {},
+          "visual_triggers": []
+        }
+      }
+    },
+    {
+      "timestamp": "2025-08-04T22:23:00.415515",
+      "quest": {
+        "title": "Дело о Найти пульт от телевизора",
+        "genre": "детектив",
+        "hero": "Джон",
+        "goal": "Найти пульт от телевизора",
+        "scenes": [
+          {
+            "scene_id": "scene_1",
+            "text": "Темный кабинет детектива был окутан легким туманом, который проникал сквозь плотно закрытые жалюзи. На столе стояла старая лампа, освещая лишь часть беспорядка, царящего вокруг: разбросанные бумаги, пыльные книги и несколько пустых бутылок. Джон сидел на своем стуле, обхватив голову руками, его мысли путались в смятении. Как же он мог потерять пульт от телевизора? Это всего лишь предмет, но без него вечеринки с друзьями превращались в тихие ночи. Вдруг в дверь постучали, прерывая его размышления. 'Джон, у нас проблема,' – произнес знакомый голос. Это был его партнер, Мэри. 'Клиенты ждут, а у нас нет даже пульта для презентации.' Джон вздохнул, понимая, что это задание станет настоящим испытанием. Ему нужно найти пульт прежде, чем станет слишком поздно. Он встал, чувствуя, как напряжение наполняет его тело. 'Где я мог его оставить?' – задумался он, глядя на туманные улицы за окном. Каждая тень казалась подозрительной, каждая улица могла скрывать ответ. Куда же ему идти дальше? ",
+            "choices": [
+              {
+                "text": "Продолжить расследование",
+                "next_scene": "scene_2",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "таинственная",
+            "location": "кабинет детектива",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_2",
+            "text": "Джон поднялся с кресла, когда услышал настойчивый стук в дверь. Внутри его раздирала неуверенность — кто бы мог быть в это время ночи на пороге его кабинета? Туман за окном скрадывал звуки, и лишь редкие шаги по мостовой нарушали вечернюю тишину. Он медленно подошел к двери, каждый шаг отозвался эхом в его сердце, полном тревоги. За дверью кто-то ждал, и Джон чувствовал, как его охватывает напряжение. Неужели это кто-то с улицы? Возможно, тот, кто знает, где найти пульт? В его голове крутились мысли о том, что этот предмет может стать ключом к разгадке очередной тайны. Однако, он также понимал, что в ночи скрываются опасности. Прежде чем открыть дверь, он быстро взглянул на стол — там лежала его записная книжка с записями о последних делах. Джон медленно потянулся к ручке двери, собираясь узнать, кто стоит на пороге, и готовился к любому развитию событий.",
+            "choices": [
+              {
+                "text": "Открыть дверь и узнать, кто там",
+                "next_scene": "scene_3",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "кабинет детектива",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_3",
+            "text": "В кабинет Джона вошел туман, как будто сам вечер решил проникнуть в его мысли. Стук в дверь стал еще настойчивее, и сердце Джона забилось в такт. Он взглянул на свое отражение в стекле: растрепанные волосы, усталые глаза. За дверью ощущалась угроза. Вдруг он вспомнил о пульте, о загадке, которая оставалась неразрешенной. Может, этот посетитель и есть ключ к разгадке? Джон глубоко вздохнул, собравшись с мыслями. Ночь за окном скрывала больше, чем могла открыть. Он шагнул к двери, готовый к любому повороту событий. Мгновение замешательства, и он распахнул дверь. Перед ним стоял человек в тени, его лицо едва различимо в полумраке. \"Ты ищешь пульт?\" — произнес незнакомец с легким сарказмом, и Джон почувствовал, как напряжение нарастает, как будто туман сгустился вокруг них. Неужели этот человек знает больше, чем говорит? Внутри него росло желание узнать правду, но какова будет цена этого знания?",
+            "choices": [
+              {
+                "text": "Спросить незнакомца о пульте",
+                "next_scene": "scene_4",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "кабинет детектива",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4",
+            "text": "Джон открыл дверь, и в его кабинет влетел поток холодного воздуха. Туман, который окутывал улицы, казался почти живым, проникая в каждую щель. На пороге стояла фигура — человек в темном пальто с капюшоном, лицо скрыто в тенях. 'Я знаю, что ты ищешь,' произнес он хриплым голосом, подавая Джону что-то, сверкающее в тусклом свете лампы. Это был пульт от телевизора, украшенный таинственными символами. 'Но это не просто пульт. Он связан с исчезновением, которое тебе нужно разгадать.' Джон почувствовал, как его сердце забилось быстрее. Тайна, которая долгое время оставалась в тени, наконец начала проясняться. Но вопрос оставался: кто этот человек и как он связан с делом? Джон сделал шаг вперед, готовый узнать больше, но в то же время ощущая, что каждая разгадка лишь углубляет его в лабиринт преступлений и лжи.",
+            "choices": [
+              {
+                "text": "Спросить о пульте",
+                "next_scene": "scene_4_ext_1",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "кабинет детектива",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4_ext_1",
+            "text": "В туманном кабинете Джона царила напряженная атмосфера. Мягкий свет настольной лампы создавал контраст с темными углами, где тени казались особенно зловещими. Фигура в темном пальто все еще стояла на пороге, держа в руках пульт, как будто он был чем-то священным. Джон чувствовал, как холодный пот стекает по спине — он понимал, что этот пульт может быть ключом к разгадке. 'Что ты знаешь о его прошлом?' — спросил он, стараясь сохранить спокойствие. 'Все, что тебе нужно знать, — это то, что он был здесь, когда исчезли люди,' — ответил незнакомец, его голос казался отголоском ночи. Джон взглянул на пульт, украшенный символами, и осознал, что каждое из них может быть подсказкой. Он быстро осмотрел кабинет, пытаясь найти что-то, что могло бы помочь ему в расследовании. На столе лежала записная книжка, а на стенах висели старые фотографии, которые могли рассказать о давно забытых событиях.",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "кабинет детектива",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          }
+        ],
+        "start_scene": "scene_1",
+        "paths": [
+          {
+            "path_id": "path_1",
+            "scenes": [
+              "scene_1",
+              "scene_2",
+              "scene_3",
+              "scene_4",
+              "scene_4_ext_1"
+            ],
+            "length": 5,
+            "is_main": true,
+            "outcome": "нейтральный"
+          }
+        ],
+        "metadata": {
+          "warnings": [],
+          "total_branches": 0,
+          "max_depth": 5,
+          "generation_time": 38.923929929733276,
+          "tokens_used": 5346
+        },
+        "target_audience": null,
+        "estimated_duration": null,
+        "complexity_level": null,
+        "content_warnings": null,
+        "tags": null,
+        "version": "1.0",
+        "personalization_data": null,
+        "quality_metrics": null,
+        "generation_config": null
+      },
+      "type": "advanced",
+      "enhancements": {
+        "logic": {
+          "world_state": {
+            "hero": {
+              "location": "scene_1",
+              "inventory": [],
+              "attributes": {
+                "type": "Джон",
+                "goal": "Найти пульт от телевизора"
+              }
+            },
+            "locations": {
+              "scene_1": {
+                "visited": false,
+                "accessible": true
+              },
+              "scene_2": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_3": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4_ext_1": {
+                "visited": false,
+                "accessible": false
+              }
+            },
+            "objects": {},
+            "flags": {}
+          },
+          "story_actions": [
+            {
+              "id": "scene_1_choice_0",
+              "description": "Продолжить расследование",
+              "next_scene": "scene_2",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_2_choice_0",
+              "description": "Открыть дверь и узнать, кто там",
+              "next_scene": "scene_3",
+              "preconditions": [],
+              "effects": [
+                {
+                  "type": "change_state",
+                  "object": "door",
+                  "new_state": "unlocked"
+                }
+              ],
+              "required_objects": []
+            },
+            {
+              "id": "scene_3_choice_0",
+              "description": "Спросить незнакомца о пульте",
+              "next_scene": "scene_4",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_4_choice_0",
+              "description": "Спросить о пульте",
+              "next_scene": "scene_4_ext_1",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            }
+          ],
+          "preconditions": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "effects": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [
+              {
+                "type": "change_state",
+                "object": "door",
+                "new_state": "unlocked"
+              }
+            ],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "action_graph": {
+            "scene_1": [
+              {
+                "action_id": "scene_1_choice_0",
+                "next_scene": "scene_2",
+                "available": true
+              }
+            ],
+            "scene_2": [
+              {
+                "action_id": "scene_2_choice_0",
+                "next_scene": "scene_3",
+                "available": true
+              }
+            ],
+            "scene_3": [
+              {
+                "action_id": "scene_3_choice_0",
+                "next_scene": "scene_4",
+                "available": true
+              }
+            ],
+            "scene_4": [
+              {
+                "action_id": "scene_4_choice_0",
+                "next_scene": "scene_4_ext_1",
+                "available": true
+              }
+            ]
+          }
+        },
+        "visualization": {
+          "quest_id": "дело_о_найти_пульт_от_телевизо",
+          "timestamp": "20250804_222117",
+          "output_directory": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117",
+          "scenes": [
+            {
+              "scene_id": "scene_1",
+              "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_1\\composite.png",
+              "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_1"
+            },
+            {
+              "scene_id": "scene_2",
+              "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_2\\layout.json",
+              "image_paths": [
+                "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_2\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_2\\composite.png",
+              "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_2"
+            },
+            {
+              "scene_id": "scene_3",
+              "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_3\\layout.json",
+              "image_paths": [
+                "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_3\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_3\\composite.png",
+              "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_3"
+            },
+            {
+              "scene_id": "scene_4",
+              "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4\\layout.json",
+              "image_paths": [
+                "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4\\composite.png",
+              "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4"
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4_ext_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4_ext_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4_ext_1\\composite.png",
+              "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4_ext_1"
+            }
+          ],
+          "quest_map": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\quest_map.json",
+          "enhanced_features": {
+            "multi_view_scenes": 5,
+            "scene_layouts": [],
+            "visual_consistency_score": 0.85
+          }
+        },
+        "integrated": {
+          "interactive_scenes": [
+            {
+              "scene_id": "scene_1",
+              "visual_data": {
+                "scene_id": "scene_1",
+                "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_1\\composite.png",
+                "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_2",
+              "visual_data": {
+                "scene_id": "scene_2",
+                "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_2\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_2\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_2\\composite.png",
+                "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_2"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_3",
+              "visual_data": {
+                "scene_id": "scene_3",
+                "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_3\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_3\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_3\\composite.png",
+                "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_3"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4",
+              "visual_data": {
+                "scene_id": "scene_4",
+                "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4\\composite.png",
+                "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "visual_data": {
+                "scene_id": "scene_4_ext_1",
+                "layout_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4_ext_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4_ext_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4_ext_1\\composite.png",
+                "visualization_dir": "saved_quests\\Найти_пульт_от_телевизора_20250804_222038\\дело_о_найти_пульт_от_телевизо_20250804_222117\\scene_4_ext_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            }
+          ],
+          "object_interactions": {},
+          "visual_triggers": [
+            {
+              "trigger": "scene_2_choice_0",
+              "visual_change": {
+                "object": "door",
+                "from_state": "default",
+                "to_state": "unlocked",
+                "animation": "unlock_rotation"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "timestamp": "2025-08-04T22:34:39.269693",
+      "quest": {
+        "title": "Кошмар: В лес повадилась ходить чупакабра",
+        "genre": "хоррор",
+        "hero": "чупакабра",
+        "goal": "в лес повадилась ходить чупакабра",
+        "scenes": [
+          {
+            "scene_id": "scene_1",
+            "text": "Сквозь мрак леса, где каждая тень кажется живой, чупакабра стоит на краю таинственного места. Луна освещает путь, но её свет лишь подчеркивает зловещую тишину, которая окутывает все вокруг. Слышен лишь треск веток под лапами, как будто кто-то наблюдает из темноты. Ветер шепчет тайны, и с каждым дуновением чупакабра ощущает нарастающее беспокойство. Вдруг из глубины леса доносятся тихие звуки – возможно, это жертва или что-то более опасное? Страх и азарт переполняют её. “Я должна выяснить, что происходит”, – думает она, принимая решение. Но в глубине души зреет вопрос: “А что, если это ловушка?” Вдруг из-за деревьев появляется силуэт. Это местный охотник, который тоже заметил странные события в лесу. “Ты не должна здесь быть, чупакабра! Здесь опасно!” – предупреждает он, но её любопытство сильнее страха. Она знает, что должна действовать, прежде чем тайна ускользнет в темноту.",
+            "choices": [
+              {
+                "text": "Продолжить исследовать лес",
+                "next_scene": "scene_2",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "край таинственного леса",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_2",
+            "text": "Чупакабра медленно продвигается вперед, её шерсть восстает на ощупь от холодного воздуха, пронизывающего лес. Вокруг царит зловещая тишина, лишь изредка прерываемая треском сучьев под лапами. Лунный свет пробивается сквозь листву, бросая причудливые тени, которые кажутся живыми. Внезапно вдалеке раздается тихий шорох, словно кто-то скрывается в кустах. \"Что это может быть? Жертва или соперник?\" - думает чупакабра, её сердце колотится от страха и волнения. Она чувствует, как в воздухе витает опасность, словно кто-то наблюдает за ней. Внезапно ветви над головой начинают скрипеть, и чупакабра вздрагивает, зная, что сама тьма может скрывать нечто ужасное. Ей нужно решить, как действовать: продолжать исследовать или вернуться в укрытие.",
+            "choices": [
+              {
+                "text": "Продолжить исследовать лес",
+                "next_scene": "scene_3",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "таинственное место в лесу",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_3",
+            "text": "Лес погрузился в зловещую тишину, и лишь шорохи под лапами чупакабры нарушали мрак. Мерцающий лунный свет бросал призрачные тени, а деревья, словно стражи, наклонились к земле. В воздухе витала напряженность, которая заставляла её сердце колотиться. Вдруг, среди тишины, раздался треск, и чупакабра остановилась, напрягая уши. 'Кто здесь?' - раздался её внутренний голос. Она знала, что это может быть либо её следующей жертвой, либо опасным противником. Внезапно из-за деревьев вышла фигура, окутанная тьмой. Сердце чупакабры бешено колотилось, в воздухе витала угроза, и она понимала, что это решающий момент. Нужно действовать! Она могла либо напасть, либо попытаться сбежать вглубь леса, где скрывались её тайные убежища. Но что выбрать в этом мрачном мире, полном ужасов?",
+            "choices": [
+              {
+                "text": "Напасть на фигуру",
+                "next_scene": "scene_4",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "глубокий лес, окутанный тьмой",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4",
+            "text": "В мрачном лесу, окутанном густым туманом, чупакабра ощутила, как воздух наполнился странным, зловещим спокойствием. Лунный свет пробивался сквозь ветви, создавая мерцающие пятна на земле, но не мог развеять тень, что нависла над её сердцем. Внезапно, из-за ближайшего дерева, вышла фигура, окутанная черным плащом. Чупакабра замерла, её глаза расширились от ужаса. 'Кто ты?' - прошептала она, стараясь скрыть дрожь в голосе. Фигура медленно подняла голову, и чупакабра увидела пустые глазницы, в которых не было ни души. 'Я тот, кто пришел завершить твою историю', - произнесла фигура, и её голос звучал как треск веток под ногами. Вокруг вновь воцарилась тишина, но в ней ощущалась угроза, как перед надвигающейся бурей. Чупакабра знала, что ей нужно действовать, но что выбрать? Понимала ли она, что это может быть её последний выбор в этом лесу ужасов? Впереди её ждало либо спасение, либо окончательная гибель.",
+            "choices": [
+              {
+                "text": "Сразиться с таинственной фигурой",
+                "next_scene": "scene_4_ext_1",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "мрачный лес",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4_ext_1",
+            "text": "В тишине леса, где даже ветер казался предателем, чупакабра ощутила холодок на спине. Темный плащ перед ней медленно развевался, как будто сам воздух был живым существом. Лунный свет обнажил изогнутые ветви деревьев, которые казались готовыми схватить её в свои когти. Вокруг не слышно ни одного звука, только редкие капли дождя, падающие с листьев, нарушают жуткое молчание. Чупакабра старалась не выдавать своего страха, но в её груди раздавался глухой трепет. 'Что ты хочешь от меня?' - проскользнуло в её мыслях. Фигура сделала шаг вперед, и чупакабра заметила, что в её руке был предмет, сверкающий в лунном свете. Это был древний амулет, излучающий зловещее сияние. 'Ты пришла сюда, чтобы знать правду?' - произнесла фигура, голос её был как шёпот тьмы. Чупакабра почувствовала, как страх сменяется любопытством, и в её сердце зажглась искра решимости. Она понимала, что от её выбора зависит не только её судьба, но и судьба всего леса.",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "таинственная",
+            "location": "мрачный лес",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          }
+        ],
+        "start_scene": "scene_1",
+        "paths": [
+          {
+            "path_id": "path_1",
+            "scenes": [
+              "scene_1",
+              "scene_2",
+              "scene_3",
+              "scene_4",
+              "scene_4_ext_1"
+            ],
+            "length": 5,
+            "is_main": true,
+            "outcome": "нейтральный"
+          }
+        ],
+        "metadata": {
+          "warnings": [],
+          "total_branches": 0,
+          "max_depth": 5,
+          "generation_time": 39.58429574966431,
+          "tokens_used": 5378
+        },
+        "target_audience": null,
+        "estimated_duration": null,
+        "complexity_level": null,
+        "content_warnings": null,
+        "tags": null,
+        "version": "1.0",
+        "personalization_data": null,
+        "quality_metrics": null,
+        "generation_config": null
+      },
+      "type": "advanced",
+      "enhancements": {
+        "logic": {
+          "world_state": {
+            "hero": {
+              "location": "scene_1",
+              "inventory": [],
+              "attributes": {
+                "type": "чупакабра",
+                "goal": "в лес повадилась ходить чупакабра"
+              }
+            },
+            "locations": {
+              "scene_1": {
+                "visited": false,
+                "accessible": true
+              },
+              "scene_2": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_3": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4_ext_1": {
+                "visited": false,
+                "accessible": false
+              }
+            },
+            "objects": {},
+            "flags": {}
+          },
+          "story_actions": [
+            {
+              "id": "scene_1_choice_0",
+              "description": "Продолжить исследовать лес",
+              "next_scene": "scene_2",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_2_choice_0",
+              "description": "Продолжить исследовать лес",
+              "next_scene": "scene_3",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_3_choice_0",
+              "description": "Напасть на фигуру",
+              "next_scene": "scene_4",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_4_choice_0",
+              "description": "Сразиться с таинственной фигурой",
+              "next_scene": "scene_4_ext_1",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            }
+          ],
+          "preconditions": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "effects": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "action_graph": {
+            "scene_1": [
+              {
+                "action_id": "scene_1_choice_0",
+                "next_scene": "scene_2",
+                "available": true
+              }
+            ],
+            "scene_2": [
+              {
+                "action_id": "scene_2_choice_0",
+                "next_scene": "scene_3",
+                "available": true
+              }
+            ],
+            "scene_3": [
+              {
+                "action_id": "scene_3_choice_0",
+                "next_scene": "scene_4",
+                "available": true
+              }
+            ],
+            "scene_4": [
+              {
+                "action_id": "scene_4_choice_0",
+                "next_scene": "scene_4_ext_1",
+                "available": true
+              }
+            ]
+          }
+        },
+        "visualization": {
+          "quest_id": "кошмар__в_лес_повадилась_ходит",
+          "timestamp": "20250804_223248",
+          "output_directory": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248",
+          "scenes": [
+            {
+              "scene_id": "scene_1",
+              "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_1\\composite.png",
+              "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_1"
+            },
+            {
+              "scene_id": "scene_2",
+              "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_2\\layout.json",
+              "image_paths": [
+                "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_2\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_2\\composite.png",
+              "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_2"
+            },
+            {
+              "scene_id": "scene_3",
+              "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_3\\layout.json",
+              "image_paths": [
+                "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_3\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_3\\composite.png",
+              "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_3"
+            },
+            {
+              "scene_id": "scene_4",
+              "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4\\layout.json",
+              "image_paths": [
+                "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4\\composite.png",
+              "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4"
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4_ext_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4_ext_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4_ext_1\\composite.png",
+              "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4_ext_1"
+            }
+          ],
+          "quest_map": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\quest_map.json",
+          "enhanced_features": {
+            "multi_view_scenes": 5,
+            "scene_layouts": [],
+            "visual_consistency_score": 0.85
+          }
+        },
+        "integrated": {
+          "interactive_scenes": [
+            {
+              "scene_id": "scene_1",
+              "visual_data": {
+                "scene_id": "scene_1",
+                "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_1\\composite.png",
+                "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_2",
+              "visual_data": {
+                "scene_id": "scene_2",
+                "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_2\\layout.json",
+                "image_paths": [
+                  "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_2\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_2\\composite.png",
+                "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_2"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_3",
+              "visual_data": {
+                "scene_id": "scene_3",
+                "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_3\\layout.json",
+                "image_paths": [
+                  "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_3\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_3\\composite.png",
+                "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_3"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4",
+              "visual_data": {
+                "scene_id": "scene_4",
+                "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4\\layout.json",
+                "image_paths": [
+                  "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4\\composite.png",
+                "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "visual_data": {
+                "scene_id": "scene_4_ext_1",
+                "layout_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4_ext_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4_ext_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4_ext_1\\composite.png",
+                "visualization_dir": "saved_quests\\в_лес_повадилась_ходить_чупака_20250804_223208\\кошмар__в_лес_повадилась_ходит_20250804_223248\\scene_4_ext_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            }
+          ],
+          "object_interactions": {},
+          "visual_triggers": []
+        }
+      }
+    },
+    {
+      "timestamp": "2025-08-04T22:38:14.640021",
+      "quest": {
+        "title": "Хроники теней: Взломать матрицу",
+        "genre": "киберпанк",
+        "hero": "Нео",
+        "goal": "Взломать матрицу",
+        "scenes": [
+          {
+            "scene_id": "scene_1",
+            "text": "Нео стоял на краю мрачной улицы, где дождь, словно черная вуаль, стучал по асфальту, смешиваясь с хромом и неоновыми огнями, отражающимися в лужах. Корпоративные небоскребы, обвешанные рекламами, возвышались над ним, словно стражи, готовые поглотить любого, кто осмелится нарушить их порядок. Он чувствовал, как его сердце колотится в такт ритму города, полному боли и надежды. \"Задание\", – прошептал он себе, вдыхая густой смог, который заполнил его легкие, как наркотик.\n\nЗатем он достал кибердеку из внутреннего кармана, холодный металл был знакомым и родным. На экране загорелись цифры, когда он подключил нейроимплант, и голос Хакера, его тайного наставника, раздался в его голове: \"Нео, время пришло. Взломай Матрицу, и ты изменишь мир\". Ему нужно было решиться, сделать шаг в неизвестность, где каждый выбор мог стать последним.\n\nНо сейчас не было времени сомневаться. Дождь продолжал лить, и неоновые огни манили его вперед. Что делать дальше?  \n",
+            "choices": [
+              {
+                "text": "Продолжить",
+                "next_scene": "scene_2",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "неоновая улица в киберпанковом городе",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_2",
+            "text": "Нео стоял, погруженный в тьму неоновых улиц, где капли дождя сыпались, словно осколки разбитых мечт. Он взял кибердеку, ее поверхность холодила его ладонь, а экран мигал, как звезды в бездне. Каждый звук, от шороха пластиковых пакетов до далекого гудения дронов, резонировал в его сознании. Улица, где он находился, была полна тени и тайны: над головой свисали рекламные щиты с обещаниями безграничного счастья, но на земле только разочарование и безысходность. Нео знал, что время на исходе. Внезапно в воздухе послышался треск – это был сигнал, предупреждающий о приближении охранных дронов. \"Нужно действовать быстро\", – шептал он себе, крепко сжимая кибердеку. Он чувствовал, как адреналин бурлит в его венах, заставляя его сосредоточиться. Вдруг из-за угла выскочил хакер, его лицо скрыто под капюшоном. \"Эй, ты! Если хочешь взломать матрицу, тебе нужен вирусный чип!\" – крикнул он, но тут же скрылся в тумане. Нео понимал, что у него есть выбор: искать чип, или продолжать свой путь к взлому. Но каждое мгновение могло стоить ему свободы.",
+            "choices": [
+              {
+                "text": "Искать вирусный чип",
+                "next_scene": "scene_3",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "неоновая улица в мрачном городе",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_3",
+            "text": "Нео стоял на краю мрачного подземного хакерского притона, где неоновые огни мерцали в темноте, словно последние искры надежды. Дождь продолжал бить по крыше, создавая ритмичный фон, который заставлял его сердце биться быстрее. Он чувствовал, как холодный воздух проникает в его легкие, насыщая его тревогой и решимостью. Вокруг него были другие хакеры, погруженные в свои кибердек, их лица освещались холодным светом экранов, отражая страх и жажду свободы. В углу притона висела старая карта виртуальной матрицы, изрытая шрамами битв, и именно туда Нео направил свой взгляд. \"Это последний шанс,\" - подумал он, крепко сжимая нейроимплант в кармане. Его голос едва слышно шептал: \"Я должен взломать матрицу и освободить нас всех\". Но в этот момент двери притона распахнулись, и в зал ворвалась группа кибернетических охранников, их глаза светились красным, как предупреждение. Настало время действовать: Нео знал, что ему нужно выбрать свой путь и встретиться с судьбой.",
+            "choices": [
+              {
+                "text": "Сразиться с охранниками",
+                "next_scene": "scene_4",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "подземный хакерский притон",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4",
+            "text": "Нео стоял на краю мрачного подземного хакерского притона, где неоновые огни мерцали в темноте, словно последние искры надежды. Дождь продолжал бить по крыше, создавая ритмичный фон, который заставлял его сердце биться быстрее. Вокруг него были другие хакеры, погруженные в свои кибердек, их лица освещались холодным светом экранов, отражая страх и жажду свободы. На столе перед ним лежал вирусный чип — его последний шанс на разрушение Матрицы. Нео знал, что каждый шаг вперед может стать его последним. Он вспомнил слова Морфеуса: 'Не бойся, Нео. Ты — избранный.' Сжав чип в руке, он почувствовал, как его решимость возрастает. Он мог либо взломать Матрицу и освободить человечество, либо навсегда остаться в этом сером мире. Внезапно к нему подошла девушка с кибердеком и тихо произнесла: 'Ты готов?'",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "подземный хакерский притон",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4_ext_1",
+            "text": "Нео стоял в центре хакерского притона, его глаза скользили по мерцающим неоновым вывескам, отражающимся в лужах на грязном асфальте. Вокруг него собирались другие хакеры, погруженные в свои кибердеки, их лица освещались холодным светом экранов. Запах гари и прогорклого масла смешивался с дождем, создавая атмосферу безысходности. Нео крепко сжимал в руках вирусный чип, который мог разрушить Матрицу, но для этого ему нужно было рискнуть. Снаружи раздались громкие голоса, кто-то требовал доступа к сети, и в воздухе витала напряженность. Внутренний голос Нео шептал: 'Это твой момент. Ты должен действовать.' Но куда направиться? В сторону главного сервера или попробовать отвлечь внимание охраны? Варианты выбора кружили в его голове, каждый шаг мог стать решающим.",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "хакерский притон на неоновых улицах",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          }
+        ],
+        "start_scene": "scene_1",
+        "paths": [
+          {
+            "path_id": "path_1",
+            "scenes": [
+              "scene_1",
+              "scene_2",
+              "scene_3",
+              "scene_4"
+            ],
+            "length": 4,
+            "is_main": true,
+            "outcome": "нейтральный"
+          }
+        ],
+        "metadata": {
+          "warnings": [
+            "Недостижимые сцены: scene_4_ext_1"
+          ],
+          "total_branches": 0,
+          "max_depth": 4,
+          "generation_time": 36.93950152397156,
+          "tokens_used": 10978
+        },
+        "target_audience": null,
+        "estimated_duration": null,
+        "complexity_level": null,
+        "content_warnings": null,
+        "tags": null,
+        "version": "1.0",
+        "personalization_data": null,
+        "quality_metrics": null,
+        "generation_config": null
+      },
+      "type": "advanced",
+      "enhancements": {
+        "logic": {
+          "world_state": {
+            "hero": {
+              "location": "scene_1",
+              "inventory": [],
+              "attributes": {
+                "type": "Нео",
+                "goal": "Взломать матрицу"
+              }
+            },
+            "locations": {
+              "scene_1": {
+                "visited": false,
+                "accessible": true
+              },
+              "scene_2": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_3": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4_ext_1": {
+                "visited": false,
+                "accessible": false
+              }
+            },
+            "objects": {},
+            "flags": {}
+          },
+          "story_actions": [
+            {
+              "id": "scene_1_choice_0",
+              "description": "Продолжить",
+              "next_scene": "scene_2",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_2_choice_0",
+              "description": "Искать вирусный чип",
+              "next_scene": "scene_3",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_3_choice_0",
+              "description": "Сразиться с охранниками",
+              "next_scene": "scene_4",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            }
+          ],
+          "preconditions": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": []
+          },
+          "effects": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": []
+          },
+          "action_graph": {
+            "scene_1": [
+              {
+                "action_id": "scene_1_choice_0",
+                "next_scene": "scene_2",
+                "available": true
+              }
+            ],
+            "scene_2": [
+              {
+                "action_id": "scene_2_choice_0",
+                "next_scene": "scene_3",
+                "available": true
+              }
+            ],
+            "scene_3": [
+              {
+                "action_id": "scene_3_choice_0",
+                "next_scene": "scene_4",
+                "available": true
+              }
+            ]
+          }
+        },
+        "generated_code": "# Автоматически сгенерированная логика квеста\n\nclass QuestLogic:\n    def __init__(self):\n        self.world_state = {}\n        self.inventory = []\n        self.current_scene = 'start'\n    \n    def check_preconditions(self, action_id):\n        \"\"\"Проверка предусловий действия\"\"\"\n\n        if action_id == 'scene_1_choice_0':\n            # Продолжить\n            conditions = []\n            return all(conditions)\n\n        if action_id == 'scene_2_choice_0':\n            # Искать вирусный чип\n            conditions = []\n            return all(conditions)\n\n        if action_id == 'scene_3_choice_0':\n            # Сразиться с охранниками\n            conditions = []\n            return all(conditions)\n\n        return False\n    \n    def execute_action(self, action_id):\n        \"\"\"Выполнение действия\"\"\"\n\n        if action_id == 'scene_1_choice_0':\n            # Применяем эффекты\n\n        if action_id == 'scene_2_choice_0':\n            # Применяем эффекты\n\n        if action_id == 'scene_3_choice_0':\n            # Применяем эффекты\n",
+        "visualization": {
+          "quest_id": "хроники_теней__взломать_матриц",
+          "timestamp": "20250804_223608",
+          "output_directory": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608",
+          "scenes": [
+            {
+              "scene_id": "scene_1",
+              "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_1\\composite.png",
+              "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_1"
+            },
+            {
+              "scene_id": "scene_2",
+              "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_2\\layout.json",
+              "image_paths": [
+                "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_2\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_2\\composite.png",
+              "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_2"
+            },
+            {
+              "scene_id": "scene_3",
+              "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_3\\layout.json",
+              "image_paths": [
+                "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_3\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_3\\composite.png",
+              "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_3"
+            },
+            {
+              "scene_id": "scene_4",
+              "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4\\layout.json",
+              "image_paths": [
+                "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4\\composite.png",
+              "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4"
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4_ext_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4_ext_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4_ext_1\\composite.png",
+              "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4_ext_1"
+            }
+          ],
+          "quest_map": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\quest_map.json",
+          "enhanced_features": {
+            "multi_view_scenes": 5,
+            "scene_layouts": [],
+            "visual_consistency_score": 0.85
+          }
+        },
+        "integrated": {
+          "interactive_scenes": [
+            {
+              "scene_id": "scene_1",
+              "visual_data": {
+                "scene_id": "scene_1",
+                "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_1\\composite.png",
+                "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_2",
+              "visual_data": {
+                "scene_id": "scene_2",
+                "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_2\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_2\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_2\\composite.png",
+                "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_2"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_3",
+              "visual_data": {
+                "scene_id": "scene_3",
+                "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_3\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_3\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_3\\composite.png",
+                "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_3"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4",
+              "visual_data": {
+                "scene_id": "scene_4",
+                "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4\\composite.png",
+                "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "visual_data": {
+                "scene_id": "scene_4_ext_1",
+                "layout_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4_ext_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4_ext_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4_ext_1\\composite.png",
+                "visualization_dir": "saved_quests\\Взломать_матрицу_20250804_223532\\хроники_теней__взломать_матриц_20250804_223608\\scene_4_ext_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            }
+          ],
+          "object_interactions": {},
+          "visual_triggers": []
+        }
+      }
+    },
+    {
+      "timestamp": "2025-08-04T22:41:45.988950",
+      "quest": {
+        "title": "Хроники теней: Тун тун тун сахур",
+        "genre": "киберпанк",
+        "hero": "тун тун тун сахур",
+        "goal": "тун тун тун сахур",
+        "scenes": [
+          {
+            "scene_id": "scene_1",
+            "text": "Густой смог заполняет улицы мегаполиса, неоновые огни мигают на фоне дождя, который безжалостно стекает по стеклам корпоративных небоскребов. Тун тун тун сахур стоит на углу улицы, прислонившись к холодной стене хакерского притона, его сердце стучит в ритме напряженного ожидания. В ушах шумит город, наполненный шепотом хакеров и гудением дронов. Он вздыхает, его нейроимплант слегка пульсирует, напоминая о важности момента. \"Задание, которое я получил, может изменить всё\", - думает он, глядя на синий экран своего кибердека, где всплывает сообщение от неизвестного заказчика. Мрак и дождь обрамляют его, заставляя чувствовать себя как в ловушке. Он глубоко вдыхает, ощущая запах металла и дождевой воды, и решает, что пора действовать. Вдруг в его ушах раздается зловещий голос: \"Не упусти свой шанс, сахур. У тебя есть время лишь до полуночи!\"",
+            "choices": [
+              {
+                "text": "Принять задание и двигаться дальше",
+                "next_scene": "scene_2",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "неоновый угол улицы, рядом с хакерским притоном",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_2",
+            "text": "Тун тун тун сахур стоит на углу темной улицы, укрытый под навесом старого кафе, где неоновые вывески мигают, отражаясь в лужах на асфальте. Дождь продолжает барабанить по крыше, создавая ритм, который сливается с его напряженным сердцебиением. В воздухе витает запах угарного газа и жареного мяса, смешиваясь с химическим оттенком, который дает смог. Он чувствует, как его нейроимплант активируется, и информация о задании начинает проецироваться в его сознание. 'Мне нужно найти вирусный чип, который может разрушить корпорацию. Но я не единственный, кто его ищет', - думает он, наблюдая за тенями, движущимися по улице. Вдруг, вдалеке, он замечает группу хакеров, обсуждающих что-то важное. Это может быть шанс получить подсказку, но он также рискует привлечь к себе внимание. Его инстинкты подсказывают: действуй осторожно, но не упускай возможности. Вопрос в том, что выбрать в этой ситуации: рискнуть или продолжить путь самостоятельно?",
+            "choices": [
+              {
+                "text": "Подойти к хакерам",
+                "next_scene": "scene_3",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "темная улица хакерского притона",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_3",
+            "text": "Тун тун тун сахур стоит на крыше одного из старых зданий, укрытый в тени неоновых вывесок, которые ярко сверкают в дождливую ночь. Город, словно живое существо, пульсирует под ним, наполняя воздух энергией и опасностью. Вдалеке виднеется силуэт корпоративного небоскреба, его стеклянные стены отражают тысячи огней, как звезды в небесах. Тун чувствует, как дождь стекает по его лбу, смешиваясь с каплями пота. Каждый его шаг отдается эхом в пустоте, а неоновый свет создает зловещие тени вокруг. В его ушах раздается шепот хакеров, которые ожидают его действий. \"Вирусный чип... Он где-то рядом\", - думает он, его мысли быстро обрабатываются нейроимплантом. Вдруг из темноты раздается звук шагов, и Тун мгновенно настораживается, готовясь к возможной атаке. Сердце колотится в груди, и он понимает, что это момент, когда нужно действовать. Что-то невидимое давит на него, заставляя задуматься о том, насколько далеко он готов зайти ради своей цели. Теперь его выбор определит, кто выживет в этом мире технологий и предательства.",
+            "choices": [
+              {
+                "text": "Слезть с крыши и спрятаться",
+                "next_scene": "scene_4",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "крыша старого здания в неоновом районе",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4",
+            "text": "На крыше старого здания Тун тун тун сахур стоит, погруженный в мысли. Дождь, как невидимый занавес, окутывает его, придавая ощущение уединения. Неоновые вывески ярко сверкают вокруг, отражая его внутреннюю борьбу. Сердце стучит в унисон с ритмом города, который пульсирует под ним, словно живое существо. Каждый миг здесь пронизан опасностью, но также и возможностью. Он знает, что это — его последний шанс изменить судьбу. Вдалеке, за горизонтом, зловещий силуэт корпоративного небоскреба обещает как угрозу, так и спасение. \"Я не могу просто стоять и ждать, пока меня найдут\", — шепчет он себе, чувствуя, как нарастающая решимость сжигает страх. В воздухе витает запах мокрого асфальта и электроники, а дождь продолжает стучать по крыше, как предвестник грядущих перемен. Он поворачивается к краю крыши, готовый сделать решительный шаг вперед. В его кармане таится кибердека, но его мысли об вирусном чипе, который может изменить всё. Это последняя битва, и он готов к ней.",
+            "choices": [
+              {
+                "text": "Использовать кибердеку для взлома",
+                "next_scene": "scene_4_ext_1",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "крыша старого здания в неоновом городе",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4_ext_1",
+            "text": "Тун тун тун сахур стоит на крыше, его волосы развеваются на холодном ветру, смешанном с каплями дождя. Неоновые огни отражаются в лужах, создавая искрящиеся картины, которые мерцают в темноте. Город вокруг него гудит, как механический зверь, наполненный тайнами и угрозами. Вдалеке виднеется корпоративный небоскреб, его стеклянные стены сверкают, будто подмигивают ему, маня к себе. \"Это моя последняя возможность\", — думает он, ощущая, как сердце стучит в унисон с ритмом города. В руках у него нейроимплант, который может изменить его жизнь, но он также осознает, что за ним следят. Внезапно в темноте раздается шорох. Тун тун тун сахур напрягается, готовый к действию.",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "крыша заброшенного здания в центре киберпанкового города",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          }
+        ],
+        "start_scene": "scene_1",
+        "paths": [
+          {
+            "path_id": "path_1",
+            "scenes": [
+              "scene_1",
+              "scene_2",
+              "scene_3",
+              "scene_4",
+              "scene_4_ext_1"
+            ],
+            "length": 5,
+            "is_main": true,
+            "outcome": "нейтральный"
+          }
+        ],
+        "metadata": {
+          "warnings": [],
+          "total_branches": 0,
+          "max_depth": 5,
+          "generation_time": 32.784106492996216,
+          "tokens_used": 5564
+        },
+        "target_audience": null,
+        "estimated_duration": null,
+        "complexity_level": null,
+        "content_warnings": null,
+        "tags": null,
+        "version": "1.0",
+        "personalization_data": null,
+        "quality_metrics": null,
+        "generation_config": null
+      },
+      "type": "advanced",
+      "enhancements": {
+        "logic": {
+          "world_state": {
+            "hero": {
+              "location": "scene_1",
+              "inventory": [],
+              "attributes": {
+                "type": "тун тун тун сахур",
+                "goal": "тун тун тун сахур"
+              }
+            },
+            "locations": {
+              "scene_1": {
+                "visited": false,
+                "accessible": true
+              },
+              "scene_2": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_3": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4_ext_1": {
+                "visited": false,
+                "accessible": false
+              }
+            },
+            "objects": {},
+            "flags": {}
+          },
+          "story_actions": [
+            {
+              "id": "scene_1_choice_0",
+              "description": "Принять задание и двигаться дальше",
+              "next_scene": "scene_2",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_2_choice_0",
+              "description": "Подойти к хакерам",
+              "next_scene": "scene_3",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_3_choice_0",
+              "description": "Слезть с крыши и спрятаться",
+              "next_scene": "scene_4",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_4_choice_0",
+              "description": "Использовать кибердеку для взлома",
+              "next_scene": "scene_4_ext_1",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            }
+          ],
+          "preconditions": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "effects": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": [],
+            "scene_4_choice_0": []
+          },
+          "action_graph": {
+            "scene_1": [
+              {
+                "action_id": "scene_1_choice_0",
+                "next_scene": "scene_2",
+                "available": true
+              }
+            ],
+            "scene_2": [
+              {
+                "action_id": "scene_2_choice_0",
+                "next_scene": "scene_3",
+                "available": true
+              }
+            ],
+            "scene_3": [
+              {
+                "action_id": "scene_3_choice_0",
+                "next_scene": "scene_4",
+                "available": true
+              }
+            ],
+            "scene_4": [
+              {
+                "action_id": "scene_4_choice_0",
+                "next_scene": "scene_4_ext_1",
+                "available": true
+              }
+            ]
+          }
+        },
+        "visualization": {
+          "quest_id": "хроники_теней__тун_тун_тун_сах",
+          "timestamp": "20250804_223957",
+          "output_directory": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957",
+          "scenes": [
+            {
+              "scene_id": "scene_1",
+              "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_1\\composite.png",
+              "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_1"
+            },
+            {
+              "scene_id": "scene_2",
+              "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_2\\layout.json",
+              "image_paths": [
+                "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_2\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_2\\composite.png",
+              "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_2"
+            },
+            {
+              "scene_id": "scene_3",
+              "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_3\\layout.json",
+              "image_paths": [
+                "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_3\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_3\\composite.png",
+              "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_3"
+            },
+            {
+              "scene_id": "scene_4",
+              "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4\\layout.json",
+              "image_paths": [
+                "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4\\composite.png",
+              "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4"
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4_ext_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4_ext_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4_ext_1\\composite.png",
+              "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4_ext_1"
+            }
+          ],
+          "quest_map": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\quest_map.json",
+          "enhanced_features": {
+            "multi_view_scenes": 5,
+            "scene_layouts": [],
+            "visual_consistency_score": 0.85
+          }
+        },
+        "integrated": {
+          "interactive_scenes": [
+            {
+              "scene_id": "scene_1",
+              "visual_data": {
+                "scene_id": "scene_1",
+                "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_1\\composite.png",
+                "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_2",
+              "visual_data": {
+                "scene_id": "scene_2",
+                "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_2\\layout.json",
+                "image_paths": [
+                  "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_2\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_2\\composite.png",
+                "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_2"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_3",
+              "visual_data": {
+                "scene_id": "scene_3",
+                "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_3\\layout.json",
+                "image_paths": [
+                  "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_3\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_3\\composite.png",
+                "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_3"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4",
+              "visual_data": {
+                "scene_id": "scene_4",
+                "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4\\layout.json",
+                "image_paths": [
+                  "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4\\composite.png",
+                "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "visual_data": {
+                "scene_id": "scene_4_ext_1",
+                "layout_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4_ext_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4_ext_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4_ext_1\\composite.png",
+                "visualization_dir": "saved_quests\\тун_тун_тун_сахур_20250804_223925\\хроники_теней__тун_тун_тун_сах_20250804_223957\\scene_4_ext_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            }
+          ],
+          "object_interactions": {},
+          "visual_triggers": []
+        }
+      }
+    },
+    {
+      "timestamp": "2025-08-04T22:46:03.286390",
+      "quest": {
+        "title": "Легенда о Покинуть мфц",
+        "genre": "фэнтези",
+        "hero": "Виктор",
+        "goal": "Покинуть мфц",
+        "scenes": [
+          {
+            "scene_id": "scene_1",
+            "text": "Виктор стоял на краю древнего леса, его сердце колотилось от волнения. Вокруг него поднимались гигантские деревья, их стволы покрыты мхом, а ветви переплетались, создавая таинственные тени. Солнце пробивалось сквозь листву, рисуя золотистые узоры на земле. В воздухе витал сладковатый аромат цветущих трав, а где-то вдали доносились звуки шороха и пения птиц. Это было место, полное магии и древних тайн. Виктор знал, что его цель — найти магический артефакт, который поможет ему покинуть этот мир. Он вспомнил слова старого мудреца, который сказал ему, что только истинное сердце сможет овладеть силой артефакта. \"Как же я могу покинуть это место?\" — думал он, чувствуя, как страх и решимость смешиваются внутри него. Вдруг он заметил, как в глубине леса сверкнул свет — возможно, это был тот самый артефакт. Виктор собрался с духом и сделал шаг вперед, готовый к приключению, которое ждет его в недрах загадочного леса.",
+            "choices": [
+              {
+                "text": "Следовать за светом",
+                "next_scene": "scene_2",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "таинственная",
+            "location": "древний лес",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_2",
+            "text": "Виктор углубился в древний лес, где каждый шаг звучал как шепот ветра. Лучи солнца, пробиваясь сквозь густую листву, создавали волшебные узоры на земле, и он чувствовал, как магия этого места обвивает его, словно невидимая паутина. Вдруг он остановился, его внимание привлекли странные звуки — треск ветвей и шорох листьев. Это были не обычные звуки леса, а что-то более зловещее. Внезапно перед ним возникла тень — огромный лесной дух с ярко-зелеными глазами, сверкающими, как изумруды.\n\n— Кто осмелился потревожить мой покой? — прорычал дух, его голос звучал как гром. Виктор почувствовал, как холодный пот стекал по его лбу. Он знал, что эта встреча может быть решающей. \n\n— Я ищу магический артефакт, который поможет мне покинуть этот мир, — смело произнес он, стараясь не выдать своего страха. Дух замер, и в его глазах мелькнул интерес. \n\n— Многие искали, но немногие нашли. Ты готов пройти испытания, чтобы добиться своей цели? — спросил дух, и в его голосе послышалась угроза. Виктор понимал, что назад пути нет, и единственный выход — это вперед, через непредсказуемые испытания.",
+            "choices": [
+              {
+                "text": "Согласиться пройти испытания",
+                "next_scene": "scene_3",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "древний лес",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_3",
+            "text": "Перед Виктором стоял огромный лесной дух, его форма напоминала переплетение ветвей и листвы, а зеленые глаза светились магией, как звездное небо. Лес вокруг наполнился напряженной атмосферой, словно сам воздух затих, ожидая исхода этой встречи. Ветер шептал, а листья трепетали от страха. Виктор чувствовал, как его сердце бьется быстрее, а рука невольно потянулась к зачарованному мечу, висящему у пояса. \"Этот дух, вероятно, охраняет что-то важное\", - думал он, осматриваясь по сторонам в поисках возможного пути к спасению. Деревья, казалось, смотрели на него с недоумением, а где-то вдалеке раздавался гул грома, предвещая надвигающуюся бурю. \"Если я не найду способ договориться с этим существом, может быть, я никогда не покину этот лес...\" — думал он, пряча свои страхи за решимостью. \"Мне нужно узнать, что он хочет и как это может помочь мне\", — решил Виктор, сжимая меч в руке.",
+            "choices": [
+              {
+                "text": "Спросить духа о его намерениях",
+                "next_scene": "scene_4",
+                "condition": null,
+                "effect": null
+              }
+            ],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "древний лес, перед лесным духом",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4",
+            "text": "Виктор стоял перед огромным лесным духом, его магическая аура окутывала все вокруг, создавая ощущение, что время остановилось. Ветви, извивающиеся в воздухе, напоминали руки, готовые обнять или поглотить. Листья трепетали, словно шептали древние тайны, а воздух наполнился духом древности. Виктор чувствовал, как его сердце колотится от напряжения, а рука инстинктивно тянулась к зачарованному мечу. Он знал, что этот момент решит его судьбу. \"Я пришел сюда за истиной, и, возможно, за свободой\", - думал он, пытаясь найти слова, чтобы завоевать доверие духа. Но с каждой секундой напряжение нарастало, и Виктор понял, что ему нужно действовать. Он мог попытаться объяснить свои намерения или, возможно, решить проблему с силой, если дух не отступит. Вокруг раздавались шорохи, и Виктор чувствовал, как его силы истощаются, время на исходе.",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "напряженная",
+            "location": "древний лес",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          },
+          {
+            "scene_id": "scene_4_ext_1",
+            "text": "Виктор стоял перед величественным лесным духом, его присутствие напоминало о древних тайнах, скрытых в этом зачарованном лесу. Огромные ветви, словно руки, протянулись к нему, а магическая аура заставляла воздух дрожать от напряжения. Листья вокруг шептали, рассказывая о забытых временах, когда магия была повсюду. Виктор чувствовал, как его сердце бьется в унисон с ритмом леса. Он понимал, что этот момент решит его судьбу. \"Что ты ищешь, странник?\" - пронзительно произнес дух, его голос звучал как ветер, проникающий в самую душу. Виктор собрался с мыслями, осознавая, что от его ответа зависит не только его судьба, но и будущее этого места. Он видел, как вдалеке за деревьями мерцали огни - возможно, это были призраки древних магов или же обманчивые иллюзии. Приняв решение, он приготовился ответить.",
+            "choices": [],
+            "image_prompt": null,
+            "mood": "таинственная",
+            "location": "зачарованный лес",
+            "level_position": null,
+            "required_objects": null,
+            "visual_style": null,
+            "difficulty_level": null,
+            "emotional_tags": null,
+            "interaction_type": null
+          }
+        ],
+        "start_scene": "scene_1",
+        "paths": [
+          {
+            "path_id": "path_1",
+            "scenes": [
+              "scene_1",
+              "scene_2",
+              "scene_3",
+              "scene_4"
+            ],
+            "length": 4,
+            "is_main": true,
+            "outcome": "нейтральный"
+          }
+        ],
+        "metadata": {
+          "warnings": [
+            "Недостижимые сцены: scene_4_ext_1"
+          ],
+          "total_branches": 0,
+          "max_depth": 4,
+          "generation_time": 33.32428765296936,
+          "tokens_used": 11102
+        },
+        "target_audience": null,
+        "estimated_duration": null,
+        "complexity_level": null,
+        "content_warnings": null,
+        "tags": null,
+        "version": "1.0",
+        "personalization_data": null,
+        "quality_metrics": null,
+        "generation_config": null
+      },
+      "type": "advanced",
+      "enhancements": {
+        "logic": {
+          "world_state": {
+            "hero": {
+              "location": "scene_1",
+              "inventory": [],
+              "attributes": {
+                "type": "Виктор",
+                "goal": "Покинуть мфц"
+              }
+            },
+            "locations": {
+              "scene_1": {
+                "visited": false,
+                "accessible": true
+              },
+              "scene_2": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_3": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4": {
+                "visited": false,
+                "accessible": false
+              },
+              "scene_4_ext_1": {
+                "visited": false,
+                "accessible": false
+              }
+            },
+            "objects": {},
+            "flags": {}
+          },
+          "story_actions": [
+            {
+              "id": "scene_1_choice_0",
+              "description": "Следовать за светом",
+              "next_scene": "scene_2",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_2_choice_0",
+              "description": "Согласиться пройти испытания",
+              "next_scene": "scene_3",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            },
+            {
+              "id": "scene_3_choice_0",
+              "description": "Спросить духа о его намерениях",
+              "next_scene": "scene_4",
+              "preconditions": [],
+              "effects": [],
+              "required_objects": []
+            }
+          ],
+          "preconditions": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": []
+          },
+          "effects": {
+            "scene_1_choice_0": [],
+            "scene_2_choice_0": [],
+            "scene_3_choice_0": []
+          },
+          "action_graph": {
+            "scene_1": [
+              {
+                "action_id": "scene_1_choice_0",
+                "next_scene": "scene_2",
+                "available": true
+              }
+            ],
+            "scene_2": [
+              {
+                "action_id": "scene_2_choice_0",
+                "next_scene": "scene_3",
+                "available": true
+              }
+            ],
+            "scene_3": [
+              {
+                "action_id": "scene_3_choice_0",
+                "next_scene": "scene_4",
+                "available": true
+              }
+            ]
+          }
+        },
+        "visualization": {
+          "quest_id": "легенда_о_покинуть_мфц",
+          "timestamp": "20250804_224346",
+          "output_directory": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346",
+          "scenes": [
+            {
+              "scene_id": "scene_1",
+              "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1\\composite.png",
+              "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1"
+            },
+            {
+              "scene_id": "scene_2",
+              "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_2\\layout.json",
+              "image_paths": [
+                "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_2\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_2\\composite.png",
+              "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_2"
+            },
+            {
+              "scene_id": "scene_3",
+              "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_3\\layout.json",
+              "image_paths": [
+                "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_3\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_3\\composite.png",
+              "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_3"
+            },
+            {
+              "scene_id": "scene_4",
+              "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4\\layout.json",
+              "image_paths": [
+                "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4\\composite.png",
+              "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4"
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4_ext_1\\layout.json",
+              "image_paths": [
+                "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4_ext_1\\view_0.png"
+              ],
+              "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4_ext_1\\composite.png",
+              "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4_ext_1"
+            }
+          ],
+          "quest_map": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\quest_map.json",
+          "enhanced_features": {
+            "multi_view_scenes": 5,
+            "scene_layouts": [],
+            "visual_consistency_score": 0.85
+          }
+        },
+        "integrated": {
+          "interactive_scenes": [
+            {
+              "scene_id": "scene_1",
+              "visual_data": {
+                "scene_id": "scene_1",
+                "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1\\composite.png",
+                "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_2",
+              "visual_data": {
+                "scene_id": "scene_2",
+                "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_2\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_2\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_2\\composite.png",
+                "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_2"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_3",
+              "visual_data": {
+                "scene_id": "scene_3",
+                "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_3\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_3\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_3\\composite.png",
+                "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_3"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4",
+              "visual_data": {
+                "scene_id": "scene_4",
+                "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4\\composite.png",
+                "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            },
+            {
+              "scene_id": "scene_4_ext_1",
+              "visual_data": {
+                "scene_id": "scene_4_ext_1",
+                "layout_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4_ext_1\\layout.json",
+                "image_paths": [
+                  "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4_ext_1\\view_0.png"
+                ],
+                "composite_path": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4_ext_1\\composite.png",
+                "visualization_dir": "saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_4_ext_1"
+              },
+              "interactive_objects": [],
+              "action_zones": []
+            }
+          ],
+          "object_interactions": {},
+          "visual_triggers": []
+        }
+      }
+    }
+  ],
+  "current_quest": {
+    "title": "Хроники теней: Взломать замок на двери, найти",
+    "genre": "киберпанк",
+    "hero": "хакер- одиночка",
+    "goal": "взломать замок\nна двери, найти и забрать чип \nс вирусом",
+    "scenes": [
+      {
+        "scene_id": "scene_1",
+        "text": "Ты стоишь на влажной улице, окруженный неоновыми огнями и дождем, падающим с небес. Под ногами мокрый асфальт, отражающий огни корпоративных небоскребов. Твой дождевик из хромированной кожи отбрасывает капли дождя, пока ты прокручиваешь задание в своем нейроимпланте. Твоей целью является взлом замка и поиск вирусного чипа. Ты чувствуешь накал напряжения и готовность к действию. На твоей кибердеке мигает новое сообщение от незнакомца: 'Ты уверен, что хочешь продолжить? Это опасно.' Сердце бьется быстрее, но ты знаешь, что ты здесь не случайно. Ты готов к испытанию.",
+        "choices": [
+          {
+            "text": "Принять вызов и продолжить",
+            "next_scene": "scene_2",
+            "condition": null,
+            "effect": null
+          }
+        ],
+        "image_prompt": null,
+        "mood": "напряженная",
+        "location": "неоновая улица",
+        "level_position": null,
+        "required_objects": null,
+        "visual_style": null,
+        "difficulty_level": null,
+        "emotional_tags": null,
+        "interaction_type": null
+      },
+      {
+        "scene_id": "scene_2",
+        "text": "Ты идешь по неоново освещенной улице, ступая по мокрому асфальту, который отражает бесконечные небоскребы вокруг. Дождь не перестает, его шум перебивает все остальные звуки города. В руках у тебя кибердека, отражающая огни и призрачно мерцающая в ночи. Твой нейроимплант показывает тебе путь через мокрые улицы и темные переулки. Сердце стучит, адреналин бьет ключом. Вирусный чип, который тебе нужно найти, где-то очень близко. Ты останавливаешься перед дверью, за которой, как ты знаешь, искомый чип. Дверь выглядит старой и надежной, но ты уверен, что сможешь справиться. Внезапно, в твоем нейроимпланте появляется предупреждение: 'Это последний шанс повернуть назад. Ты уверен, что хочешь продолжить?'",
+        "choices": [
+          {
+            "text": "Продолжить и попытаться взломать дверь",
+            "next_scene": "scene_3",
+            "condition": null,
+            "effect": null
+          }
+        ],
+        "image_prompt": null,
+        "mood": "напряженная",
+        "location": "неоновая улица перед дверью",
+        "level_position": null,
+        "required_objects": null,
+        "visual_style": null,
+        "difficulty_level": null,
+        "emotional_tags": null,
+        "interaction_type": null
+      },
+      {
+        "scene_id": "scene_3",
+        "text": "Вокруг царит мрачная тишина, нарушаемая лишь стуком дождя по холодному металлу и стеклу. Ты стоишь перед массивной дверью, ослепительно отражающей неоновые огни. Твой нейроимплант сопрягается с кибердекой, и ты ощущаешь, как твоя сознательность уходит в глубины виртуального мира. Неоновые линии и цифровые руины формируют окружение, в котором ты встречаешь замок. Не просто замок, а колоссальную стену защиты. Ты чувствуешь напряжение в воздухе, словно оно молнией пронзает твое тело. 'Ну что, пора начинать', - думаешь ты, глядя на мерцающие иконки кибердеки. Вдруг, ты ощущаешь, как кто-то или что-то пытается проникнуть в твою систему. Это охрана. Времени все меньше.",
+        "choices": [
+          {
+            "text": "Принять вызов и броситься в бой с охраной",
+            "next_scene": "scene_4",
+            "condition": null,
+            "effect": null
+          }
+        ],
+        "image_prompt": null,
+        "mood": "напряженная",
+        "location": "виртуальный мир, замок на двери",
+        "level_position": null,
+        "required_objects": null,
+        "visual_style": null,
+        "difficulty_level": null,
+        "emotional_tags": null,
+        "interaction_type": null
+      },
+      {
+        "scene_id": "scene_4",
+        "text": "Твоё сознание окутано холодной тишиной цифрового мира. Неоновые сети прокручиваются вокруг, мелькая в отражении хромированного замка, преграждающего путь к чипу с вирусом. Сквозь дождь из нолей и единиц ты ощущаешь мощь защиты, отражающуюся в каждом электронном звене стены. Пальцы скользят по кибердеке, готовясь к последнему рывку. 'Всё или ничего', - думаешь ты, ощущая как напряжение молнией пронзает каждую клетку твоего тела. В нереальности цифрового мира это напряжение становится твоей реальностью, заряжая тебя решимостью и смелостью. Защитные механизмы замка кажутся неприступными, но ты знаешь, что не имеешь права на ошибку. Сейчас каждый твой шаг решает всё. Ты готов вступить в последнюю битву с системой.",
+        "choices": [
+          {
+            "text": "Собрать все силы и начать взлом",
+            "next_scene": "scene_4_ext_1",
+            "condition": null,
+            "effect": null
+          }
+        ],
+        "image_prompt": null,
+        "mood": "тензионная",
+        "location": "цифровой мир",
+        "level_position": null,
+        "required_objects": null,
+        "visual_style": null,
+        "difficulty_level": null,
+        "emotional_tags": null,
+        "interaction_type": null
+      },
+      {
+        "scene_id": "scene_4_ext_1",
+        "text": "Вокруг тебя витает мерцающий океан информации, всплески данных вспыхивают, как нейоновые огни в ночном городе. Ты чувствуешь, как твой нейроимплант вибрирует от напряжения, открывая перед тобой мир цифровой реальности. Замок стоит перед тобой, как неприступная крепость, его хромированные стены отражают бурный поток информации. Ты вглядываешься в его структуру, анализируешь, ищешь слабое звено. 'Я могу сделать это. Я должен сделать это,' - молния решимости пронзает твое сознание. 'Следующий шаг может стоить мне жизни или дать свободу.'",
+        "choices": [],
+        "image_prompt": null,
+        "mood": "напряженная",
+        "location": "цифровая реальность",
+        "level_position": null,
+        "required_objects": null,
+        "visual_style": null,
+        "difficulty_level": null,
+        "emotional_tags": null,
+        "interaction_type": null
+      }
+    ],
+    "start_scene": "scene_1",
+    "paths": [
+      {
+        "path_id": "path_1",
+        "scenes": [
+          "scene_1",
+          "scene_2",
+          "scene_3",
+          "scene_4",
+          "scene_4_ext_1"
+        ],
+        "length": 5,
+        "is_main": true,
+        "outcome": "нейтральный"
+      }
+    ],
+    "metadata": {
+      "warnings": [],
+      "total_branches": 0,
+      "max_depth": 5,
+      "generation_time": 90.69659852981567,
+      "tokens_used": 7815
+    },
+    "target_audience": null,
+    "estimated_duration": null,
+    "complexity_level": null,
+    "content_warnings": null,
+    "tags": null,
+    "version": "1.0",
+    "personalization_data": null,
+    "quality_metrics": null,
+    "generation_config": null
+  }
+}

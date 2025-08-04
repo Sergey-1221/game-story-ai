@@ -1,0 +1,80 @@
+{
+  "scene_id": "scene_3",
+  "description": "В кабинет Джона вошел туман, как будто сам вечер решил проникнуть в его мысли. Стук в дверь стал еще настойчивее, и сердце Джона забилось в такт. Он взглянул на свое отражение в стекле: растрепанные в",
+  "style": "noir_realistic",
+  "lighting": "natural",
+  "rooms": [
+    {
+      "room_id": "scene_3",
+      "room_type": "комната",
+      "dimensions": [
+        5,
+        3,
+        5
+      ],
+      "objects": [
+        {
+          "label": "дверь",
+          "center": [
+            -0.5,
+            1.0,
+            -0.5
+          ],
+          "size": [
+            1.0,
+            2.0,
+            0.2
+          ],
+          "rotation": 251.78323848365378,
+          "semantic_class": "architecture"
+        },
+        {
+          "label": "окно",
+          "center": [
+            -0.5,
+            0.75,
+            1.5
+          ],
+          "size": [
+            1.2,
+            1.5,
+            0.2
+          ],
+          "rotation": 351.95927094595385,
+          "semantic_class": "architecture"
+        },
+        {
+          "label": "ключ",
+          "center": [
+            1.5,
+            0.025,
+            -0.5
+          ],
+          "size": [
+            0.1,
+            0.05,
+            0.05
+          ],
+          "rotation": 328.53154585963887,
+          "semantic_class": "item"
+        }
+      ],
+      "doors": [
+        {
+          "center": [
+            0,
+            1.0,
+            -2.5
+          ],
+          "size": [
+            1.0,
+            2.0,
+            0.2
+          ],
+          "rotation": 0
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

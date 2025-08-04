@@ -130,11 +130,7 @@ dmypy.json
 *~
 
 # Project specific
-data/chroma/
 temp/
-*.json
-!examples/*.json
-!data/knowledge_base/**/*.json
 
 # OS
 .DS_Store
