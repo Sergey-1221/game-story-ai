@@ -1731,10 +1731,8 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
     
     st.caption("Для изменения этих настроек отредактируйте файл .env и перезапустите приложение")
     
-    # Временное переключение для текущей сессии
-    debug_mode = st.checkbox("Временно включить режим отладки для этой сессии", 
-                            value=st.session_state.debug_mode,
-                            help="Это не изменит настройки в .env")
+    # Используем настройку из .env
+    debug_mode = DEBUG_MODE
     st.session_state.debug_mode = debug_mode
     
     if debug_mode:
