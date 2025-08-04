@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an AI-powered game story generator that creates interactive quests and storylines in JSON format from text descriptions. The system uses LLMs, RAG, and advanced AI techniques for narrative generation, logic structuring, and scene visualization.
+AI-powered game story generator that creates interactive quests and storylines in JSON format from text descriptions. The system uses LLMs, RAG, and advanced AI techniques for narrative generation, logic structuring, and scene visualization. The project includes Story2Game integration for structured logic and SceneCraft for 3D visualization.
 
 ## Key Commands
 
@@ -35,7 +35,8 @@ venv\Scripts\streamlit.exe run streamlit_app.py  # Windows
 streamlit run streamlit_app.py  # Linux/Mac
 
 # Or use batch scripts
-run_ui.bat  # Windows
+run_ui.bat  # Windows - Launches UI with auto-install of dependencies
+run_all.bat  # Windows - Starts both API and UI in separate windows
 ./run_ui.sh  # Linux/Mac
 
 # Basic quest generation (programmatic)
@@ -45,6 +46,7 @@ python src/quest_generator.py  # Linux/Mac
 # Run API server
 venv\Scripts\python.exe -m uvicorn src.api.main:app --reload --port 8000  # Windows
 uvicorn src.api.main:app --reload --port 8000  # Linux/Mac
+# Or use: start_api.bat (Windows)
 
 # Run demos
 venv\Scripts\python.exe examples/story2game_scenecraft_demo.py
@@ -134,9 +136,10 @@ The system uses a layered architecture:
 - Applies effects after actions
 
 **KnowledgeBase**:
-- Uses ChromaDB for vector storage
+- Uses ChromaDB for vector storage (persisted in `data/chroma/`)
 - Caches genre-specific content
 - Must be initialized with embeddings
+- Alternative: `SimpleKnowledgeBase` for lightweight usage
 
 **Generation Config**:
 - Controls LLM behavior (model, temperature, tokens)
@@ -164,7 +167,7 @@ Main FastAPI endpoints:
 ### Knowledge Base Structure
 
 Located in `data/knowledge_base/`:
-- `genres/` - JSON files with genre-specific content
+- `genres/` - JSON files with genre-specific content (currently: cyberpunk.json)
 - `templates/` - Quest structure templates
 - Files are loaded automatically on initialization
 - Can be extended by adding new JSON files
@@ -174,11 +177,11 @@ Located in `data/knowledge_base/`:
 Required in `.env`:
 - `OPENAI_API_KEY` - For GPT models
 - `ANTHROPIC_API_KEY` - For Claude models (optional)
-- `CHROMA_PERSIST_DIRECTORY` - Vector DB storage
+- `CHROMA_PERSIST_DIRECTORY` - Vector DB storage (default: ./data/chroma)
 
 Optional:
-- `LOG_LEVEL` - Logging verbosity
-- `DEFAULT_MODEL` - Default LLM to use
+- `LOG_LEVEL` - Logging verbosity (default: INFO)
+- `DEFAULT_MODEL` - Default LLM to use (default: gpt-4o-mini)
 - `API_HOST`, `API_PORT` - API server settings
 
 ## Windows-Specific Notes
@@ -190,7 +193,52 @@ When working on Windows, always use:
 - Windows batch files (`.bat`) for convenience scripts
 
 The project includes several batch files for common operations:
-- `run_ui.bat` - Launch Streamlit interface
-- `run_all.bat` - Run multiple components
+- `run_ui.bat` - Launch Streamlit interface with auto-install
+- `run_all.bat` - Run both API and UI in separate windows
 - `start_api.bat` - Start FastAPI server
 - `start_ui.bat` - Alternative UI launcher
+- `run_api_safe.bat` - Safe API startup
+
+## Streamlit UI Features
+
+The Streamlit interface (`streamlit_app.py`) provides:
+- Quest generation with real-time progress tracking
+- Save/load functionality for quests
+- Visualization of generated scenes
+- Export options for different formats
+- Session management for multiple quests
+
+## File Structure for Generated Quests
+
+Generated quests are saved in `saved_quests/` with the following structure:
+- `{quest_name}_{timestamp}/`
+  - `quest.json` - Basic quest structure
+  - `integrated_quest.json` - Enhanced quest with logic
+  - `quest_logic.json` - Separate logic file
+  - `quest_logic.py` - Executable Python code
+  - `visualization_meta.json` - Visualization metadata
+  - `{quest_title}_{timestamp}/` - Scene visualizations
+    - `quest_map.json` - Overall quest map
+    - `scene_{id}/` - Per-scene assets
+      - `composite.png` - Combined visualization
+      - `layout.json` - 3D layout data
+      - `view_0.png` - Primary view
+
+## Common Development Patterns
+
+### Adding New Generators
+1. Create module in `src/modules/`
+2. Inherit from base classes when appropriate
+3. Register in `QuestGenerator` or `IntegratedQuestGenerator`
+4. Update `GenerationConfig` if new options needed
+
+### Extending Knowledge Base
+1. Add JSON files to `data/knowledge_base/genres/`
+2. Follow existing schema for genre data
+3. Run knowledge base initialization to create embeddings
+
+### Working with Async Code
+Many modules support both sync and async operation:
+- Use `async def generate()` for async methods
+- Provide sync wrappers when needed
+- Handle both in integration points
