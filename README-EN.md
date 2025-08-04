@@ -20,24 +20,20 @@ AI-powered game story generator that transforms text descriptions into interacti
       <td width="50%" align="center">
         <b>🏠 Main Menu</b><br>
         <img src="screenshot/menu.png" alt="Main Menu" width="100%"/>
-        <i>Intuitive interface for quick start</i>
       </td>
       <td width="50%" align="center">
         <b>⚙️ Quest Generator</b><br>
         <img src="screenshot/generator-1.png" alt="Quest Generator" width="100%"/>
-        <i>Flexible generation settings</i>
       </td>
     </tr>
     <tr>
       <td width="50%" align="center">
         <b>🔄 Generation Process</b><br>
         <img src="screenshot/generator-2.png" alt="Generation Process" width="100%"/>
-        <i>Real-time progress tracking</i>
       </td>
       <td width="50%" align="center">
         <b>📊 Analytics & Statistics</b><br>
         <img src="screenshot/stats.png" alt="Statistics" width="100%"/>
-        <i>Detailed generation metrics</i>
       </td>
     </tr>
   </table>
@@ -51,29 +47,23 @@ AI-powered game story generator that transforms text descriptions into interacti
     <tr>
       <td width="33%" align="center">
         <img src="screenshot/scenes-1.png" alt="Scene 1" width="100%"/>
-        <i>Starting location</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-2.png" alt="Scene 2" width="100%"/>
-        <i>Story development</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-3.png" alt="Scene 3" width="100%"/>
-        <i>Key choice point</i>
       </td>
     </tr>
     <tr>
       <td width="33%" align="center">
         <img src="screenshot/scenes-4.png" alt="Scene 4" width="100%"/>
-        <i>Alternative path</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-5.png" alt="Scene 5" width="100%"/>
-        <i>Climax scene</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-6.png" alt="Scene 6" width="100%"/>
-        <i>Final scene</i>
       </td>
     </tr>
   </table>
@@ -89,15 +79,12 @@ AI-powered game story generator that transforms text descriptions into interacti
     <tr>
       <td width="33%" align="center">
         <img src="screenshot/scenes-interactive-1.png" alt="Interactive 1" width="100%"/>
-        <i>Action choices</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-interactive-2.png" alt="Interactive 2" width="100%"/>
-        <i>Dialog system</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-interactive-3.png" alt="Interactive 3" width="100%"/>
-        <i>Inventory management</i>
       </td>
     </tr>
   </table>
@@ -487,55 +474,9 @@ python test_generation.py
 python test_quest_generation.py
 ```
 
-## 🎮 Game Engine Integration
-
-### Unity Export
-
-```csharp
-// Generated Unity-compatible code
-public class QuestManager : MonoBehaviour {
-    private QuestData questData;
-    
-    void Start() {
-        LoadQuest("quest.json");
-    }
-}
-```
-
-### Unreal Engine Export
-
-```cpp
-// Generated Unreal-compatible code
-UCLASS()
-class AQuestManager : public AActor {
-    GENERATED_BODY()
-    
-public:
-    void LoadQuest(const FString& QuestPath);
-};
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- OpenAI for GPT models
-- Anthropic for Claude models
-- Story2Game framework for structured game logic
-- SceneCraft for 3D visualization capabilities
-- Spacy for NLP processing
 
 ## 📧 Contact
 

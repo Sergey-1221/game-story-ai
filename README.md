@@ -20,24 +20,20 @@ AI-генератор игровых историй, который превра
       <td width="50%" align="center">
         <b>🏠 Главное меню</b><br>
         <img src="screenshot/menu.png" alt="Main Menu" width="100%"/>
-        <i>Интуитивный интерфейс для быстрого старта</i>
       </td>
       <td width="50%" align="center">
         <b>⚙️ Генератор квестов</b><br>
         <img src="screenshot/generator-1.png" alt="Quest Generator" width="100%"/>
-        <i>Гибкие настройки генерации</i>
       </td>
     </tr>
     <tr>
       <td width="50%" align="center">
         <b>🔄 Процесс генерации</b><br>
         <img src="screenshot/generator-2.png" alt="Generation Process" width="100%"/>
-        <i>Отслеживание прогресса в реальном времени</i>
       </td>
       <td width="50%" align="center">
         <b>📊 Аналитика и статистика</b><br>
         <img src="screenshot/stats.png" alt="Statistics" width="100%"/>
-        <i>Детальные метрики генерации</i>
       </td>
     </tr>
   </table>
@@ -51,29 +47,23 @@ AI-генератор игровых историй, который превра
     <tr>
       <td width="33%" align="center">
         <img src="screenshot/scenes-1.png" alt="Scene 1" width="100%"/>
-        <i>Начальная локация</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-2.png" alt="Scene 2" width="100%"/>
-        <i>Развитие сюжета</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-3.png" alt="Scene 3" width="100%"/>
-        <i>Ключевой выбор</i>
       </td>
     </tr>
     <tr>
       <td width="33%" align="center">
         <img src="screenshot/scenes-4.png" alt="Scene 4" width="100%"/>
-        <i>Альтернативный путь</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-5.png" alt="Scene 5" width="100%"/>
-        <i>Кульминация</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-6.png" alt="Scene 6" width="100%"/>
-        <i>Финальная сцена</i>
       </td>
     </tr>
   </table>
@@ -89,15 +79,12 @@ AI-генератор игровых историй, который превра
     <tr>
       <td width="33%" align="center">
         <img src="screenshot/scenes-interactive-1.png" alt="Interactive 1" width="100%"/>
-        <i>Выбор действий</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-interactive-2.png" alt="Interactive 2" width="100%"/>
-        <i>Диалоговая система</i>
       </td>
       <td width="33%" align="center">
         <img src="screenshot/scenes-interactive-3.png" alt="Interactive 3" width="100%"/>
-        <i>Управление инвентарем</i>
       </td>
     </tr>
   </table>
@@ -487,55 +474,9 @@ python test_generation.py
 python test_quest_generation.py
 ```
 
-## 🎮 Интеграция с игровыми движками
-
-### Экспорт Unity
-
-```csharp
-// Сгенерированный Unity-совместимый код
-public class QuestManager : MonoBehaviour {
-    private QuestData questData;
-    
-    void Start() {
-        LoadQuest("quest.json");
-    }
-}
-```
-
-### Экспорт Unreal Engine
-
-```cpp
-// Сгенерированный Unreal-совместимый код
-UCLASS()
-class AQuestManager : public AActor {
-    GENERATED_BODY()
-    
-public:
-    void LoadQuest(const FString& QuestPath);
-};
-```
-
-## 🤝 Вклад в проект
-
-Приветствуются pull requests! Пожалуйста, не стесняйтесь отправлять свои предложения.
-
-1. Форкните репозиторий
-2. Создайте ветку для фичи (`git checkout -b feature/AmazingFeature`)
-3. Закоммитьте изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Отправьте в ветку (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
-
 ## 📝 Лицензия
 
 Этот проект лицензирован под MIT License - см. файл [LICENSE](LICENSE) для деталей.
-
-## 🙏 Благодарности
-
-- OpenAI за GPT модели
-- Anthropic за модели Claude
-- Story2Game фреймворк за структурированную игровую логику
-- SceneCraft за возможности 3D визуализации
-- Spacy за NLP обработку
 
 ## 📧 Контакты
 
