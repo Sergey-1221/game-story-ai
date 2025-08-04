@@ -18,6 +18,8 @@ from PIL import Image
 import io
 import os
 from dotenv import load_dotenv
+from urllib.parse import quote
+import requests
 
 
 __import__("pysqlite3")
@@ -31,6 +33,15 @@ from src.quest_generator import QuestGenerator
 from src.modules.integrated_quest_generator import IntegratedQuestGenerator
 from src.core.models import ScenarioInput, GenerationConfig, Genre
 from src.modules.knowledge_base import KnowledgeBase
+
+
+def check_github_url_exists(url: str) -> bool:
+    """Проверяет, существует ли файл по GitHub URL"""
+    try:
+        response = requests.head(url, timeout=5)
+        return response.status_code == 200
+    except:
+        return False
 
 
 def get_github_raw_url(file_path: str, use_github: bool = True) -> str:
@@ -77,7 +88,17 @@ def get_github_raw_url(file_path: str, use_github: bool = True) -> str:
                         rel_path_str = path_str
             else:
                 rel_path_str = normalized_path
-        github_url = f"https://raw.githubusercontent.com/{GITHUB_OWNER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{rel_path_str}"
+        
+        # URL-кодируем каждую часть пути отдельно для поддержки русских символов
+        path_parts = rel_path_str.split('/')
+        encoded_parts = []
+        for part in path_parts:
+            # Кодируем каждую часть пути, сохраняя безопасные символы
+            encoded_part = quote(part, safe='')
+            encoded_parts.append(encoded_part)
+        
+        encoded_path = '/'.join(encoded_parts)
+        github_url = f"https://raw.githubusercontent.com/{GITHUB_OWNER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{encoded_path}"
         
         # Логирование для отладки
         if st.session_state.get('debug_mode', False):
@@ -853,7 +874,15 @@ def show_scenes_view(quest):
                                     if is_cloud:
                                         # В облаке используем GitHub URL
                                         image_url = get_github_raw_url(view_0_path, use_github=True)
-                                        st.image(image_url, use_container_width=True)
+                                        try:
+                                            st.image(image_url, use_container_width=True)
+                                            if st.session_state.get('debug_mode', False):
+                                                st.caption(f"URL: {image_url}")
+                                        except Exception as url_error:
+                                            st.error(f"Не удалось загрузить изображение с GitHub")
+                                            if st.session_state.get('debug_mode', False):
+                                                st.error(f"URL: {image_url}")
+                                                st.error(f"Ошибка: {url_error}")
                                     else:
                                         # Локально открываем файл
                                         path_obj = Path(view_0_path)
@@ -862,8 +891,12 @@ def show_scenes_view(quest):
                                             st.image(image, use_container_width=True)
                                         else:
                                             st.warning(f"Изображение не найдено: {view_0_path}")
+                                            if st.session_state.get('debug_mode', False):
+                                                st.info(f"Полный путь: {path_obj.absolute()}")
                                 except Exception as e:
                                     st.error(f"Ошибка при загрузке изображения: {e}")
+                                    if st.session_state.get('debug_mode', False):
+                                        st.error(f"Путь: {view_0_path}")
                             break
                 # Для базовой генерации
                 elif hasattr(scene, 'image_prompt') and scene.image_prompt:
@@ -1723,15 +1756,39 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
             test_path = st.text_input("Введите путь для тестирования:", 
                                     value="saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1\\view_0.png")
             if test_path:
-                github_url = get_github_raw_url(test_path, use_github=is_cloud)
+                # Всегда генерируем GitHub URL для теста
+                github_url = get_github_raw_url(test_path, use_github=True)
                 st.code(github_url)
+                
+                # Декодированный URL для проверки
+                from urllib.parse import unquote
+                decoded_url = unquote(github_url)
+                st.text("Декодированный URL:")
+                st.code(decoded_url)
                 
                 # Проверяем, существует ли файл локально
                 local_path = Path(test_path.replace('\\', '/'))
                 if local_path.exists():
                     st.success(f"✅ Файл существует локально: {local_path}")
+                    
+                    # Показываем превью изображения
+                    try:
+                        img = Image.open(local_path)
+                        st.image(img, caption="Локальное изображение", use_container_width=True)
+                    except:
+                        pass
                 else:
                     st.warning(f"⚠️ Файл не найден локально: {local_path}")
+                
+                # Проверяем доступность GitHub URL
+                if st.button("Проверить доступность GitHub URL"):
+                    with st.spinner("Проверка..."):
+                        if check_github_url_exists(github_url):
+                            st.success("✅ Файл доступен на GitHub!")
+                            st.image(github_url, caption="Изображение с GitHub", use_container_width=True)
+                        else:
+                            st.error("❌ Файл не найден на GitHub")
+                            st.info("Убедитесь, что файл закоммичен в ветку 'streamlit-cloud'")
     
     # Настройки генерации
     st.subheader("🎯 Настройки генерации")
