@@ -217,10 +217,22 @@ def main():
     with st.sidebar:
         # st.image("https://via.placeholder.com/300x100/667eea/ffffff?text=AI+Story+Generator", use_container_width=True)
         
+        # Проверяем флаг для скрытия генератора
+        hide_generation = os.getenv("HIDE_GENERATION_UI", "false").lower() == "true"
+        
+        if hide_generation:
+            # Меню без генератора
+            menu_items = ["🏠 Главная", "📊 Аналитика", "🎬 Сцены", "⚙️ Настройки", "📚 Справка"]
+            menu_icons = ['house', 'graph-up', 'film', 'gear', 'book']
+        else:
+            # Полное меню
+            menu_items = ["🏠 Главная", "✨ Генератор", "📊 Аналитика", "🎬 Сцены", "⚙️ Настройки", "📚 Справка"]
+            menu_icons = ['house', 'magic', 'graph-up', 'film', 'gear', 'book']
+        
         selected = option_menu(
             "Меню",
-            ["🏠 Главная", "✨ Генератор", "📊 Аналитика", "🎬 Сцены", "⚙️ Настройки", "📚 Справка"],
-            icons=['house', 'magic', 'graph-up', 'film', 'gear', 'book'],
+            menu_items,
+            icons=menu_icons,
             menu_icon="cast",
             default_index=0,
             styles={
@@ -231,13 +243,14 @@ def main():
             }
         )
     
-    # Инициализация генераторов
-    init_generators()
+    # Инициализация генераторов только если генератор не скрыт
+    if not hide_generation:
+        init_generators()
     
     # Роутинг страниц
     if selected == "🏠 Главная":
         show_home_page()
-    elif selected == "✨ Генератор":
+    elif selected == "✨ Генератор" and not hide_generation:
         show_generator_page()
     elif selected == "📊 Аналитика":
         show_analytics_page()
@@ -1427,14 +1440,16 @@ def show_history_page():
                             st.caption(f"{history_item['timestamp'].strftime('%d.%m')}")
                         
                         with col_actions:
-                            # Кнопка удаления
-                            if st.button("🗑️", key=f"quick_delete_{i}", help="Удалить"):
-                                st.session_state.quest_history.remove(history_item)
-                                save_persistent_data()
-                                if st.session_state.viewing_quest_index == i:
-                                    st.session_state.current_quest = None
-                                    del st.session_state.viewing_quest_index
-                                st.rerun()
+                            # Кнопка удаления - показываем только если не в режиме просмотра
+                            view_only_mode = os.getenv('VIEW_ONLY_MODE', 'false').lower() == 'true'
+                            if not view_only_mode:
+                                if st.button("🗑️", key=f"quick_delete_{i}", help="Удалить"):
+                                    st.session_state.quest_history.remove(history_item)
+                                    save_persistent_data()
+                                    if st.session_state.viewing_quest_index == i:
+                                        st.session_state.current_quest = None
+                                        del st.session_state.viewing_quest_index
+                                    st.rerun()
         
         # Правая колонка - детальный просмотр
         with col_view:
