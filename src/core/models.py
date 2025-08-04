@@ -2,6 +2,7 @@ from typing import List, Dict, Optional, Any, Union, Tuple
 from pydantic import BaseModel, Field, validator
 from enum import Enum
 import numpy as np
+import os
 
 
 class Genre(str, Enum):
@@ -129,7 +130,7 @@ class KnowledgeItem(BaseModel):
 
 
 class GenerationConfig(BaseModel):
-    model: str = Field(default="gpt-4", description="Модель для генерации")
+    model: str = Field(default_factory=lambda: os.getenv("DEFAULT_MODEL", "gpt-4o-mini"), description="Модель для генерации")
     temperature: float = Field(default=0.8, ge=0, le=2, description="Температура генерации")
     max_tokens: int = Field(default=2000, description="Максимум токенов на ответ")
     top_p: float = Field(default=0.9, ge=0, le=1, description="Top-p sampling")

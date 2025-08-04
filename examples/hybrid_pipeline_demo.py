@@ -42,7 +42,7 @@ async def demo_sequential_pipeline():
         
         # Конфигурации компонентов
         generation_config=GenerationConfig(
-            model="gpt-4",
+            model="gpt-4o-mini",
             temperature=0.8,
             max_tokens=1500,
             use_rag=True

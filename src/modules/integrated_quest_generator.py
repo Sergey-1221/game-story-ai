@@ -35,7 +35,8 @@ class IntegratedQuestGenerator:
         
         # SceneCraft может требовать тяжелые зависимости, делаем опциональным
         try:
-            self.scenecraft = SceneCraftVisualizer()
+            # Инициализируем SceneCraft без множественных видов для экономии API запросов
+            self.scenecraft = SceneCraftVisualizer(enable_multiple_views=False)
             self.visualization_available = True
         except Exception as e:
             logger.warning(f"SceneCraft недоступен: {e}")

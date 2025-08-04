@@ -25,7 +25,7 @@ async def demo_integrated_generation():
     
     # Конфигурация
     config = GenerationConfig(
-        model="gpt-4",
+        model="gpt-4o-mini",
         temperature=0.8,
         use_rag=True,
         ensure_branching_depth=3

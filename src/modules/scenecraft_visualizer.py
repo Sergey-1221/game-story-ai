@@ -289,10 +289,16 @@ class LayoutGenerator:
 class SceneCraftVisualizer:
     """Визуализатор сцен в стиле SceneCraft"""
     
-    def __init__(self, diffusion_visualizer: Optional[DiffusionVisualizer] = None):
+    def __init__(self, diffusion_visualizer: Optional[DiffusionVisualizer] = None, 
+                 enable_multiple_views: bool = False):
         self.layout_generator = LayoutGenerator()
         self.diffusion = diffusion_visualizer or DiffusionVisualizer()
-        self.view_angles = [(0, 0), (45, 30), (90, 0), (135, -30)]  # азимут, элевация
+        # Настройка количества ракурсов
+        self.enable_multiple_views = enable_multiple_views
+        if enable_multiple_views:
+            self.view_angles = [(0, 0), (90, 0)]  # фронтальный и боковой вид
+        else:
+            self.view_angles = [(0, 0)]  # только один основной вид
     
     def visualize_scene(self, scene: Scene, genre: str, 
                        output_dir: str = "output/visualizations") -> Dict[str, Any]:
@@ -401,7 +407,7 @@ class SceneCraftVisualizer:
     
     def _render_depth_map(self, layout: SceneLayout) -> np.ndarray:
         """Рендеринг карты глубины"""
-        # Создаем карту глубины для ControlNet
+        # Создаем карту глубины для визуализации
         img_size = 512
         depth_map = np.ones((img_size, img_size), dtype=np.float32)
         
@@ -418,28 +424,27 @@ class SceneCraftVisualizer:
         style_prompt = f"{layout.style} style, {layout.lighting} lighting"
         scene_prompt = f"{scene.text[:200]}... {style_prompt}"
         
-        # Генерируем изображения для каждого ракурса
-        for i, (azimuth, elevation) in enumerate(self.view_angles):
-            view_prompt = f"{scene_prompt}, view from azimuth {azimuth} elevation {elevation}"
-            
-            # Используем диффузионную модель с контролем по макету
-            if hasattr(self.diffusion, 'generate_with_controlnet'):
-                # Используем план сверху как условие
-                control_image = Image.fromarray(projections["top"])
-                image = self.diffusion.generate_with_controlnet(
-                    prompt=view_prompt,
-                    control_image=control_image,
-                    control_type="canny"
-                )
-            else:
-                # Fallback на обычную генерацию
-                image = self.diffusion.generate_scene_image(
-                    scene_description=view_prompt,
-                    style="realistic",
-                    aspect_ratio="16:9"
-                )
-            
-            images.append(image)
+        # Генерируем только одно основное изображение для экономии API запросов
+        main_prompt = f"{scene_prompt}, cinematic composition, detailed scene"
+        
+        # Используем простую генерацию DALL-E
+        main_image = self.diffusion.generate_scene_image(
+            scene_description=main_prompt,
+            style="realistic", 
+            aspect_ratio="16:9"
+        )
+        
+        images.append(main_image)
+        
+        # Если включены дополнительные ракурсы, добавляем их
+        if self.enable_multiple_views and len(self.view_angles) > 1:
+            side_prompt = f"{scene_prompt}, side view, architectural perspective"
+            side_image = self.diffusion.generate_scene_image(
+                scene_description=side_prompt,
+                style="realistic",
+                aspect_ratio="16:9"
+            )
+            images.append(side_image)
         
         return images
     

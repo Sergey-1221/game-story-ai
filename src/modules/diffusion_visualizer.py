@@ -1,6 +1,6 @@
 """
-Модуль интеграции диффузионных моделей для генерации визуальных представлений сцен
-с поддержкой Stable Diffusion, ControlNet и других современных подходов
+Модуль интеграции OpenAI DALL-E для генерации визуальных представлений сцен
+Использует OpenAI API для создания изображений высокого качества
 """
 
 import os
@@ -14,75 +14,70 @@ import json
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 import numpy as np
-import cv2
 from loguru import logger
-import torch
-from diffusers import (
-    StableDiffusionPipeline, 
-    StableDiffusionImg2ImgPipeline,
-    StableDiffusionControlNetPipeline,
-    ControlNetModel,
-    DDIMScheduler,
-    DPMSolverMultistepScheduler
-)
-from transformers import pipeline, BlipProcessor, BlipForConditionalGeneration
 import requests
-from controlnet_aux import (
-    CannyDetector, 
-    OpenposeDetector, 
-    MidasDetector,
-    LineartDetector
-)
+import openai
+from openai import OpenAI
 
 from src.core.models import Scene, ScenarioInput, Choice
 from src.modules.level_generator import GeneratedLevel
 
 
 class VisualizationStyle(Enum):
-    """Стили визуализации"""
-    REALISTIC = "realistic"
-    ARTISTIC = "artistic"
-    CONCEPT_ART = "concept_art"
-    PIXEL_ART = "pixel_art"
-    CYBERPUNK = "cyberpunk"
-    FANTASY = "fantasy"
-    HORROR = "horror"
-    MINIMALIST = "minimalist"
+    """Стили визуализации для DALL-E"""
+    REALISTIC = "photorealistic, high quality, detailed"
+    ARTISTIC = "artistic, stylized, creative"
+    CONCEPT_ART = "concept art, digital painting, fantasy art"
+    PIXEL_ART = "pixel art, 8-bit style, retro gaming"
+    CYBERPUNK = "cyberpunk, neon lights, futuristic, dark atmosphere"
+    FANTASY = "fantasy art, magical, mystical, ethereal"
+    HORROR = "horror, dark, ominous, scary atmosphere"
+    MINIMALIST = "minimalist, clean, simple, modern design"
 
 
-class ControlNetType(Enum):
-    """Типы ControlNet для управления генерацией"""
-    CANNY = "canny"
-    OPENPOSE = "openpose"
-    DEPTH = "depth"
-    LINEART = "lineart"
-    SCRIBBLE = "scribble"
-    SEMANTIC = "semantic"
+class ImageQuality(Enum):
+    """Качество изображений DALL-E"""
+    STANDARD = "standard"
+    HD = "hd"
 
 
 @dataclass
 class VisualizationConfig:
-    """Конфигурация для визуализации"""
-    model_id: str = "runwayml/stable-diffusion-v1-5"
+    """Конфигурация для генерации изображений через OpenAI DALL-E"""
+    # Основные параметры DALL-E
+    model: str = "dall-e-3"  # dall-e-2 или dall-e-3
     style: VisualizationStyle = VisualizationStyle.REALISTIC
-    image_size: Tuple[int, int] = (768, 512)
-    num_inference_steps: int = 20
-    guidance_scale: float = 7.5
-    negative_prompt: str = "blurry, low quality, distorted, text, watermark"
+    quality: ImageQuality = ImageQuality.STANDARD  # standard или hd
+    size: str = "1024x1024"  # 1024x1024, 1792x1024, 1024x1792
     
-    # ControlNet настройки
-    use_controlnet: bool = False
-    controlnet_type: ControlNetType = ControlNetType.CANNY
-    controlnet_conditioning_scale: float = 1.0
+    # Параметры промпта
+    negative_prompt: str = "low quality, blurry, distorted, ugly, deformed, text, watermark"
+    max_prompt_length: int = 4000  # Максимальная длина промпта для DALL-E
     
-    # Постобработка
-    enhance_quality: bool = True
-    add_lighting_effects: bool = True
-    composition_guidance: bool = True
+    # Настройки генерации
+    n_images: int = 1  # Количество вариантов (максимум 10 для dall-e-2, 1 для dall-e-3)
     
-    # Кеширование
-    cache_models: bool = True
+    # OpenAI API настройки
+    api_key: Optional[str] = None
+    timeout: int = 120  # Таймаут запроса в секундах
     output_format: str = "PNG"
+    
+    def __post_init__(self):
+        if self.api_key is None:
+            self.api_key = os.getenv("OPENAI_API_KEY")
+        
+        # Ограничения для DALL-E 3
+        if self.model == "dall-e-3":
+            self.n_images = 1  # DALL-E 3 поддерживает только 1 изображение
+        
+        # Проверяем валидность размера
+        valid_sizes_dalle3 = ["1024x1024", "1792x1024", "1024x1792"]
+        valid_sizes_dalle2 = ["256x256", "512x512", "1024x1024"]
+        
+        if self.model == "dall-e-3" and self.size not in valid_sizes_dalle3:
+            self.size = "1024x1024"
+        elif self.model == "dall-e-2" and self.size not in valid_sizes_dalle2:
+            self.size = "1024x1024"
 
 
 @dataclass
@@ -300,155 +295,27 @@ class PromptEngineer:
         return ", ".join(negative_elements)
 
 
-class ControlNetProcessor:
-    """Процессор для подготовки управляющих изображений ControlNet"""
-    
-    def __init__(self):
-        self.canny_detector = CannyDetector()
-        self.openpose_detector = OpenposeDetector.from_pretrained("lllyasviel/Annotators")
-        self.depth_detector = MidasDetector.from_pretrained("lllyasviel/Annotators")
-        self.lineart_detector = LineartDetector.from_pretrained("lllyasviel/Annotators")
-    
-    def process_level_for_controlnet(
-        self, 
-        level: GeneratedLevel, 
-        controlnet_type: ControlNetType,
-        scene_position: Optional[Tuple[int, int]] = None
-    ) -> Image.Image:
-        """Обработка уровня для создания управляющего изображения"""
-        
-        # Создаем базовое изображение уровня
-        level_image = self._create_level_visualization(level, scene_position)
-        
-        # Применяем соответствующий детектор
-        if controlnet_type == ControlNetType.CANNY:
-            return self.canny_detector(level_image)
-        elif controlnet_type == ControlNetType.DEPTH:
-            return self.depth_detector(level_image)
-        elif controlnet_type == ControlNetType.LINEART:
-            return self.lineart_detector(level_image)
-        else:
-            # Для других типов возвращаем базовое изображение
-            return level_image
-    
-    def _create_level_visualization(
-        self, 
-        level: GeneratedLevel, 
-        focus_position: Optional[Tuple[int, int]] = None
-    ) -> Image.Image:
-        """Создание визуализации уровня для ControlNet"""
-        
-        # Простая визуализация уровня
-        height, width = level.tiles.shape
-        image = np.zeros((height, width, 3), dtype=np.uint8)
-        
-        # Цвета для тайлов (более контрастные для ControlNet)
-        tile_colors = {
-            0: (0, 0, 0),       # Пустота - черный
-            1: (255, 255, 255), # Стена - белый
-            2: (128, 128, 128), # Пол - серый
-            3: (200, 200, 200), # Дверь - светло-серый
-        }
-        
-        for y in range(height):
-            for x in range(width):
-                tile_value = level.tiles[y, x]
-                if tile_value in tile_colors:
-                    image[y, x] = tile_colors[tile_value]
-        
-        # Выделяем фокусную позицию если указана
-        if focus_position:
-            fx, fy = focus_position
-            if 0 <= fx < width and 0 <= fy < height:
-                cv2.circle(image, (fx, fy), 2, (255, 0, 0), -1)
-        
-        # Увеличиваем изображение
-        scale_factor = 16
-        large_image = cv2.resize(image, (width * scale_factor, height * scale_factor), 
-                               interpolation=cv2.INTER_NEAREST)
-        
-        return Image.fromarray(large_image)
+# ControlNet код удален - используем только DALL-E генерацию
 
 
 class DiffusionVisualizer:
-    """Основной класс для генерации визуализаций с помощью диффузионных моделей"""
+    """Основной класс для генерации изображений с помощью OpenAI DALL-E"""
     
     def __init__(self, config: Optional[VisualizationConfig] = None):
         self.config = config or VisualizationConfig()
         self.prompt_engineer = PromptEngineer()
-        self.controlnet_processor = ControlNetProcessor()
         
-        # Кешированные модели
-        self._cached_pipeline = None
-        self._cached_controlnet_pipeline = None
-        self._cached_img2img_pipeline = None
-        
-        # Проверяем доступность CUDA
-        self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.dtype = torch.float16 if self.device == "cuda" else torch.float32
-        
-        logger.info(f"Инициализирована генерация изображений на устройстве: {self.device}")
-    
-    def _load_pipeline(self) -> StableDiffusionPipeline:
-        """Загрузка основного пайплайна Stable Diffusion"""
-        if self._cached_pipeline is None or not self.config.cache_models:
-            logger.info(f"Загружаем модель: {self.config.model_id}")
-            
-            self._cached_pipeline = StableDiffusionPipeline.from_pretrained(
-                self.config.model_id,
-                torch_dtype=self.dtype,
-                safety_checker=None,
-                requires_safety_checker=False
-            ).to(self.device)
-            
-            # Оптимизируем для производительности
-            if self.device == "cuda":
-                self._cached_pipeline.enable_model_cpu_offload()
-                self._cached_pipeline.enable_xformers_memory_efficient_attention()
-            
-            # Улучшенный планировщик
-            self._cached_pipeline.scheduler = DPMSolverMultistepScheduler.from_config(
-                self._cached_pipeline.scheduler.config
+        # Инициализируем OpenAI клиент
+        try:
+            self.client = OpenAI(
+                api_key=self.config.api_key,
+                timeout=self.config.timeout
             )
+        except Exception as e:
+            logger.error(f"Ошибка инициализации OpenAI клиента: {e}")
+            self.client = None
         
-        return self._cached_pipeline
-    
-    def _load_controlnet_pipeline(self, controlnet_type: ControlNetType) -> StableDiffusionControlNetPipeline:
-        """Загрузка пайплайна с ControlNet"""
-        if self._cached_controlnet_pipeline is None or not self.config.cache_models:
-            logger.info(f"Загружаем ControlNet: {controlnet_type.value}")
-            
-            # Выбираем подходящую модель ControlNet
-            controlnet_models = {
-                ControlNetType.CANNY: "lllyasviel/sd-controlnet-canny",
-                ControlNetType.OPENPOSE: "lllyasviel/sd-controlnet-openpose",
-                ControlNetType.DEPTH: "lllyasviel/sd-controlnet-depth",
-                ControlNetType.LINEART: "lllyasviel/sd-controlnet-lineart"
-            }
-            
-            controlnet_model_id = controlnet_models.get(
-                controlnet_type, 
-                "lllyasviel/sd-controlnet-canny"
-            )
-            
-            controlnet = ControlNetModel.from_pretrained(
-                controlnet_model_id,
-                torch_dtype=self.dtype
-            )
-            
-            self._cached_controlnet_pipeline = StableDiffusionControlNetPipeline.from_pretrained(
-                self.config.model_id,
-                controlnet=controlnet,
-                torch_dtype=self.dtype,
-                safety_checker=None,
-                requires_safety_checker=False
-            ).to(self.device)
-            
-            if self.device == "cuda":
-                self._cached_controlnet_pipeline.enable_model_cpu_offload()
-                self._cached_controlnet_pipeline.enable_xformers_memory_efficient_attention()
-        
-        return self._cached_controlnet_pipeline
+        logger.info(f"Инициализирована генерация изображений через OpenAI DALL-E (модель: {self.config.model})")
     
     async def generate_scene_visualization(
         self, 
@@ -457,7 +324,7 @@ class DiffusionVisualizer:
         level_context: Optional[GeneratedLevel] = None,
         custom_config: Optional[VisualizationConfig] = None
     ) -> GeneratedVisualization:
-        """Асинхронная генерация визуализации сцены"""
+        """Асинхронная генерация визуализации сцены через DALL-E"""
         
         config = custom_config or self.config
         
@@ -468,27 +335,78 @@ class DiffusionVisualizer:
             scene, scenario, config.style, level_context
         )
         
-        negative_prompt = self.prompt_engineer.create_negative_prompt(
-            config.negative_prompt, config.style
-        )
-        
         # Генерируем в отдельном потоке для избежания блокировки
         loop = asyncio.get_event_loop()
         
-        if config.use_controlnet and level_context:
-            result = await loop.run_in_executor(
-                None, 
-                self._generate_with_controlnet, 
-                prompt, negative_prompt, config, level_context, scene
-            )
-        else:
-            result = await loop.run_in_executor(
-                None, 
-                self._generate_basic, 
-                prompt, negative_prompt, config
-            )
+        result = await loop.run_in_executor(
+            None, 
+            self._generate_dalle_image, 
+            prompt, config
+        )
         
         return result
+    
+    def _generate_dalle_image(
+        self, 
+        prompt: str, 
+        config: VisualizationConfig
+    ) -> GeneratedVisualization:
+        """Базовая генерация изображения через DALL-E"""
+        
+        if not self.client:
+            logger.error("OpenAI клиент не инициализирован")
+            placeholder = self._create_placeholder_image()
+            return GeneratedVisualization(
+                image=placeholder,
+                prompt=prompt,
+                metadata={"error": "OpenAI клиент не доступен"}
+            )
+        
+        try:
+            # Обрезаем промпт если он слишком длинный
+            if len(prompt) > config.max_prompt_length:
+                prompt = prompt[:config.max_prompt_length-3] + "..."
+            
+            logger.info(f"Генерируем изображение через DALL-E: {prompt[:100]}...")
+            
+            # Генерируем изображение через OpenAI API
+            response = self.client.images.generate(
+                model=config.model,
+                prompt=prompt,
+                n=1,
+                size=config.size,
+                quality=config.quality.value,
+                response_format="url"
+            )
+            
+            # Скачиваем изображение
+            image_url = response.data[0].url
+            image_response = requests.get(image_url, timeout=30)
+            image_response.raise_for_status()
+            
+            # Конвертируем в PIL Image
+            image = Image.open(io.BytesIO(image_response.content))
+            
+            logger.info("Изображение успешно сгенерировано через DALL-E")
+            
+            return GeneratedVisualization(
+                image=image,
+                prompt=prompt,
+                metadata={
+                    "model": config.model,
+                    "size": config.size,
+                    "quality": config.quality.value
+                }
+            )
+            
+        except Exception as e:
+            logger.error(f"Ошибка при генерации изображения через DALL-E: {e}")
+            placeholder = self._create_placeholder_image()
+            return GeneratedVisualization(
+                image=placeholder,
+                prompt=prompt,
+                metadata={"error": str(e)}
+            )
     
     def generate_scene_image(
         self, 
@@ -496,54 +414,71 @@ class DiffusionVisualizer:
         style: str = "realistic", 
         aspect_ratio: str = "16:9"
     ) -> Image.Image:
-        """Синхронная генерация изображения сцены для совместимости с SceneCraftVisualizer"""
+        """Синхронная генерация изображения сцены через OpenAI DALL-E"""
+        
+        if not self.client:
+            logger.error("OpenAI клиент не инициализирован")
+            return self._create_placeholder_image()
         
         try:
             # Определяем размер изображения по соотношению сторон
             if aspect_ratio == "16:9":
-                size = (1024, 576)
+                size = "1792x1024"
             elif aspect_ratio == "4:3":
-                size = (1024, 768)
+                size = "1024x1024"  # Ближайший доступный размер
             elif aspect_ratio == "1:1":
-                size = (1024, 1024)
+                size = "1024x1024"
             else:
-                size = (1024, 576)  # default
+                size = "1024x1024"  # default
             
-            # Создаем конфигурацию для генерации
-            config = VisualizationConfig(
-                image_size=size,
-                style=VisualizationStyle(style) if style in [s.value for s in VisualizationStyle] else VisualizationStyle.REALISTIC,
-                num_inference_steps=20,  # Быстрая генерация
-                guidance_scale=7.5
+            # Определяем стиль
+            style_mapping = {
+                "realistic": VisualizationStyle.REALISTIC,
+                "artistic": VisualizationStyle.ARTISTIC,
+                "concept_art": VisualizationStyle.CONCEPT_ART,
+                "pixel_art": VisualizationStyle.PIXEL_ART,
+                "cyberpunk": VisualizationStyle.CYBERPUNK,
+                "fantasy": VisualizationStyle.FANTASY,
+                "horror": VisualizationStyle.HORROR,
+                "minimalist": VisualizationStyle.MINIMALIST
+            }
+            
+            selected_style = style_mapping.get(style, VisualizationStyle.REALISTIC)
+            
+            # Создаем промпт с учетом стиля
+            styled_prompt = f"{scene_description}, {selected_style.value}"
+            
+            # Обрезаем промпт если он слишком длинный
+            if len(styled_prompt) > self.config.max_prompt_length:
+                styled_prompt = styled_prompt[:self.config.max_prompt_length-3] + "..."
+            
+            logger.info(f"Генерируем изображение через DALL-E: {styled_prompt[:100]}...")
+            
+            # Генерируем изображение через OpenAI API
+            response = self.client.images.generate(
+                model=self.config.model,
+                prompt=styled_prompt,
+                n=1,
+                size=size,
+                quality=self.config.quality.value,
+                response_format="url"
             )
             
-            # Обновляем промпт в зависимости от стиля
-            styled_prompt = f"{scene_description}, {style} style, high quality, detailed"
+            # Скачиваем изображение
+            image_url = response.data[0].url
+            image_response = requests.get(image_url, timeout=30)
+            image_response.raise_for_status()
             
-            # Запускаем базовую генерацию
-            pipeline = self._load_pipeline()
+            # Конвертируем в PIL Image
+            image = Image.open(io.BytesIO(image_response.content))
             
-            generator = torch.Generator(device=self.device)
-            seed = torch.randint(0, 2**32, (1,)).item()
-            generator.manual_seed(seed)
-            
-            with torch.autocast(self.device):
-                result = pipeline(
-                    prompt=styled_prompt,
-                    negative_prompt="low quality, blurry, distorted, ugly, deformed",
-                    height=config.image_size[1],
-                    width=config.image_size[0],
-                    num_inference_steps=config.num_inference_steps,
-                    guidance_scale=config.guidance_scale,
-                    generator=generator
-                )
-            
-            return result.images[0]
+            logger.info("Изображение успешно сгенерировано через DALL-E")
+            return image
             
         except Exception as e:
-            logger.error(f"Ошибка при генерации изображения сцены: {e}")
+            logger.error(f"Ошибка при генерации изображения через DALL-E: {e}")
             # Возвращаем заглушку
-            return self._create_placeholder_image(size)
+            return self._create_placeholder_image()
     
     def generate_with_controlnet(
         self, 
@@ -551,50 +486,12 @@ class DiffusionVisualizer:
         control_image: Image.Image, 
         control_type: str = "canny"
     ) -> Image.Image:
-        """Синхронная генерация с ControlNet для совместимости с SceneCraftVisualizer"""
+        """Fallback генерация (ControlNet не поддерживается в DALL-E, используем обычную генерацию)"""
         
-        try:
-            # Преобразуем строковый тип в enum
-            controlnet_type_map = {
-                "canny": ControlNetType.CANNY,
-                "openpose": ControlNetType.OPENPOSE,
-                "depth": ControlNetType.DEPTH,
-                "lineart": ControlNetType.LINEART
-            }
-            
-            controlnet_type = controlnet_type_map.get(control_type, ControlNetType.CANNY)
-            
-            # Загружаем пайплайн с ControlNet
-            pipeline = self._load_controlnet_pipeline(controlnet_type)
-            
-            # Обрабатываем control image в зависимости от типа
-            processed_control = self.controlnet_processor.process_control_image(
-                control_image, controlnet_type
-            )
-            
-            generator = torch.Generator(device=self.device)
-            seed = torch.randint(0, 2**32, (1,)).item()
-            generator.manual_seed(seed)
-            
-            with torch.autocast(self.device):
-                result = pipeline(
-                    prompt=prompt,
-                    image=processed_control,
-                    negative_prompt="low quality, blurry, distorted, ugly, deformed",
-                    height=1024,
-                    width=1024,
-                    num_inference_steps=20,
-                    guidance_scale=7.5,
-                    controlnet_conditioning_scale=1.0,
-                    generator=generator
-                )
-            
-            return result.images[0]
-            
-        except Exception as e:
-            logger.error(f"Ошибка при генерации с ControlNet: {e}")
-            # Fallback на обычную генерацию
-            return self.generate_scene_image(prompt, "realistic", "1:1")
+        logger.warning("ControlNet не поддерживается в DALL-E, используем обычную генерацию")
+        
+        # Поскольку DALL-E не поддерживает ControlNet, просто генерируем обычное изображение
+        return self.generate_scene_image(prompt, "realistic", "1:1")
     
     def _generate_basic(
         self, 
@@ -737,21 +634,25 @@ class DiffusionVisualizer:
         
         return image
     
-    def _create_placeholder_image(self, size: Tuple[int, int]) -> Image.Image:
+    def _create_placeholder_image(self, size: Tuple[int, int] = (1024, 1024)) -> Image.Image:
         """Создание изображения-заглушки при ошибке"""
         image = Image.new('RGB', size, color='lightgray')
         draw = ImageDraw.Draw(image)
         
         # Добавляем текст
-        text = "Image generation\nfailed"
-        bbox = draw.textbbox((0, 0), text)
-        text_width = bbox[2] - bbox[0]
-        text_height = bbox[3] - bbox[1]
-        
-        x = (size[0] - text_width) // 2
-        y = (size[1] - text_height) // 2
-        
-        draw.text((x, y), text, fill='black', anchor='mm')
+        text = "DALL-E generation\nfailed"
+        try:
+            bbox = draw.textbbox((0, 0), text)
+            text_width = bbox[2] - bbox[0]
+            text_height = bbox[3] - bbox[1]
+            
+            x = (size[0] - text_width) // 2
+            y = (size[1] - text_height) // 2
+            
+            draw.text((x, y), text, fill='black', anchor='mm')
+        except:
+            # Fallback если textbbox не поддерживается
+            draw.text((size[0]//2, size[1]//2), text, fill='black', anchor='mm')
         
         return image
     

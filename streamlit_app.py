@@ -776,7 +776,9 @@ def show_quest_graph(quest):
         height=600
     )
     
-    st.plotly_chart(fig, use_container_width=True, key="quest_graph")
+    # Используем уникальный ключ на основе ID квеста
+    quest_id = getattr(quest, 'title', 'unknown').replace(' ', '_').replace(':', '')[:20]
+    st.plotly_chart(fig, use_container_width=True, key=f"quest_graph_{quest_id}_{hash(str(quest))%1000}")
 
 
 def show_json_view(quest):
