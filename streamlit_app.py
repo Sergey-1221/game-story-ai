@@ -694,31 +694,157 @@ def show_scenes_view(quest):
         st.warning("Сцены не найдены в квесте")
         return
     
-    for i, scene in enumerate(scenes):
-        # Безопасное получение атрибутов сцены
-        scene_id = getattr(scene, 'scene_id', f'scene_{i+1}')
-        scene_text = getattr(scene, 'text', 'Текст сцены недоступен')
-        scene_mood = getattr(scene, 'mood', None)
-        scene_location = getattr(scene, 'location', None)
-        scene_choices = getattr(scene, 'choices', [])
+    # Выбор режима просмотра
+    view_mode = st.radio(
+        "Режим просмотра:",
+        ["📋 Все сцены", "🎮 Интерактивный квест"],
+        horizontal=True
+    )
+    
+    if view_mode == "📋 Все сцены":
+        # Режим просмотра всех сцен
+        for i, scene in enumerate(scenes):
+            # Безопасное получение атрибутов сцены
+            scene_id = getattr(scene, 'scene_id', f'scene_{i+1}')
+            scene_text = getattr(scene, 'text', 'Текст сцены недоступен')
+            scene_mood = getattr(scene, 'mood', None)
+            scene_location = getattr(scene, 'location', None)
+            scene_choices = getattr(scene, 'choices', [])
+            scene_image = getattr(scene, 'image_prompt', None)
+            
+            with st.expander(f"Сцена {i+1}: {scene_id}", expanded=(i==0)):
+                # Проверяем наличие изображения
+                # Для расширенной генерации изображения могут быть в другом месте
+                if hasattr(st.session_state, 'current_enhanced_result') and st.session_state.current_enhanced_result and 'visualization' in st.session_state.current_enhanced_result.get('enhancements', {}):
+                    viz_data = st.session_state.current_enhanced_result['enhancements']['visualization']
+                    # Ищем визуализацию для текущей сцены
+                    for scene_viz in viz_data.get('scenes', []):
+                        if scene_viz['scene_id'] == scene_id:
+                            if 'image_paths' in scene_viz and len(scene_viz['image_paths']) > 0:
+                                try:
+                                    # Берем первое изображение (view_0.png)
+                                    view_0_path = scene_viz['image_paths'][0]
+                                    image = Image.open(view_0_path)
+                                    st.image(image, use_container_width=True)
+                                except:
+                                    pass
+                            break
+                # Для базовой генерации
+                elif hasattr(scene, 'image_prompt') and scene.image_prompt:
+                    st.info("🎨 Изображение доступно только в расширенном режиме генерации")
+                
+                st.markdown(f"**Текст сцены:**")
+                st.write(scene_text)
+                
+                col1, col2 = st.columns(2)
+                with col1:
+                    if scene_mood:
+                        st.info(f"💭 **Настроение:** {scene_mood}")
+                with col2:
+                    if scene_location:
+                        st.info(f"📍 **Локация:** {scene_location}")
+                
+                if scene_image:
+                    with st.expander("🎨 Промпт для изображения"):
+                        st.caption(scene_image)
+                
+                st.markdown("**Варианты выбора:**")
+                if scene_choices:
+                    for j, choice in enumerate(scene_choices):
+                        choice_text = getattr(choice, 'text', f'Выбор {j+1}')
+                        next_scene = getattr(choice, 'next_scene', 'неизвестно')
+                        st.write(f"{j+1}. {choice_text} → *{next_scene}*")
+                else:
+                    st.info("Конец сцены")
+    
+    else:
+        # Интерактивный режим квеста
+        if 'current_scene_index' not in st.session_state:
+            st.session_state.current_scene_index = 0
         
-        with st.expander(f"Сцена {i+1}: {scene_id}", expanded=(i==0)):
-            st.markdown(f"**Текст сцены:**")
+        current_index = st.session_state.current_scene_index
+        
+        # Прогресс бар
+        progress = (current_index + 1) / len(scenes)
+        st.progress(progress, text=f"Прогресс: {current_index + 1} из {len(scenes)} сцен")
+        
+        if current_index < len(scenes):
+            scene = scenes[current_index]
+            
+            # Безопасное получение атрибутов сцены
+            scene_id = getattr(scene, 'scene_id', f'scene_{current_index+1}')
+            scene_text = getattr(scene, 'text', 'Текст сцены недоступен')
+            scene_mood = getattr(scene, 'mood', None)
+            scene_location = getattr(scene, 'location', None)
+            scene_choices = getattr(scene, 'choices', [])
+            
+            # Отображение сцены
+            st.markdown(f"### Сцена {current_index + 1}: {scene_id}")
+            
+            # Проверяем наличие изображения
+            # Для расширенной генерации изображения могут быть в другом месте
+            if hasattr(st.session_state, 'current_enhanced_result') and st.session_state.current_enhanced_result and 'visualization' in st.session_state.current_enhanced_result.get('enhancements', {}):
+                viz_data = st.session_state.current_enhanced_result['enhancements']['visualization']
+                # Ищем визуализацию для текущей сцены
+                for scene_viz in viz_data.get('scenes', []):
+                    if scene_viz['scene_id'] == scene_id:
+                        if 'image_paths' in scene_viz and len(scene_viz['image_paths']) > 0:
+                            try:
+                                # Берем первое изображение (view_0.png)
+                                view_0_path = scene_viz['image_paths'][0]
+                                image = Image.open(view_0_path)
+                                st.image(image, use_container_width=True)
+                            except:
+                                pass
+                        break
+            # Для базовой генерации
+            elif hasattr(scene, 'image_prompt') and scene.image_prompt:
+                st.info("🎨 Изображение доступно только в расширенном режиме генерации")
+            
+            # Информация о локации и настроении
+            col1, col2 = st.columns(2)
+            with col1:
+                if scene_location:
+                    st.info(f"📍 **Локация:** {scene_location}")
+            with col2:
+                if scene_mood:
+                    st.info(f"💭 **Настроение:** {scene_mood}")
+            
+            # Текст сцены
+            st.markdown("---")
             st.write(scene_text)
+            st.markdown("---")
             
-            if scene_mood:
-                st.caption(f"Настроение: {scene_mood}")
-            if scene_location:
-                st.caption(f"Локация: {scene_location}")
-            
-            st.markdown("**Варианты выбора:**")
+            # Варианты выбора
             if scene_choices:
+                st.markdown("**Что вы будете делать?**")
                 for j, choice in enumerate(scene_choices):
                     choice_text = getattr(choice, 'text', f'Выбор {j+1}')
                     next_scene = getattr(choice, 'next_scene', 'неизвестно')
-                    st.write(f"{j+1}. {choice_text} → *{next_scene}*")
+                    
+                    # Находим индекс следующей сцены
+                    next_index = None
+                    for idx, s in enumerate(scenes):
+                        if getattr(s, 'scene_id', f'scene_{idx+1}') == next_scene:
+                            next_index = idx
+                            break
+                    
+                    if st.button(f"➤ {choice_text}", key=f"choice_{current_index}_{j}", use_container_width=True):
+                        if next_index is not None:
+                            st.session_state.current_scene_index = next_index
+                            st.rerun()
+                        else:
+                            st.warning(f"Сцена '{next_scene}' не найдена")
             else:
-                st.info("Нет доступных вариантов выбора")
+                st.success("🎯 Квест завершен!")
+                if st.button("🔄 Начать заново", use_container_width=True):
+                    st.session_state.current_scene_index = 0
+                    st.rerun()
+        else:
+            st.error("Ошибка: неверный индекс сцены")
+            if st.button("🔄 Начать заново", use_container_width=True):
+                st.session_state.current_scene_index = 0
+                st.rerun()
 
 
 def show_quest_graph(quest):
@@ -1005,26 +1131,42 @@ def show_visualization_view(viz_data):
     st.metric("Согласованность визуалов", 
               f"{viz_data['enhanced_features']['visual_consistency_score']:.0%}")
     
-    # Показываем визуализации сцен
-    for scene_viz in viz_data['scenes'][:3]:  # Первые 3 сцены
-        with st.expander(f"Сцена {scene_viz['scene_id']}"):
-            col1, col2 = st.columns([2, 1])
+    # Показываем визуализации всех сцен
+    for scene_viz in viz_data['scenes']:  # Все сцены
+        with st.expander(f"Сцена {scene_viz['scene_id']}", expanded=False):
+            # Приоритет изображений: view_0.png из image_paths > composite_path
+            image_shown = False
             
-            with col1:
-                # Композитное изображение (если есть)
-                if 'composite_path' in scene_viz:
-                    try:
-                        image = Image.open(scene_viz['composite_path'])
-                        st.image(image, caption="Многоракурсная визуализация", 
-                                use_container_width=True)
-                    except:
-                        st.info("Изображение недоступно")
-                else:
-                    st.info("Визуализация в процессе...")
+            # Сначала пробуем view_0.png из image_paths (лучшее качество)
+            if 'image_paths' in scene_viz and len(scene_viz['image_paths']) > 0:
+                try:
+                    # Берем первое изображение (view_0.png)
+                    view_0_path = scene_viz['image_paths'][0]
+                    image = Image.open(view_0_path)
+                    st.image(image, caption="Визуализация сцены", 
+                            use_container_width=True)
+                    image_shown = True
+                except Exception as e:
+                    st.error(f"Ошибка загрузки изображения: {e}")
+                    pass
             
-            with col2:
-                st.write("**Макет сцены:**")
-                if 'layout_path' in scene_viz:
+            # Если не найдены view_0 варианты, пробуем композитное изображение
+            if not image_shown and 'composite_path' in scene_viz:
+                try:
+                    image = Image.open(scene_viz['composite_path'])
+                    st.image(image, caption="Многоракурсная визуализация", 
+                            use_container_width=True)
+                    image_shown = True
+                except:
+                    pass
+            
+            # Если ничего не найдено
+            if not image_shown:
+                st.info("Изображение недоступно")
+            
+            # Макет сцены внизу в свернутом виде
+            if 'layout_path' in scene_viz:
+                with st.expander("🏗️ Макет сцены", expanded=False):
                     try:
                         with open(scene_viz['layout_path'], 'r', encoding='utf-8') as f:
                             layout = json.load(f)
