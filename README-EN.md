@@ -10,6 +10,8 @@ AI-powered game story generator that transforms text descriptions into interacti
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-lightgrey.svg)
 
+🌐 **[Try Demo](https://game-story-ai.streamlit.app/)**
+
 </div>
 
 <div align="center">
