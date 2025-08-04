@@ -629,6 +629,14 @@ def show_quest_graph(quest):
     for scene in quest.scenes:
         for choice in scene.choices:
             if choice.next_scene:
+                # Добавляем узел для next_scene, если его еще нет
+                if choice.next_scene not in G.nodes():
+                    # Специальные узлы (например, "end")
+                    if choice.next_scene == "end":
+                        G.add_node(choice.next_scene, label="Конец")
+                    else:
+                        G.add_node(choice.next_scene, label=choice.next_scene)
+                
                 G.add_edge(scene.scene_id, choice.next_scene)
                 edge_labels[(scene.scene_id, choice.next_scene)] = choice.text[:20] + "..."
     
@@ -656,10 +664,13 @@ def show_quest_graph(quest):
     node_text = []
     
     for node in G.nodes():
-        x, y = pos[node]
-        node_x.append(x)
-        node_y.append(y)
-        node_text.append(G.nodes[node]['label'])
+        if node in pos:  # Проверяем, что позиция существует
+            x, y = pos[node]
+            node_x.append(x)
+            node_y.append(y)
+            # Получаем label или используем ID узла как fallback
+            node_label = G.nodes[node].get('label', node)
+            node_text.append(node_label)
     
     fig.add_trace(go.Scatter(
         x=node_x,

@@ -23,24 +23,35 @@ python -m spacy download ru_core_news_sm
 python -m spacy download en_core_web_sm
 
 # Create .env file from example
-cp .env.example .env
+copy .env.example .env  # Windows
+cp .env.example .env    # Linux/Mac
 # Then edit .env with actual API keys
 ```
 
 ### Running the System
 ```bash
-# Basic quest generation
-python src/quest_generator.py
+# Run Streamlit UI (recommended)
+venv\Scripts\streamlit.exe run streamlit_app.py  # Windows
+streamlit run streamlit_app.py  # Linux/Mac
+
+# Or use batch scripts
+run_ui.bat  # Windows
+./run_ui.sh  # Linux/Mac
+
+# Basic quest generation (programmatic)
+venv\Scripts\python.exe src/quest_generator.py  # Windows
+python src/quest_generator.py  # Linux/Mac
 
 # Run API server
-uvicorn src.api.main:app --reload --port 8000
+venv\Scripts\python.exe -m uvicorn src.api.main:app --reload --port 8000  # Windows
+uvicorn src.api.main:app --reload --port 8000  # Linux/Mac
 
 # Run demos
-python examples/story2game_scenecraft_demo.py
-python examples/hybrid_pipeline_demo.py
+venv\Scripts\python.exe examples/story2game_scenecraft_demo.py
+venv\Scripts\python.exe examples/hybrid_pipeline_demo.py
 
-# CLI interface (if main.py exists)
-python main.py --input scenario.txt --output quest.json
+# CLI interface
+venv\Scripts\python.exe main.py --input scenario.txt --output quest.json
 ```
 
 ### Testing
@@ -57,6 +68,10 @@ pytest tests/integration/
 
 # Run single test file
 pytest tests/unit/test_parser.py -v
+
+# Run test generation scripts
+venv\Scripts\python.exe test_generation.py
+venv\Scripts\python.exe test_quest_generation.py
 ```
 
 ### Development Tasks
@@ -165,3 +180,17 @@ Optional:
 - `LOG_LEVEL` - Logging verbosity
 - `DEFAULT_MODEL` - Default LLM to use
 - `API_HOST`, `API_PORT` - API server settings
+
+## Windows-Specific Notes
+
+When working on Windows, always use:
+- `venv\Scripts\python.exe` instead of `python` for running scripts
+- `venv\Scripts\pip.exe` for package management
+- `venv\Scripts\streamlit.exe` for running Streamlit
+- Windows batch files (`.bat`) for convenience scripts
+
+The project includes several batch files for common operations:
+- `run_ui.bat` - Launch Streamlit interface
+- `run_all.bat` - Run multiple components
+- `start_api.bat` - Start FastAPI server
+- `start_ui.bat` - Alternative UI launcher
