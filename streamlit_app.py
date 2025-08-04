@@ -113,6 +113,10 @@ def get_github_raw_url(file_path: str, use_github: bool = True) -> str:
         return file_path
 
 
+# Читаем настройки из .env
+DEBUG_MODE = os.getenv('DEBUG_MODE', 'false').lower() == 'true'
+FORCE_GITHUB_URLS = os.getenv('FORCE_GITHUB_URLS', 'true').lower() == 'true'
+
 # Автоматическое определение окружения Streamlit Cloud
 # Проверяем различные способы определения Streamlit Cloud
 is_streamlit_cloud = (
@@ -122,8 +126,8 @@ is_streamlit_cloud = (
     os.environ.get('STREAMLIT_SERVER_HEADLESS', '').lower() == 'true' or
     # Проверяем наличие файла .streamlit/config.toml (обычно есть в Streamlit Cloud)
     Path('.streamlit/config.toml').exists() or
-    # Принудительно включаем для Streamlit Cloud через переменную окружения
-    os.environ.get('FORCE_GITHUB_URLS', 'false').lower() == 'true'
+    # Принудительно включаем через переменную окружения
+    FORCE_GITHUB_URLS
 )
 
 if is_streamlit_cloud:
@@ -1711,25 +1715,27 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
     # Режим отладки
     st.subheader("🐛 Режим отладки")
     
+    # Инициализируем из переменных окружения
     if 'debug_mode' not in st.session_state:
-        st.session_state.debug_mode = False
+        st.session_state.debug_mode = DEBUG_MODE
     
-    debug_mode = st.checkbox("Включить режим отладки", value=st.session_state.debug_mode)
-    st.session_state.debug_mode = debug_mode
-    
-    # Принудительное использование GitHub URLs
     if 'force_github_urls' not in st.session_state:
-        st.session_state.force_github_urls = os.environ.get('FORCE_GITHUB_URLS', 'false').lower() == 'true'
+        st.session_state.force_github_urls = FORCE_GITHUB_URLS
     
-    force_github = st.checkbox("Принудительно использовать GitHub URLs для изображений", 
-                              value=st.session_state.force_github_urls,
-                              help="Включите эту опцию, если работаете в Streamlit Cloud и изображения не отображаются")
+    # Показываем текущие настройки из .env
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info(f"**DEBUG_MODE в .env:** {'включен' if DEBUG_MODE else 'выключен'}")
+    with col2:
+        st.info(f"**FORCE_GITHUB_URLS в .env:** {'включен' if FORCE_GITHUB_URLS else 'выключен'}")
     
-    if force_github != st.session_state.force_github_urls:
-        st.session_state.force_github_urls = force_github
-        os.environ['FORCE_GITHUB_URLS'] = 'true' if force_github else 'false'
-        os.environ['STREAMLIT_CLOUD'] = 'true' if force_github else os.environ.get('STREAMLIT_CLOUD', 'false')
-        st.rerun()
+    st.caption("Для изменения этих настроек отредактируйте файл .env и перезапустите приложение")
+    
+    # Временное переключение для текущей сессии
+    debug_mode = st.checkbox("Временно включить режим отладки для этой сессии", 
+                            value=st.session_state.debug_mode,
+                            help="Это не изменит настройки в .env")
+    st.session_state.debug_mode = debug_mode
     
     if debug_mode:
         st.info("Режим отладки включен. Информация о путях к изображениям будет отображаться в боковой панели.")
@@ -1828,71 +1834,74 @@ API_PORT={api_port}
 CHROMA_PERSIST_DIRECTORY=./data/chroma
     """)
     
-    # База знаний
-    st.subheader("📚 База знаний")
+    # База знаний - показываем только если не в режиме просмотра
+    if not os.getenv("VIEW_ONLY_MODE", "false").lower() == "true":
+        st.subheader("📚 База знаний")
+        
+        if st.button("🔄 Обновить базу знаний"):
+            with st.spinner("Обновление базы знаний..."):
+                # Переинициализация knowledge base
+                st.session_state.generator.knowledge_base = KnowledgeBase()
+                st.success("База знаний обновлена!")
     
-    if st.button("🔄 Обновить базу знаний"):
-        with st.spinner("Обновление базы знаний..."):
-            # Переинициализация knowledge base
-            st.session_state.generator.knowledge_base = KnowledgeBase()
-            st.success("База знаний обновлена!")
+    # Управление данными сессии - показываем только если не в режиме просмотра
+    if not os.getenv("VIEW_ONLY_MODE", "false").lower() == "true":
+        st.subheader("💾 Управление данными")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("🗑️ Очистить историю", use_container_width=True):
+                st.session_state.quest_history = []
+                st.session_state.current_quest = None
+                save_persistent_data()  # Сохраняем изменения
+                st.success("История очищена!")
+                st.rerun()
+        
+        with col2:
+            if st.button("💾 Принудительное сохранение", use_container_width=True):
+                save_persistent_data()
+                st.success("Данные сохранены!")
+        
+        # Информация о сохраненных данных
+        persistent_file = Path("saved_quests") / "session_data.json"
+        if persistent_file.exists():
+            file_size = persistent_file.stat().st_size
+            st.info(f"📁 Файл сессии: {file_size} байт")
+            st.info(f"📍 Путь: {persistent_file.absolute()}")
+        else:
+            st.info("📁 Файл сессии не найден")
     
-    # Управление данными сессии
-    st.subheader("💾 Управление данными")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        if st.button("🗑️ Очистить историю", use_container_width=True):
-            st.session_state.quest_history = []
-            st.session_state.current_quest = None
-            save_persistent_data()  # Сохраняем изменения
-            st.success("История очищена!")
-            st.rerun()
-    
-    with col2:
-        if st.button("💾 Принудительное сохранение", use_container_width=True):
-            save_persistent_data()
-            st.success("Данные сохранены!")
-    
-    # Информация о сохраненных данных
-    persistent_file = Path("saved_quests") / "session_data.json"
-    if persistent_file.exists():
-        file_size = persistent_file.stat().st_size
-        st.info(f"📁 Файл сессии: {file_size} байт")
-        st.info(f"📍 Путь: {persistent_file.absolute()}")
-    else:
-        st.info("📁 Файл сессии не найден")
-    
-    # Экспорт/Импорт
-    st.subheader("💾 Экспорт/Импорт данных")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        if st.button("📤 Экспорт истории", use_container_width=True):
-            # Экспорт истории в JSON
-            history_data = []
-            for h in st.session_state.quest_history:
-                history_data.append({
-                    'timestamp': h['timestamp'].isoformat(),
-                    'quest': h['quest'].model_dump(),
-                    'type': h['type']
-                })
-            
-            json_str = json.dumps(history_data, ensure_ascii=False, indent=2)
-            st.download_button(
-                "💾 Скачать историю",
-                data=json_str,
-                file_name="quest_history.json",
-                mime="application/json"
-            )
-    
-    with col2:
-        uploaded_history = st.file_uploader("📥 Импорт истории", type=['json'])
-        if uploaded_history:
-            # Импорт истории
-            st.info("Функция импорта в разработке")
+    # Экспорт/Импорт - показываем только если не в режиме просмотра
+    if not os.getenv("VIEW_ONLY_MODE", "false").lower() == "true":
+        st.subheader("💾 Экспорт/Импорт данных")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("📤 Экспорт истории", use_container_width=True):
+                # Экспорт истории в JSON
+                history_data = []
+                for h in st.session_state.quest_history:
+                    history_data.append({
+                        'timestamp': h['timestamp'].isoformat(),
+                        'quest': h['quest'].model_dump(),
+                        'type': h['type']
+                    })
+                
+                json_str = json.dumps(history_data, ensure_ascii=False, indent=2)
+                st.download_button(
+                    "💾 Скачать историю",
+                    data=json_str,
+                    file_name="quest_history.json",
+                    mime="application/json"
+                )
+        
+        with col2:
+            uploaded_history = st.file_uploader("📥 Импорт истории", type=['json'])
+            if uploaded_history:
+                # Импорт истории
+                st.info("Функция импорта в разработке")
 
 
 def show_help_page():
