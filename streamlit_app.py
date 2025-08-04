@@ -78,11 +78,102 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-# Инициализация состояния сессии
+# Функции для работы с персистентным хранилищем
+def load_persistent_data():
+    """Загрузка данных из локального хранилища"""
+    persistent_file = Path("saved_quests") / "session_data.json"
+    if persistent_file.exists():
+        try:
+            with open(persistent_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return data
+        except Exception as e:
+            st.warning(f"Не удалось загрузить сохраненные данные: {e}")
+    return {"quest_history": [], "current_quest": None}
+
+def save_persistent_data():
+    """Сохранение данных в локальное хранилище"""
+    try:
+        save_dir = Path("saved_quests")
+        save_dir.mkdir(exist_ok=True)
+        
+        persistent_file = save_dir / "session_data.json"
+        
+        # Подготавливаем данные для сохранения
+        data_to_save = {
+            "quest_history": [],
+            "current_quest": None
+        }
+        
+        # Сохраняем историю квестов
+        for h in st.session_state.quest_history:
+            history_item = {
+                'timestamp': h['timestamp'].isoformat() if hasattr(h['timestamp'], 'isoformat') else str(h['timestamp']),
+                'quest': h['quest'].model_dump() if hasattr(h['quest'], 'model_dump') else h['quest'].__dict__,
+                'type': h['type']
+            }
+            if 'enhancements' in h:
+                history_item['enhancements'] = h['enhancements']
+            data_to_save["quest_history"].append(history_item)
+        
+        # Сохраняем текущий квест
+        if st.session_state.current_quest:
+            data_to_save["current_quest"] = (
+                st.session_state.current_quest.model_dump() 
+                if hasattr(st.session_state.current_quest, 'model_dump') 
+                else st.session_state.current_quest.__dict__
+            )
+        
+        with open(persistent_file, 'w', encoding='utf-8') as f:
+            json.dump(data_to_save, f, ensure_ascii=False, indent=2, default=str)
+            
+    except Exception as e:
+        st.warning(f"Не удалось сохранить данные сессии: {e}")
+
+# Инициализация состояния сессии с загрузкой персистентных данных
 if 'quest_history' not in st.session_state:
-    st.session_state.quest_history = []
+    persistent_data = load_persistent_data()
+    st.session_state.quest_history = persistent_data.get("quest_history", [])
+    
+    # Восстанавливаем временные метки и объекты квестов
+    for h in st.session_state.quest_history:
+        if isinstance(h.get('timestamp'), str):
+            try:
+                h['timestamp'] = datetime.fromisoformat(h['timestamp'])
+            except:
+                h['timestamp'] = datetime.now()
+        
+        # Восстанавливаем объект квеста из словаря
+        if isinstance(h.get('quest'), dict):
+            try:
+                from src.core.models import Quest
+                h['quest'] = Quest(**h['quest'])
+            except Exception as e:
+                # Если не удается восстановить объект, создаем заглушку
+                h['quest'] = type('Quest', (), {
+                    'title': h['quest'].get('title', 'Неизвестный квест'),
+                    'genre': h['quest'].get('genre', 'неизвестно'),
+                    'hero': h['quest'].get('hero', ''),
+                    'goal': h['quest'].get('goal', ''),
+                    'scenes': h['quest'].get('scenes', []),
+                    'paths': h['quest'].get('paths', []),
+                    'metadata': h['quest'].get('metadata', {}),
+                    'model_dump': lambda: h['quest']
+                })()
+
 if 'current_quest' not in st.session_state:
-    st.session_state.current_quest = None
+    persistent_data = load_persistent_data()
+    current_quest_data = persistent_data.get("current_quest")
+    if current_quest_data:
+        # Восстанавливаем объект квеста из данных
+        try:
+            from src.core.models import Quest
+            st.session_state.current_quest = Quest(**current_quest_data)
+        except:
+            st.session_state.current_quest = None
+    else:
+        st.session_state.current_quest = None
+
 if 'generator' not in st.session_state:
     st.session_state.generator = None
 if 'integrated_generator' not in st.session_state:
@@ -446,6 +537,9 @@ def generate_basic_quest(genre, hero, goal, language, temperature):
                 'type': 'basic'
             })
             
+            # Автоматическое сохранение данных
+            save_persistent_data()
+            
             progress_bar.empty()
             status_text.empty()
             st.success("✅ Квест успешно сгенерирован!")
@@ -516,6 +610,9 @@ def generate_advanced_quest(genre, hero, goal, with_logic, with_visuals,
                 'type': 'advanced',
                 'enhancements': result['enhancements']
             })
+            
+            # Автоматическое сохранение данных
+            save_persistent_data()
             
             progress_container.empty()
             st.success("✅ Расширенная генерация завершена!")
@@ -679,7 +776,7 @@ def show_quest_graph(quest):
         height=600
     )
     
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, key="quest_graph")
 
 
 def show_json_view(quest):
@@ -714,7 +811,7 @@ def show_quest_statistics(quest):
         
         fig = px.bar(choices_data, x='Сцена', y='Выборов', 
                     title="Количество выборов по сценам")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, key="choices_bar_chart")
         
         # Длина текста сцен
         text_lengths = pd.DataFrame({
@@ -724,7 +821,7 @@ def show_quest_statistics(quest):
         
         fig2 = px.line(text_lengths, x='Сцена', y='Длина текста',
                       title="Длина текста сцен", markers=True)
-        st.plotly_chart(fig2, use_container_width=True)
+        st.plotly_chart(fig2, use_container_width=True, key="text_length_line_chart")
     
     with col2:
         # Статистика путей
@@ -740,13 +837,13 @@ def show_quest_statistics(quest):
             # График длин путей
             fig3 = px.bar(paths_data, x='Путь', y='Длина', color='Исход',
                          title="Длина различных путей")
-            st.plotly_chart(fig3, use_container_width=True)
+            st.plotly_chart(fig3, use_container_width=True, key="paths_length_bar_chart")
             
             # Статистика исходов
             outcome_counts = paths_data['Исход'].value_counts()
             fig4 = px.pie(values=outcome_counts.values, names=outcome_counts.index,
                          title="Распределение исходов")
-            st.plotly_chart(fig4, use_container_width=True)
+            st.plotly_chart(fig4, use_container_width=True, key="outcomes_pie_chart")
 
 
 def show_enhanced_results(result):
@@ -900,7 +997,14 @@ def show_analytics_page():
     with metrics[0]:
         st.metric("Всего квестов", len(st.session_state.quest_history))
     with metrics[1]:
-        avg_scenes = sum(len(h['quest'].scenes) for h in st.session_state.quest_history) / len(st.session_state.quest_history)
+        total_scenes = 0
+        valid_quests = 0
+        for h in st.session_state.quest_history:
+            scenes = getattr(h['quest'], 'scenes', [])
+            if scenes:
+                total_scenes += len(scenes)
+                valid_quests += 1
+        avg_scenes = total_scenes / valid_quests if valid_quests > 0 else 0
         st.metric("Среднее кол-во сцен", f"{avg_scenes:.1f}")
     with metrics[2]:
         basic_count = sum(1 for h in st.session_state.quest_history if h['type'] == 'basic')
@@ -914,12 +1018,15 @@ def show_analytics_page():
     
     with col1:
         # График по жанрам
-        genres = [h['quest'].genre for h in st.session_state.quest_history]
+        genres = []
+        for h in st.session_state.quest_history:
+            genre = getattr(h['quest'], 'genre', 'неизвестно')
+            genres.append(genre)
         genre_counts = pd.Series(genres).value_counts()
         
         fig = px.pie(values=genre_counts.values, names=genre_counts.index,
                     title="Распределение по жанрам")
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, key="analytics_genres_pie")
     
     with col2:
         # График по времени
@@ -930,7 +1037,7 @@ def show_analytics_page():
         
         fig = px.line(daily_counts, x='date', y='count',
                      title="Квесты по дням", markers=True)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, key="analytics_timeline")
     
     # Детальная аналитика
     st.subheader("🔍 Детальный анализ")
@@ -939,13 +1046,15 @@ def show_analytics_page():
     quest_data = []
     for h in st.session_state.quest_history:
         quest = h['quest']
+        scenes = getattr(quest, 'scenes', [])
+        metadata = getattr(quest, 'metadata', {})
         quest_data.append({
             'Время': h['timestamp'].strftime('%Y-%m-%d %H:%M'),
-            'Название': quest.title,
-            'Жанр': quest.genre,
-            'Сцен': len(quest.scenes),
+            'Название': getattr(quest, 'title', 'Неизвестный квест'),
+            'Жанр': getattr(quest, 'genre', 'неизвестно'),
+            'Сцен': len(scenes) if scenes else 0,
             'Тип': h['type'],
-            'Время генерации': f"{quest.metadata.get('generation_time', 0):.1f}с"
+            'Время генерации': f"{metadata.get('generation_time', 0):.1f}с"
         })
     
     df = pd.DataFrame(quest_data)
@@ -963,8 +1072,18 @@ def show_history_page():
     # Фильтры
     col1, col2, col3 = st.columns(3)
     with col1:
+        # Безопасное получение жанров
+        genres = set()
+        for h in st.session_state.quest_history:
+            try:
+                genre = getattr(h['quest'], 'genre', 'неизвестно')
+                if isinstance(genre, str):
+                    genres.add(genre)
+            except:
+                genres.add('неизвестно')
+        
         filter_genre = st.selectbox("Фильтр по жанру", 
-                                   ["Все"] + list(set(h['quest'].genre for h in st.session_state.quest_history)))
+                                   ["Все"] + list(genres))
     with col2:
         filter_type = st.selectbox("Тип генерации", ["Все", "basic", "advanced"])
     with col3:
@@ -974,7 +1093,7 @@ def show_history_page():
     filtered_history = st.session_state.quest_history
     
     if filter_genre != "Все":
-        filtered_history = [h for h in filtered_history if h['quest'].genre == filter_genre]
+        filtered_history = [h for h in filtered_history if getattr(h['quest'], 'genre', 'неизвестно') == filter_genre]
     
     if filter_type != "Все":
         filtered_history = [h for h in filtered_history if h['type'] == filter_type]
@@ -985,20 +1104,22 @@ def show_history_page():
     elif sort_by == "Старые первыми":
         filtered_history = sorted(filtered_history, key=lambda x: x['timestamp'])
     else:
-        filtered_history = sorted(filtered_history, key=lambda x: x['quest'].title)
+        filtered_history = sorted(filtered_history, key=lambda x: getattr(x['quest'], 'title', 'Неизвестный квест'))
     
     # Отображение
     for i, history_item in enumerate(filtered_history):
         quest = history_item['quest']
         
-        with st.expander(f"{quest.title} - {history_item['timestamp'].strftime('%Y-%m-%d %H:%M')}"):
+        title = getattr(quest, 'title', 'Неизвестный квест')
+        with st.expander(f"{title} - {history_item['timestamp'].strftime('%Y-%m-%d %H:%M')}"):
             col1, col2 = st.columns([3, 1])
             
             with col1:
-                st.write(f"**Жанр:** {quest.genre}")
-                st.write(f"**Герой:** {quest.hero}")
-                st.write(f"**Цель:** {quest.goal}")
-                st.write(f"**Сцен:** {len(quest.scenes)}")
+                st.write(f"**Жанр:** {getattr(quest, 'genre', 'неизвестно')}")
+                st.write(f"**Герой:** {getattr(quest, 'hero', 'неизвестно')}")
+                st.write(f"**Цель:** {getattr(quest, 'goal', 'неизвестно')}")
+                scenes = getattr(quest, 'scenes', [])
+                st.write(f"**Сцен:** {len(scenes) if scenes else 0}")
                 st.write(f"**Тип генерации:** {history_item['type']}")
             
             with col2:
@@ -1011,6 +1132,7 @@ def show_history_page():
                 
                 if st.button("🗑️ Удалить", key=f"delete_{i}"):
                     st.session_state.quest_history.remove(history_item)
+                    save_persistent_data()  # Сохраняем изменения
                     st.rerun()
 
 
@@ -1085,6 +1207,33 @@ CHROMA_PERSIST_DIRECTORY=./data/chroma
             # Переинициализация knowledge base
             st.session_state.generator.knowledge_base = KnowledgeBase()
             st.success("База знаний обновлена!")
+    
+    # Управление данными сессии
+    st.subheader("💾 Управление данными")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("🗑️ Очистить историю", use_container_width=True):
+            st.session_state.quest_history = []
+            st.session_state.current_quest = None
+            save_persistent_data()  # Сохраняем изменения
+            st.success("История очищена!")
+            st.rerun()
+    
+    with col2:
+        if st.button("💾 Принудительное сохранение", use_container_width=True):
+            save_persistent_data()
+            st.success("Данные сохранены!")
+    
+    # Информация о сохраненных данных
+    persistent_file = Path("saved_quests") / "session_data.json"
+    if persistent_file.exists():
+        file_size = persistent_file.stat().st_size
+        st.info(f"📁 Файл сессии: {file_size} байт")
+        st.info(f"📍 Путь: {persistent_file.absolute()}")
+    else:
+        st.info("📁 Файл сессии не найден")
     
     # Экспорт/Импорт
     st.subheader("💾 Экспорт/Импорт данных")
@@ -1216,39 +1365,65 @@ def save_quest(quest):
             st.error("❌ Не удалось создать директорию для сохранения")
             return
         
-        # Генерируем имя файла (убираем недопустимые символы)
-        safe_title = "".join(c for c in quest.title if c.isalnum() or c in (' ', '-', '_')).strip()
-        safe_title = safe_title.replace(' ', '_')
+        # Генерируем имя файла (убираем недопустимые символы и обрабатываем Unicode)
+        safe_title = ""
+        if hasattr(quest, 'title') and quest.title:
+            # Более агрессивная очистка символов для Windows
+            import re
+            safe_title = re.sub(r'[<>:"/\\|?*]', '', quest.title)  # Удаляем запрещенные символы Windows
+            safe_title = "".join(c for c in safe_title if c.isprintable()).strip()  # Только печатные символы
+            safe_title = safe_title.replace(' ', '_')[:50]  # Ограничиваем длину
+        
         if not safe_title:
             safe_title = "quest"
         
-        filename = f"{safe_title}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"{safe_title}_{timestamp}.json"
         filepath = save_dir / filename
         
         # Отладочная информация
         st.info(f"📁 Сохраняем в: {filepath}")
+        st.info(f"🏷️ Оригинальное название: {getattr(quest, 'title', 'Без названия')}")
+        st.info(f"🔧 Безопасное имя файла: {filename}")
         
-        # Сохраняем
-        with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(quest.model_dump(), f, ensure_ascii=False, indent=2)
+        # Создаем данные для сохранения
+        quest_data = quest.model_dump() if hasattr(quest, 'model_dump') else quest.__dict__
+        
+        # Сохраняем с дополнительными проверками
+        with open(filepath, 'w', encoding='utf-8', errors='ignore') as f:
+            json.dump(quest_data, f, ensure_ascii=False, indent=2, default=str)
         
         # Проверяем, что файл действительно создан
         if filepath.exists():
             file_size = filepath.stat().st_size
-            st.success(f"✅ Квест сохранен: {filename} ({file_size} байт)")
+            st.success(f"✅ Квест сохранен: {filename}")
+            st.success(f"📦 Размер файла: {file_size} байт")
             
             # Показываем полный путь
             st.info(f"📍 Полный путь: {filepath.absolute()}")
+            
+            # Дополнительная проверка - пытаемся прочитать файл
+            try:
+                with open(filepath, 'r', encoding='utf-8') as test_f:
+                    test_data = json.load(test_f)
+                st.success("✅ Файл успешно сохранен и может быть прочитан")
+            except Exception as read_error:
+                st.warning(f"⚠️ Файл сохранен, но возможны проблемы с чтением: {read_error}")
         else:
             st.error("❌ Файл не был создан")
         
     except PermissionError as e:
         st.error(f"❌ Ошибка доступа: нет прав на запись в директорию")
         st.error(f"Детали: {e}")
+        st.info("💡 Попробуйте запустить приложение от имени администратора")
+    except UnicodeEncodeError as e:
+        st.error(f"❌ Ошибка кодировки: {e}")
+        st.info("💡 Проблема с символами в названии квеста")
     except Exception as e:
         st.error(f"❌ Ошибка сохранения: {type(e).__name__}: {e}")
         import traceback
-        st.error(f"Трейсбек: {traceback.format_exc()}")
+        st.code(traceback.format_exc(), language="python")
+        st.info("💡 Подробная информация об ошибке выше")
 
 
 def export_quest(quest):
