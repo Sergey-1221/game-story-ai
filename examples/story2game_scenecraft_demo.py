@@ -5,6 +5,9 @@
 import asyncio
 from pathlib import Path
 import json
+import sys
+sys.path.append(str(Path(__file__).parent.parent))
+
 from loguru import logger
 
 from src.modules.integrated_quest_generator import IntegratedQuestGenerator

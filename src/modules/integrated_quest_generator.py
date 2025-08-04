@@ -27,14 +27,25 @@ class IntegratedQuestGenerator:
         # Базовый генератор
         self.base_generator = QuestGenerator(config)
         
+        # Убедимся, что базовый генератор инициализирован
+        self.base_generator._ensure_initialized()
+        
         # Расширения
         self.story2game = Story2GameEngine(self.base_generator.knowledge_base)
-        self.scenecraft = SceneCraftVisualizer()
+        
+        # SceneCraft может требовать тяжелые зависимости, делаем опциональным
+        try:
+            self.scenecraft = SceneCraftVisualizer()
+            self.visualization_available = True
+        except Exception as e:
+            logger.warning(f"SceneCraft недоступен: {e}")
+            self.scenecraft = None
+            self.visualization_available = False
         
         # Конфигурация
         self.config = config or GenerationConfig()
         self.enable_logic_generation = True
-        self.enable_visualization = True
+        self.enable_visualization = self.visualization_available
         self.enable_dynamic_actions = False
     
     async def generate_enhanced_quest(
@@ -149,6 +160,19 @@ class IntegratedQuestGenerator:
         """Добавление визуализации SceneCraft к квесту"""
         logger.info("Генерируем визуализацию для квеста")
         
+        # Проверяем доступность визуализации
+        if not self.visualization_available or self.scenecraft is None:
+            logger.warning("Визуализация недоступна, возвращаем заглушку")
+            return {
+                "scenes": [],
+                "enhanced_features": {
+                    "multi_view_scenes": 0,
+                    "scene_layouts": [],
+                    "visual_consistency_score": 0.0
+                },
+                "message": "Визуализация недоступна из-за отсутствующих зависимостей"
+            }
+        
         # Визуализируем весь квест
         visualization = self.scenecraft.visualize_quest(quest)
         
@@ -178,6 +202,11 @@ class IntegratedQuestGenerator:
             "visual_triggers": []
         }
         
+        # Проверяем, есть ли визуализация
+        if not visualization.get("scenes"):
+            logger.warning("Нет визуализированных сцен для интеграции")
+            return integrated
+        
         # Для каждой визуализированной сцены добавляем интерактивность
         for scene_viz in visualization["scenes"]:
             scene_id = scene_viz["scene_id"]
@@ -186,8 +215,14 @@ class IntegratedQuestGenerator:
             actions = logic_data["action_graph"].get(scene_id, [])
             
             # Загружаем макет сцены
-            with open(scene_viz["layout_path"], 'r', encoding='utf-8') as f:
-                layout = json.load(f)
+            layout = {}
+            if "layout_path" in scene_viz:
+                try:
+                    with open(scene_viz["layout_path"], 'r', encoding='utf-8') as f:
+                        layout = json.load(f)
+                except Exception as e:
+                    logger.warning(f"Не удалось загрузить макет: {e}")
+                    layout = {"objects": []}
             
             # Создаем интерактивную сцену
             interactive_scene = {

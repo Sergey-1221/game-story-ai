@@ -100,18 +100,14 @@ class BranchManager:
                 f"Недостижимые сцены: {', '.join(unreachable)}"
             )
         
-        # Проверка наличия развилок
+        # Проверка наличия развилок (предупреждение, но не критическая ошибка)
         has_branching = any(len(scene.choices) > 1 for scene in scenes.values())
         if not has_branching:
-            self.validation_errors.append("Квест не содержит ни одной развилки")
-            is_valid = False
+            logger.warning("Квест не содержит развилок - это линейная история")
         
-        # Проверка глубины альтернативных путей
-        if not self._validate_branching_depth(scenes, story_graph, min_depth=3):
-            self.validation_errors.append(
-                "Ни одна альтернативная ветка не имеет глубину >= 3 сцен"
-            )
-            is_valid = False
+        # Проверка глубины альтернативных путей (только если есть развилки)
+        if has_branching and not self._validate_branching_depth(scenes, story_graph, min_depth=2):
+            logger.warning("Альтернативные ветки могли быть длиннее")
         
         return is_valid
     

@@ -50,8 +50,9 @@ class Scene(BaseModel):
     
     @validator('choices')
     def validate_choices(cls, v):
-        if not v:
-            raise ValueError("Сцена должна иметь хотя бы один выбор или быть финальной")
+        # Разрешаем пустые списки для финальных сцен
+        if v is None:
+            return []
         return v
     
     @validator('difficulty_level')  

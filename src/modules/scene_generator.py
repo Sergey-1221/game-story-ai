@@ -128,12 +128,26 @@ class LLMInterface:
             raise
     
     async def _generate_openai(self, prompt: str) -> Dict[str, Any]:
-        """Генерация через OpenAI API"""
+        """Генерация через OpenAI API с автоматическим fallback"""
         # Подготавливаем параметры
         params = {
             "model": self.model,
             "messages": [
-                {"role": "system", "content": "Ты создаешь интерактивные квесты. Отвечай только валидным JSON."},
+                {"role": "system", "content": """Ты создаешь интерактивные квесты. 
+
+КРИТИЧНО ВАЖНО: Твой ответ ДОЛЖЕН быть ТОЛЬКО валидным JSON объектом, никакого другого текста!
+
+Формат ответа:
+{
+  "text": "описание сцены",
+  "mood": "настроение сцены", 
+  "location": "локация",
+  "choices": [
+    {"text": "текст выбора", "next_scene": "id_следующей_сцены"}
+  ]
+}
+
+НЕ добавляй никаких объяснений, комментариев или текста до или после JSON!"""},
                 {"role": "user", "content": prompt}
             ],
             "temperature": self.config.temperature,
@@ -141,30 +155,58 @@ class LLMInterface:
             "top_p": self.config.top_p
         }
         
-        # response_format поддерживается только некоторыми моделями
-        if "gpt-4" in self.model and "mini" not in self.model:
-            params["response_format"] = {"type": "json_object"}
-        
-        response = await self.client.chat.completions.create(**params)
+        # Сначала пробуем с json_object, если ошибка - без него
+        try:
+            # Пробуем с json_object для всех моделей
+            params_with_json = params.copy()
+            params_with_json["response_format"] = {"type": "json_object"}
+            
+            logger.info(f"Пробуем генерацию с json_object для модели: {self.model}")
+            response = await self.client.chat.completions.create(**params_with_json)
+            
+        except Exception as e:
+            if "response_format" in str(e) or "json_object" in str(e):
+                # Модель не поддерживает json_object, пробуем без него
+                logger.warning(f"Модель {self.model} не поддерживает json_object, переходим на обычный режим")
+                response = await self.client.chat.completions.create(**params)
+            else:
+                # Другая ошибка - пробрасываем
+                raise
         
         content = response.choices[0].message.content
         tokens_used = response.usage.total_tokens
         
-        # Пытаемся распарсить JSON
+        logger.info(f"Получен ответ от модели ({tokens_used} токенов): {content[:200]}...")
+        
+        # Пытаемся распарсить JSON с улучшенной обработкой
         try:
             parsed_content = json.loads(content)
+            logger.info("JSON успешно распарсен напрямую")
         except json.JSONDecodeError:
-            # Пробуем извлечь JSON из текста
-            json_match = re.search(r'\{.*\}', content, re.DOTALL)
-            if json_match:
-                try:
-                    parsed_content = json.loads(json_match.group())
-                except:
-                    logger.error(f"Не удалось распарсить JSON из ответа: {content[:200]}...")
-                    raise ValueError("Невалидный JSON в ответе")
-            else:
-                logger.error(f"JSON не найден в ответе: {content[:200]}...")
-                raise ValueError("JSON не найден в ответе")
+            logger.warning(f"Прямой парсинг JSON не удался, пробуем извлечь из текста")
+            
+            # Несколько стратегий извлечения JSON
+            json_patterns = [
+                r'\{.*\}',  # Основной паттерн
+                r'```json\s*(\{.*?\})\s*```',  # JSON в code блоке
+                r'```\s*(\{.*?\})\s*```',  # JSON в обычном code блоке
+            ]
+            
+            parsed_content = None
+            for pattern in json_patterns:
+                json_match = re.search(pattern, content, re.DOTALL)
+                if json_match:
+                    try:
+                        json_text = json_match.group(1) if json_match.groups() else json_match.group()
+                        parsed_content = json.loads(json_text)
+                        logger.info(f"JSON успешно извлечен с помощью паттерна: {pattern}")
+                        break
+                    except json.JSONDecodeError:
+                        continue
+            
+            if parsed_content is None:
+                logger.error(f"Не удалось извлечь валидный JSON из ответа: {content[:300]}...")
+                raise ValueError("Невалидный JSON в ответе")
         
         return {
             "content": parsed_content,
@@ -269,12 +311,25 @@ class SceneGenerator:
             # Получаем RAG контекст
             rag_context = ""
             if self.config.use_rag:
-                contexts = self.kb.retrieve_genre_context(
-                    scenario.genre,
-                    f"{planned_scene.stage_name} {planned_scene.description}",
-                    top_k=self.config.rag_top_k
-                )
-                rag_context = "\n".join([ctx['content'] for ctx in contexts[:3]])
+                try:
+                    contexts = self.kb.retrieve_genre_context(
+                        scenario.genre,
+                        f"{planned_scene.stage_name} {planned_scene.description}",
+                        top_k=self.config.rag_top_k
+                    )
+                    logger.info(f"RAG контекст получен: {type(contexts)}, {len(contexts) if isinstance(contexts, list) else 'не список'}")
+                    
+                    if isinstance(contexts, list):
+                        rag_context = "\n".join([
+                            ctx.get('content', '') if isinstance(ctx, dict) else str(ctx) 
+                            for ctx in contexts[:3]
+                        ])
+                    else:
+                        logger.warning(f"Неожиданный тип RAG контекста: {type(contexts)}")
+                        rag_context = ""
+                except Exception as e:
+                    logger.error(f"Ошибка получения RAG контекста: {e}")
+                    rag_context = ""
             
             # Находим предыдущую сцену
             previous_scene_text = self._get_previous_scene_text(
@@ -397,13 +452,18 @@ class SceneGenerator:
     
     def _create_fallback_scene(self, planned_scene: PlannedScene) -> Scene:
         """Создание запасной сцены в случае ошибки генерации"""
+        logger.warning(f"Создаем fallback сцену для {planned_scene.scene_id}")
+        
         choices = [
             Choice(text=choice_text, next_scene=next_id)
             for choice_text, next_id in planned_scene.choices
         ]
         
-        return Scene(
+        fallback_scene = Scene(
             scene_id=planned_scene.scene_id,
             text=f"{planned_scene.description}. [Сцена сгенерирована в упрощенном режиме]",
             choices=choices if choices else [Choice(text="Продолжить", next_scene="end")]
         )
+        
+        logger.info(f"Fallback сцена создана: {fallback_scene.scene_id} с {len(fallback_scene.choices)} выборами")
+        return fallback_scene

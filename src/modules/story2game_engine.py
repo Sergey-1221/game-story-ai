@@ -427,13 +427,26 @@ class QuestLogic:
 """
         
         for action in actions:
+            # Handle both StoryAction objects and dictionaries
+            action_id = action.id if hasattr(action, 'id') else action.get('id', action.get('choice_text', ''))
+            description = action.description if hasattr(action, 'description') else action.get('description', action.get('choice_text', ''))
+            preconditions = action.preconditions if hasattr(action, 'preconditions') else action.get('preconditions', [])
+            
             code += f"""
-        if action_id == '{action.id}':
-            # {action.description}
+        if action_id == '{action_id}':
+            # {description}
             conditions = []
 """
-            for precond in action.preconditions:
-                code += f"            conditions.append(self._check_{precond.condition_type}('{precond.object_id}', {repr(precond.expected_value)}))\n"
+            for precond in preconditions:
+                if isinstance(precond, dict):
+                    condition_type = precond.get('condition_type', precond.get('type', 'state'))
+                    object_id = precond.get('object_id', precond.get('object', ''))
+                    expected_value = precond.get('expected_value', precond.get('value', True))
+                else:
+                    condition_type = precond.condition_type
+                    object_id = precond.object_id
+                    expected_value = precond.expected_value
+                code += f"            conditions.append(self._check_{condition_type}('{object_id}', {repr(expected_value)}))\n"
             
             code += "            return all(conditions)\n"
         
@@ -445,12 +458,24 @@ class QuestLogic:
 """
         
         for action in actions:
+            # Handle both StoryAction objects and dictionaries
+            action_id = action.id if hasattr(action, 'id') else action.get('id', action.get('choice_text', ''))
+            effects = action.effects if hasattr(action, 'effects') else action.get('effects', [])
+            
             code += f"""
-        if action_id == '{action.id}':
+        if action_id == '{action_id}':
             # Применяем эффекты
 """
-            for effect in action.effects:
-                code += f"            self._apply_{effect.effect_type}('{effect.object_id}', {repr(effect.new_value)})\n"
+            for effect in effects:
+                if isinstance(effect, dict):
+                    effect_type = effect.get('effect_type', effect.get('type', 'change_state'))
+                    object_id = effect.get('object_id', effect.get('object', ''))
+                    new_value = effect.get('new_value', effect.get('value', True))
+                else:
+                    effect_type = effect.effect_type
+                    object_id = effect.object_id
+                    new_value = effect.new_value
+                code += f"            self._apply_{effect_type}('{object_id}', {repr(new_value)})\n"
         
         return code
     

@@ -90,10 +90,10 @@ class QuestGenerator:
                     logger.warning("API ключи не найдены, используем mock генератор")
                     self.scene_generator = self._create_mock_scene_generator()
                 else:
-                    # Временно используем mock генератор из-за проблем с API
-                    logger.warning("Используем mock генератор для стабильности")
-                    self.scene_generator = self._create_mock_scene_generator()
-                    # В будущем можно вернуть: self.scene_generator = SceneGenerator(self.knowledge_base, self.config)
+                    # Используем настоящий генератор сцен
+                    logger.info("Используем полноценный генератор сцен")
+                    from src.modules.scene_generator import SceneGenerator
+                    self.scene_generator = SceneGenerator(self.knowledge_base, self.config)
             except Exception as e:
                 logger.warning(f"Ошибка загрузки SceneGenerator: {e}")
                 # Создаем mock версию
@@ -217,7 +217,16 @@ class QuestGenerator:
         if self.story_planner is None:
             self.story_planner = StoryPlanner(self.knowledge_base)
         if self.scene_generator is None:
-            self.scene_generator = self._create_mock_scene_generator()
+            # Пытаемся создать настоящий генератор, если есть API ключи
+            if os.getenv("OPENAI_API_KEY") or os.getenv("ANTHROPIC_API_KEY"):
+                try:
+                    from src.modules.scene_generator import SceneGenerator
+                    self.scene_generator = SceneGenerator(self.knowledge_base, self.config)
+                except Exception as e:
+                    logger.warning(f"Не удалось создать SceneGenerator: {e}")
+                    self.scene_generator = self._create_mock_scene_generator()
+            else:
+                self.scene_generator = self._create_mock_scene_generator()
     
     def generate(self, scenario: Union[str, Dict[str, str], ScenarioInput]) -> Quest:
         """Синхронный метод генерации квеста"""

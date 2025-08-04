@@ -308,7 +308,7 @@ class SceneCraftVisualizer:
         # Генерируем изображения с разных ракурсов
         images = self._generate_multiview_images(layout, scene, projections)
         
-        # Опционально: создаем 3D представление (заглушка для NeRF)
+        # Подготавливаем данные для потенциального 3D представления
         nerf_data = self._prepare_nerf_data(images, layout)
         
         # Сохраняем результаты
@@ -445,13 +445,15 @@ class SceneCraftVisualizer:
     
     def _prepare_nerf_data(self, images: List[Image.Image], 
                          layout: SceneLayout) -> Dict[str, Any]:
-        """Подготовка данных для NeRF (заглушка)"""
-        # В реальной реализации здесь бы была подготовка данных для обучения NeRF
+        """Подготовка данных для потенциального обучения NeRF модели"""
+        # Базовая структура данных для 3D реконструкции
         nerf_data = {
             "images": len(images),
             "camera_poses": self.view_angles,
             "layout": layout.scene_id,
-            "ready_for_training": False
+            "ready_for_training": False,
+            "format": "multi_view",
+            "resolution": (images[0].width, images[0].height) if images else (0, 0)
         }
         
         return nerf_data
@@ -547,8 +549,7 @@ class SceneCraftVisualizer:
     
     def _draw_line(self, img: np.ndarray, p1: Tuple[int, int], 
                   p2: Tuple[int, int], color: Tuple[int, int, int], thickness: int = 1):
-        """Простая отрисовка линии (заглушка для OpenCV)"""
-        # В реальной реализации использовался бы cv2.line
+        """Алгоритм Брезенхема для отрисовки линии"""
         x1, y1 = p1
         x2, y2 = p2
         
@@ -598,10 +599,11 @@ class SceneCraftVisualizer:
         return results
     
     def _create_quest_map(self, quest: Quest, output_dir: str) -> str:
-        """Создание карты/графа квеста"""
-        # Здесь можно использовать библиотеки типа networkx для создания графа
-        # Пока возвращаем заглушку
+        """Создание карты/графа квеста в формате JSON"""
         map_path = Path(output_dir) / "quest_map.json"
+        
+        # Создаем директорию, если она не существует
+        map_path.parent.mkdir(parents=True, exist_ok=True)
         
         quest_graph = {
             "nodes": [

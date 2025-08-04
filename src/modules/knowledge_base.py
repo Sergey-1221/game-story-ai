@@ -4,10 +4,16 @@ from typing import List, Dict, Optional, Any
 from pathlib import Path
 import numpy as np
 from loguru import logger
-import chromadb
-from chromadb.config import Settings
-import tiktoken
-from sentence_transformers import SentenceTransformer
+# Опциональный импорт для избежания проблем с памятью
+try:
+    import chromadb
+    from chromadb.config import Settings
+    import tiktoken
+    from sentence_transformers import SentenceTransformer
+    FULL_FEATURES_AVAILABLE = True
+except ImportError as e:
+    logger.warning(f"Некоторые зависимости недоступны: {e}")
+    FULL_FEATURES_AVAILABLE = False
 
 from src.core.models import KnowledgeItem, Genre
 
@@ -16,6 +22,8 @@ class KnowledgeBase:
     """Модуль управления базой знаний и RAG (Retrieval-Augmented Generation)"""
     
     def __init__(self, persist_directory: str = "./data/chroma"):
+        if not FULL_FEATURES_AVAILABLE:
+            raise ImportError("KnowledgeBase requires chromadb and sentence-transformers. Use SimpleKnowledgeBase instead.")
         self.persist_directory = Path(persist_directory)
         self.persist_directory.mkdir(parents=True, exist_ok=True)
         
@@ -275,6 +283,15 @@ class GenreKnowledgeManager:
                 'characters': ['подозреваемый', 'свидетель', 'информатор', 'коррумпированный коп',
                               'таинственный клиент'],
                 'atmosphere_words': ['туман', 'тайна', 'подозрение', 'ночь', 'дождь', 'сигарета']
+            },
+            'фантастика': {
+                'setting': 'Далекие миры и космические приключения',
+                'mood': ['adventurous', 'mysterious', 'wonder'],
+                'locations': ['космический корабль', 'неизвестная планета', 'космическая станция',
+                             'инопланетный город', 'астероидное поле'],
+                'items': ['бластер', 'сканер', 'скафандр', 'энергетический кристалл', 'универсальный переводчик'],
+                'characters': ['инопланетянин', 'космический пилот', 'ученый', 'торговец', 'разведчик'],
+                'atmosphere_words': ['звезды', 'неизвестность', 'технологии', 'исследование', 'чудеса']
             }
         }
     
@@ -284,4 +301,15 @@ class GenreKnowledgeManager:
         if genre_lower in self.genre_specifics:
             return self.genre_specifics[genre_lower]
         
-        return self.kb.get_story_elements('generic', genre)
+        # Fallback для неизвестных жанров
+        generic_elements = self.kb.get_story_elements('generic', genre)
+        
+        # Возвращаем в правильном формате Dictionary
+        return {
+            'setting': f'Приключение в жанре {genre}',
+            'atmosphere': generic_elements[:3] if isinstance(generic_elements, list) else [],
+            'locations': generic_elements[3:6] if isinstance(generic_elements, list) and len(generic_elements) > 3 else ['таинственное место'],
+            'items': generic_elements[6:9] if isinstance(generic_elements, list) and len(generic_elements) > 6 else ['предмет'],
+            'characters': ['герой', 'союзник', 'противник'],
+            'atmosphere_words': ['приключение', 'тайна', 'действие']
+        }

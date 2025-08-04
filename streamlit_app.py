@@ -16,6 +16,11 @@ from streamlit_option_menu import option_menu
 import base64
 from PIL import Image
 import io
+import os
+from dotenv import load_dotenv
+
+# Загружаем переменные окружения из .env файла
+load_dotenv()
 
 from src.quest_generator import QuestGenerator
 from src.modules.integrated_quest_generator import IntegratedQuestGenerator
@@ -90,11 +95,22 @@ def init_generators():
         with st.spinner("Инициализация системы..."):
             try:
                 st.session_state.generator = QuestGenerator()
+            except Exception as e:
+                st.error(f"Ошибка инициализации QuestGenerator: {e}")
+                st.info("Проверьте настройки API ключей и зависимости")
+                import traceback
+                st.code(traceback.format_exc())
+                st.stop()
+    
+    if st.session_state.integrated_generator is None:
+        with st.spinner("Инициализация расширенного генератора..."):
+            try:
                 st.session_state.integrated_generator = IntegratedQuestGenerator()
             except Exception as e:
-                st.error(f"Ошибка инициализации: {e}")
-                st.info("Проверьте настройки API ключей и зависимости")
-                st.stop()
+                st.error(f"Ошибка инициализации IntegratedQuestGenerator: {e}")
+                st.warning("Расширенная генерация будет недоступна")
+                import traceback
+                st.code(traceback.format_exc())
 
 
 def main():
@@ -108,7 +124,7 @@ def main():
     
     # Боковое меню
     with st.sidebar:
-        st.image("https://via.placeholder.com/300x100/667eea/ffffff?text=AI+Story+Generator", use_container_width=True)
+        # st.image("https://via.placeholder.com/300x100/667eea/ffffff?text=AI+Story+Generator", use_container_width=True)
         
         selected = option_menu(
             "Меню",
@@ -173,11 +189,19 @@ def show_home_page():
         with metrics[0]:
             st.metric("Квестов создано", len(st.session_state.quest_history))
         with metrics[1]:
-            st.metric("Жанров доступно", 7)
+            st.metric("Жанров доступно", len(["киберпанк", "фэнтези", "детектив", "хоррор", "научная фантастика", "постапокалипсис", "стимпанк"]))
         with metrics[2]:
-            st.metric("Модулей активно", 12)
+            modules_count = 0
+            if st.session_state.generator:
+                modules_count += 5  # базовые модули
+            if st.session_state.integrated_generator:
+                modules_count += 3  # расширенные модули
+            st.metric("Модулей активно", modules_count)
         with metrics[3]:
-            st.metric("Качество генерации", "95%")
+            success_rate = 0
+            if st.session_state.quest_history:
+                success_rate = len([h for h in st.session_state.quest_history if h['quest']]) / len(st.session_state.quest_history) * 100
+            st.metric("Успешных генераций", f"{success_rate:.0f}%" if st.session_state.quest_history else "N/A")
     
     with col2:
         st.subheader("🎯 Быстрый старт")
@@ -407,20 +431,9 @@ def generate_basic_quest(genre, hero, goal, language, temperature):
             progress_bar = st.progress(0)
             status_text = st.empty()
             
-            # Симуляция прогресса (в реальности нужны callbacks из генератора)
-            for i in range(101):
-                progress_bar.progress(i)
-                if i < 20:
-                    status_text.text("📝 Анализируем сценарий...")
-                elif i < 40:
-                    status_text.text("🧠 Планируем структуру квеста...")
-                elif i < 70:
-                    status_text.text("✍️ Генерируем сцены...")
-                elif i < 90:
-                    status_text.text("🔍 Проверяем целостность...")
-                else:
-                    status_text.text("✅ Завершаем генерацию...")
-                time.sleep(0.01)
+            # Уведомляем о начале генерации
+            status_text.text("🚀 Запускаем генерацию квеста...")
+            progress_bar.progress(0.1)
             
             # Реальная генерация
             quest = st.session_state.generator.generate(scenario.model_dump())
@@ -444,6 +457,12 @@ def generate_basic_quest(genre, hero, goal, language, temperature):
 def generate_advanced_quest(genre, hero, goal, with_logic, with_visuals, 
                           export_code, visual_style, enable_dynamic):
     """Расширенная генерация квеста"""
+    # Проверяем, что integrated_generator инициализирован
+    if st.session_state.integrated_generator is None:
+        st.error("❌ Расширенный генератор не инициализирован!")
+        st.info("Попробуйте перезагрузить страницу или использовать базовую генерацию")
+        return
+    
     with st.spinner("🚀 Запускаем расширенную генерацию..."):
         try:
             scenario = ScenarioInput(
@@ -468,60 +487,25 @@ def generate_advanced_quest(genre, hero, goal, with_logic, with_visuals,
                 ]
                 stages = [s for s in stages if s is not None]
                 
-                # Симуляция прогресса
-                current_progress = 0.0
-                for progress, message in stages:
-                    status_text.text(message)
-                    target_progress = progress
-                    while current_progress < target_progress:
-                        current_progress = min(current_progress + 0.01, target_progress)
-                        progress_bar.progress(current_progress)
-                        time.sleep(0.02)
+                # Отображаем текущий этап
+                status_text.text("🚀 Запускаем расширенную генерацию...")
+                progress_bar.progress(0.1)
             
-            # Реальная генерация (синхронная версия для Streamlit)
-            try:
-                # Проверяем, есть ли уже запущенный event loop
-                loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    # Используем синхронную версию если loop уже запущен
-                    import asyncio
-                    import concurrent.futures
-                    
-                    with concurrent.futures.ThreadPoolExecutor() as executor:
-                        future = executor.submit(
-                            asyncio.run,
-                            st.session_state.integrated_generator.generate_enhanced_quest(
-                                scenario,
-                                with_logic=with_logic,
-                                with_visuals=with_visuals,
-                                export_code=export_code
-                            )
-                        )
-                        result = future.result()
-                else:
-                    # Если нет активного loop, создаем новый
-                    result = asyncio.run(
-                        st.session_state.integrated_generator.generate_enhanced_quest(
-                            scenario,
-                            with_logic=with_logic,
-                            with_visuals=with_visuals,
-                            export_code=export_code
-                        )
+            # Реальная генерация - используем thread pool для асинхронного кода
+            import concurrent.futures
+            
+            # Streamlit запускает свой event loop, поэтому используем thread pool
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future = executor.submit(
+                    asyncio.run,
+                    st.session_state.integrated_generator.generate_enhanced_quest(
+                        scenario,
+                        with_logic=with_logic,
+                        with_visuals=with_visuals,
+                        export_code=export_code
                     )
-            except RuntimeError:
-                # Fallback: используем thread pool для асинхронного кода
-                import concurrent.futures
-                with concurrent.futures.ThreadPoolExecutor() as executor:
-                    future = executor.submit(
-                        asyncio.run,
-                        st.session_state.integrated_generator.generate_enhanced_quest(
-                            scenario,
-                            with_logic=with_logic,
-                            with_visuals=with_visuals,
-                            export_code=export_code
-                        )
-                    )
-                    result = future.result()
+                )
+                result = future.result(timeout=300)  # 5 минут таймаут
             
             # Сохраняем результат
             st.session_state.current_quest = result['quest']
@@ -1034,33 +1018,64 @@ def show_settings_page():
     """Страница настроек"""
     st.header("⚙️ Настройки")
     
-    # API настройки
-    st.subheader("🔑 API ключи")
+    # Статус API ключей
+    st.subheader("🔑 Статус API ключей")
     
-    openai_key = st.text_input("OpenAI API Key", type="password", 
-                              value=st.session_state.get('openai_key', ''))
-    anthropic_key = st.text_input("Anthropic API Key", type="password",
-                                 value=st.session_state.get('anthropic_key', ''))
+    import os
+    openai_status = "✅ Настроен" if os.getenv("OPENAI_API_KEY") else "❌ Не найден в .env"
+    anthropic_status = "✅ Настроен" if os.getenv("ANTHROPIC_API_KEY") else "❌ Не найден в .env"
     
-    if st.button("💾 Сохранить ключи"):
-        st.session_state.openai_key = openai_key
-        st.session_state.anthropic_key = anthropic_key
-        st.success("Ключи сохранены!")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.info(f"**OpenAI API:** {openai_status}")
+    with col2:
+        st.info(f"**Anthropic API:** {anthropic_status}")
+    
+    if not os.getenv("OPENAI_API_KEY") and not os.getenv("ANTHROPIC_API_KEY"):
+        st.warning("⚠️ Настройте API ключи в файле `.env` для работы системы")
+        st.code("""
+# Добавьте в файл .env:
+OPENAI_API_KEY=your_openai_api_key_here
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+        """)
     
     # Настройки генерации
-    st.subheader("🎯 Настройки генерации по умолчанию")
+    st.subheader("🎯 Настройки генерации")
     
-    default_model = st.selectbox("Модель по умолчанию", 
-                                ["gpt-4", "gpt-3.5-turbo", "claude-3-opus"])
-    default_temp = st.slider("Температура по умолчанию", 0.0, 1.0, 0.8, 0.1)
-    default_rag = st.checkbox("Использовать RAG по умолчанию", value=True)
+    current_model = os.getenv("DEFAULT_MODEL", "gpt-4o-mini")
+    current_temp = float(os.getenv("DEFAULT_TEMPERATURE", "0.8"))
+    current_tokens = int(os.getenv("DEFAULT_MAX_TOKENS", "2000"))
     
-    # Настройки интерфейса
-    st.subheader("🎨 Настройки интерфейса")
+    st.info(f"**Текущая модель:** {current_model}")
+    st.info(f"**Температура:** {current_temp}")
+    st.info(f"**Макс. токенов:** {current_tokens}")
     
-    theme = st.selectbox("Тема", ["Светлая", "Тёмная", "Автоматически"])
-    show_tips = st.checkbox("Показывать подсказки", value=True)
-    auto_save = st.checkbox("Автосохранение квестов", value=True)
+    st.markdown("💡 **Для изменения настроек отредактируйте файл `.env`:**")
+    st.code(f"""
+# Настройки генерации в .env:
+DEFAULT_MODEL={current_model}
+DEFAULT_TEMPERATURE={current_temp}
+DEFAULT_MAX_TOKENS={current_tokens}
+    """)
+    
+    # Информация о системе
+    st.subheader("ℹ️ Информация о системе")
+    
+    log_level = os.getenv("LOG_LEVEL", "INFO")
+    api_host = os.getenv("API_HOST", "0.0.0.0")
+    api_port = os.getenv("API_PORT", "8000")
+    
+    st.info(f"**Уровень логирования:** {log_level}")
+    st.info(f"**API сервер:** {api_host}:{api_port}")
+    
+    st.markdown("💡 **Дополнительные настройки в `.env`:**")
+    st.code(f"""
+# Системные настройки:
+LOG_LEVEL={log_level}
+API_HOST={api_host}
+API_PORT={api_port}
+CHROMA_PERSIST_DIRECTORY=./data/chroma
+    """)
     
     # База знаний
     st.subheader("📚 База знаний")
@@ -1196,18 +1211,44 @@ def save_quest(quest):
         save_dir = Path("saved_quests")
         save_dir.mkdir(exist_ok=True)
         
-        # Генерируем имя файла
-        filename = f"{quest.title.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        # Проверяем, что директория действительно создана
+        if not save_dir.exists():
+            st.error("❌ Не удалось создать директорию для сохранения")
+            return
+        
+        # Генерируем имя файла (убираем недопустимые символы)
+        safe_title = "".join(c for c in quest.title if c.isalnum() or c in (' ', '-', '_')).strip()
+        safe_title = safe_title.replace(' ', '_')
+        if not safe_title:
+            safe_title = "quest"
+        
+        filename = f"{safe_title}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
         filepath = save_dir / filename
+        
+        # Отладочная информация
+        st.info(f"📁 Сохраняем в: {filepath}")
         
         # Сохраняем
         with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(quest.model_dump(), f, ensure_ascii=False, indent=2)
         
-        st.success(f"✅ Квест сохранен: {filename}")
+        # Проверяем, что файл действительно создан
+        if filepath.exists():
+            file_size = filepath.stat().st_size
+            st.success(f"✅ Квест сохранен: {filename} ({file_size} байт)")
+            
+            # Показываем полный путь
+            st.info(f"📍 Полный путь: {filepath.absolute()}")
+        else:
+            st.error("❌ Файл не был создан")
         
+    except PermissionError as e:
+        st.error(f"❌ Ошибка доступа: нет прав на запись в директорию")
+        st.error(f"Детали: {e}")
     except Exception as e:
-        st.error(f"❌ Ошибка сохранения: {e}")
+        st.error(f"❌ Ошибка сохранения: {type(e).__name__}: {e}")
+        import traceback
+        st.error(f"Трейсбек: {traceback.format_exc()}")
 
 
 def export_quest(quest):
