@@ -93,9 +93,22 @@ def get_github_raw_url(file_path: str, use_github: bool = True) -> str:
 
 
 # Автоматическое определение окружения Streamlit Cloud
-# Streamlit Cloud устанавливает специфические переменные окружения
-if any(env in os.environ for env in ['STREAMLIT_SHARING_MODE', 'STREAMLIT_SERVER_ADDRESS']):
+# Проверяем различные способы определения Streamlit Cloud
+is_streamlit_cloud = (
+    # Проверяем специфические переменные окружения
+    any(env in os.environ for env in ['STREAMLIT_SHARING_MODE', 'STREAMLIT_SERVER_ADDRESS']) or
+    # Проверяем, запущено ли не локально (нет localhost в URL)
+    os.environ.get('STREAMLIT_SERVER_HEADLESS', '').lower() == 'true' or
+    # Проверяем наличие файла .streamlit/config.toml (обычно есть в Streamlit Cloud)
+    Path('.streamlit/config.toml').exists() or
+    # Принудительно включаем для Streamlit Cloud через переменную окружения
+    os.environ.get('FORCE_GITHUB_URLS', 'false').lower() == 'true'
+)
+
+if is_streamlit_cloud:
     os.environ['STREAMLIT_CLOUD'] = 'true'
+else:
+    os.environ['STREAMLIT_CLOUD'] = 'false'
 
 # Настройка страницы
 st.set_page_config(
@@ -1671,23 +1684,54 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
     debug_mode = st.checkbox("Включить режим отладки", value=st.session_state.debug_mode)
     st.session_state.debug_mode = debug_mode
     
+    # Принудительное использование GitHub URLs
+    if 'force_github_urls' not in st.session_state:
+        st.session_state.force_github_urls = os.environ.get('FORCE_GITHUB_URLS', 'false').lower() == 'true'
+    
+    force_github = st.checkbox("Принудительно использовать GitHub URLs для изображений", 
+                              value=st.session_state.force_github_urls,
+                              help="Включите эту опцию, если работаете в Streamlit Cloud и изображения не отображаются")
+    
+    if force_github != st.session_state.force_github_urls:
+        st.session_state.force_github_urls = force_github
+        os.environ['FORCE_GITHUB_URLS'] = 'true' if force_github else 'false'
+        os.environ['STREAMLIT_CLOUD'] = 'true' if force_github else os.environ.get('STREAMLIT_CLOUD', 'false')
+        st.rerun()
+    
     if debug_mode:
         st.info("Режим отладки включен. Информация о путях к изображениям будет отображаться в боковой панели.")
         
         # Отображаем информацию об окружении
         is_cloud = os.environ.get('STREAMLIT_CLOUD', 'false').lower() == 'true'
-        st.write(f"**Окружение:** {'Streamlit Cloud' if is_cloud else 'Локальное'}")
+        st.write(f"**Окружение:** {'Streamlit Cloud (GitHub URLs активны)' if is_cloud else 'Локальное (локальные файлы)'}")
         
         # Проверяем переменные окружения для определения Streamlit Cloud
         cloud_vars = {
             'STREAMLIT_SHARING_MODE': os.environ.get('STREAMLIT_SHARING_MODE', 'Not set'),
             'STREAMLIT_SERVER_ADDRESS': os.environ.get('STREAMLIT_SERVER_ADDRESS', 'Not set'),
-            'STREAMLIT_CLOUD': os.environ.get('STREAMLIT_CLOUD', 'Not set')
+            'STREAMLIT_SERVER_HEADLESS': os.environ.get('STREAMLIT_SERVER_HEADLESS', 'Not set'),
+            'STREAMLIT_CLOUD': os.environ.get('STREAMLIT_CLOUD', 'Not set'),
+            'FORCE_GITHUB_URLS': os.environ.get('FORCE_GITHUB_URLS', 'Not set')
         }
         
-        with st.expander("Переменные окружения Streamlit Cloud"):
+        with st.expander("Переменные окружения"):
             for var, value in cloud_vars.items():
                 st.write(f"**{var}:** {value}")
+                
+        # Тестовый пример преобразования пути
+        with st.expander("Тест преобразования путей"):
+            test_path = st.text_input("Введите путь для тестирования:", 
+                                    value="saved_quests\\Покинуть_мфц_20250804_224312\\легенда_о_покинуть_мфц_20250804_224346\\scene_1\\view_0.png")
+            if test_path:
+                github_url = get_github_raw_url(test_path, use_github=is_cloud)
+                st.code(github_url)
+                
+                # Проверяем, существует ли файл локально
+                local_path = Path(test_path.replace('\\', '/'))
+                if local_path.exists():
+                    st.success(f"✅ Файл существует локально: {local_path}")
+                else:
+                    st.warning(f"⚠️ Файл не найден локально: {local_path}")
     
     # Настройки генерации
     st.subheader("🎯 Настройки генерации")
