@@ -75,3 +75,5 @@ streamlit-elements>=0.1.0
 plotly>=5.18.0
 streamlit-option-menu>=0.3.6
 streamlit-extras>=0.3.5
+
+pysqlite3-binary>=0.5.2
