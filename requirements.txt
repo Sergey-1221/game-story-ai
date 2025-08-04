@@ -1,0 +1,77 @@
+# Core dependencies
+openai>=1.0.0
+anthropic>=0.13.0
+langchain>=0.1.0
+chromadb>=0.4.0
+faiss-cpu>=1.7.4
+tiktoken>=0.5.0
+pydantic>=2.0.0
+python-dotenv>=1.0.0
+
+# NLP and text processing
+spacy>=3.7.0
+nltk>=3.8.0
+
+# API and web framework
+fastapi>=0.104.0
+uvicorn>=0.24.0
+httpx>=0.25.0
+
+# Data processing
+pandas>=2.1.0
+numpy>=1.24.0
+
+# Logging and monitoring
+loguru>=0.7.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.12.0
+
+# Type checking
+mypy>=1.7.0
+types-requests>=2.31.0
+
+# AI/ML libraries for advanced content generation
+diffusers>=0.24.0
+transformers>=4.36.0
+torch>=2.1.0
+torchvision>=0.16.0
+accelerate>=0.25.0
+pillow>=10.0.0
+opencv-python>=4.8.0
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# Procedural content generation
+noise>=1.2.2
+perlin-noise>=1.12
+# wave-function-collapse>=1.2.1  # Not available on PyPI - implement custom or find alternative
+
+# Image generation and manipulation
+# stable-diffusion-webui>=1.6.0  # Not a pip package - install separately
+controlnet-aux>=0.0.10  # Latest available version
+mediapipe>=0.10.0  # Required by controlnet-aux
+
+# Game engine integration
+# unreal-engine-python>=0.1.0  # Not available on PyPI
+# unity-python-api>=0.2.0  # Not available on PyPI
+
+# Quality metrics and evaluation
+rouge-score>=0.1.2
+sacrebleu>=2.3.0  # BLEU score implementation
+bert-score>=0.3.13
+sentence-transformers>=2.2.2
+
+# Advanced NLP for narrative analysis
+transformers-interpret>=0.10.0
+spacy-transformers>=1.3.0
+
+# UI framework
+streamlit>=1.29.0
+streamlit-aggrid>=0.3.4
+streamlit-elements>=0.1.0
+plotly>=5.18.0
+streamlit-option-menu>=0.3.6
+streamlit-extras>=0.3.5

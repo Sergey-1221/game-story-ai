@@ -1,0 +1,33 @@
+# Missing or problematic packages that need manual installation or alternatives
+
+# 1. Wave Function Collapse - Not available on PyPI
+# wave-function-collapse>=1.2.1
+# Alternative: Implement custom WFC algorithm or use:
+# pip install git+https://github.com/mxgmn/WaveFunctionCollapse.git (if a Python port exists)
+# Or implement the algorithm from scratch using numpy
+
+# 2. Stable Diffusion WebUI - Not a pip package
+# stable-diffusion-webui>=1.6.0
+# Installation: This is a full application, not a library
+# Visit: https://github.com/AUTOMATIC1111/stable-diffusion-webui
+# Follow their installation guide for local setup
+
+# 3. Game Engine Python APIs - Not available on PyPI
+# unreal-engine-python>=0.1.0
+# unity-python-api>=0.2.0
+# These need to be installed through the respective game engines:
+# - Unreal: Use the Python plugin from Unreal Marketplace
+# - Unity: Use Unity's Python for Unity package or UnityPy
+
+# Alternative approaches for procedural generation:
+# Instead of wave-function-collapse, you can use:
+# - Custom implementation using numpy/scipy
+# - py-wave-function-collapse (if available)
+# - Other procedural generation libraries like:
+#   - opensimplex  # For noise generation
+#   - pynoise      # Another noise library
+
+# For image generation without stable-diffusion-webui:
+# - Use the diffusers library directly (already included)
+# - Use Hugging Face's Stable Diffusion models
+# - Use other image generation APIs like DALL-E via OpenAI

@@ -1,0 +1,67 @@
+Looking in indexes: https://pypi.org/simple, https://pypi.ngc.nvidia.com
+Collecting mediapipe
+  Downloading mediapipe-0.10.21-cp311-cp311-win_amd64.whl.metadata (10 kB)
+Requirement already satisfied: absl-py in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from mediapipe) (2.3.1)
+Requirement already satisfied: attrs>=19.1.0 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from mediapipe) (25.3.0)
+Requirement already satisfied: flatbuffers>=2.0 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from mediapipe) (25.2.10)
+Collecting jax (from mediapipe)
+  Downloading jax-0.7.0-py3-none-any.whl.metadata (13 kB)
+Collecting jaxlib (from mediapipe)
+  Downloading jaxlib-0.7.0-cp311-cp311-win_amd64.whl.metadata (1.3 kB)
+Requirement already satisfied: matplotlib in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from mediapipe) (3.10.5)
+Collecting numpy<2 (from mediapipe)
+  Downloading numpy-1.26.4-cp311-cp311-win_amd64.whl.metadata (61 kB)
+Collecting opencv-contrib-python (from mediapipe)
+  Downloading opencv_contrib_python-4.12.0.88-cp37-abi3-win_amd64.whl.metadata (20 kB)
+Collecting protobuf<5,>=4.25.3 (from mediapipe)
+  Downloading protobuf-4.25.8-cp310-abi3-win_amd64.whl.metadata (541 bytes)
+Collecting sounddevice>=0.4.4 (from mediapipe)
+  Downloading sounddevice-0.5.2-py3-none-win_amd64.whl.metadata (1.6 kB)
+Collecting sentencepiece (from mediapipe)
+  Downloading sentencepiece-0.2.0-cp311-cp311-win_amd64.whl.metadata (8.3 kB)
+Requirement already satisfied: CFFI>=1.0 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from sounddevice>=0.4.4->mediapipe) (1.17.1)
+Requirement already satisfied: pycparser in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from CFFI>=1.0->sounddevice>=0.4.4->mediapipe) (2.22)
+Collecting ml_dtypes>=0.5.0 (from jax->mediapipe)
+  Downloading ml_dtypes-0.5.3-cp311-cp311-win_amd64.whl.metadata (9.2 kB)
+Collecting opt_einsum (from jax->mediapipe)
+  Downloading opt_einsum-3.4.0-py3-none-any.whl.metadata (6.3 kB)
+Requirement already satisfied: scipy>=1.12 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from jax->mediapipe) (1.16.1)
+Requirement already satisfied: contourpy>=1.0.1 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from matplotlib->mediapipe) (1.3.3)
+Requirement already satisfied: cycler>=0.10 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from matplotlib->mediapipe) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from matplotlib->mediapipe) (4.59.0)
+Requirement already satisfied: kiwisolver>=1.3.1 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from matplotlib->mediapipe) (1.4.8)
+Requirement already satisfied: packaging>=20.0 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from matplotlib->mediapipe) (25.0)
+Requirement already satisfied: pillow>=8 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from matplotlib->mediapipe) (11.3.0)
+Requirement already satisfied: pyparsing>=2.3.1 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from matplotlib->mediapipe) (3.2.3)
+Requirement already satisfied: python-dateutil>=2.7 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from matplotlib->mediapipe) (2.9.0.post0)
+Requirement already satisfied: six>=1.5 in c:\users\sergey\documents\github\game-story-ai\venv\lib\site-packages (from python-dateutil>=2.7->matplotlib->mediapipe) (1.17.0)
+INFO: pip is looking at multiple versions of opencv-contrib-python to determine which version is compatible with other requirements. This could take a while.
+Collecting opencv-contrib-python (from mediapipe)
+  Downloading opencv_contrib_python-4.11.0.86-cp37-abi3-win_amd64.whl.metadata (20 kB)
+Downloading mediapipe-0.10.21-cp311-cp311-win_amd64.whl (51.0 MB)
+   ---------------------------------------- 51.0/51.0 MB 15.7 MB/s eta 0:00:00
+Downloading numpy-1.26.4-cp311-cp311-win_amd64.whl (15.8 MB)
+   ---------------------------------------- 15.8/15.8 MB 4.0 MB/s eta 0:00:00
+Downloading protobuf-4.25.8-cp310-abi3-win_amd64.whl (413 kB)
+Downloading sounddevice-0.5.2-py3-none-win_amd64.whl (363 kB)
+Downloading jax-0.7.0-py3-none-any.whl (2.8 MB)
+   ---------------------------------------- 2.8/2.8 MB 2.2 MB/s eta 0:00:00
+Downloading jaxlib-0.7.0-cp311-cp311-win_amd64.whl (60.2 MB)
+   ---------------------------------------- 60.2/60.2 MB 1.9 MB/s eta 0:00:00
+Downloading ml_dtypes-0.5.3-cp311-cp311-win_amd64.whl (206 kB)
+Downloading opencv_contrib_python-4.11.0.86-cp37-abi3-win_amd64.whl (46.2 MB)
+   ---------------------------------------- 46.2/46.2 MB 2.2 MB/s eta 0:00:00
+Downloading opt_einsum-3.4.0-py3-none-any.whl (71 kB)
+Downloading sentencepiece-0.2.0-cp311-cp311-win_amd64.whl (991 kB)
+   ---------------------------------------- 991.5/991.5 kB 1.3 MB/s eta 0:00:00
+Installing collected packages: sentencepiece, protobuf, opt_einsum, numpy, sounddevice, opencv-contrib-python, ml_dtypes, jaxlib, jax, mediapipe
+  Attempting uninstall: protobuf
+    Found existing installation: protobuf 5.29.5
+    Uninstalling protobuf-5.29.5:
+      Successfully uninstalled protobuf-5.29.5
+  Attempting uninstall: numpy
+    Found existing installation: numpy 2.2.6
+    Uninstalling numpy-2.2.6:
+      Successfully uninstalled numpy-2.2.6
+
+Successfully installed jax-0.7.0 jaxlib-0.7.0 mediapipe-0.10.21 ml_dtypes-0.5.3 numpy-1.26.4 opencv-contrib-python-4.11.0.86 opt_einsum-3.4.0 protobuf-4.25.8 sentencepiece-0.2.0 sounddevice-0.5.2
