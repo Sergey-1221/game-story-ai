@@ -219,8 +219,8 @@ def main():
         
         selected = option_menu(
             "Меню",
-            ["🏠 Главная", "✨ Генератор", "📊 Аналитика", "🗂️ История", "⚙️ Настройки", "📚 Справка"],
-            icons=['house', 'magic', 'graph-up', 'clock-history', 'gear', 'book'],
+            ["🏠 Главная", "✨ Генератор", "📊 Аналитика", "🎬 Сцены", "⚙️ Настройки", "📚 Справка"],
+            icons=['house', 'magic', 'graph-up', 'film', 'gear', 'book'],
             menu_icon="cast",
             default_index=0,
             styles={
@@ -241,7 +241,7 @@ def main():
         show_generator_page()
     elif selected == "📊 Аналитика":
         show_analytics_page()
-    elif selected == "🗂️ История":
+    elif selected == "🎬 Сцены":
         show_history_page()
     elif selected == "⚙️ Настройки":
         show_settings_page()
@@ -406,9 +406,7 @@ def show_basic_generator():
         else:
             st.warning("Заполните все обязательные поля")
     
-    # Отображение результата
-    if st.session_state.current_quest:
-        show_quest_result()
+    # Результат сохранен в истории
 
 
 def show_advanced_generator():
@@ -616,9 +614,7 @@ def generate_advanced_quest(genre, hero, goal, with_logic, with_visuals,
             
             progress_container.empty()
             st.success("✅ Расширенная генерация завершена!")
-            
-            # Показываем результаты
-            show_enhanced_results(result)
+            st.info("📚 Результат сохранен в истории. Перейдите в раздел 'История' для просмотра.")
             
         except Exception as e:
             st.error(f"❌ Ошибка: {e}")
@@ -630,19 +626,29 @@ def show_quest_result():
     """Отображение результата генерации"""
     quest = st.session_state.current_quest
     
-    st.markdown("---")
-    st.subheader(f"📖 {quest.title}")
+    if not quest:
+        st.warning("Квест не выбран для просмотра")
+        return
     
-    # Метаданные квеста
+    st.markdown("---")
+    title = getattr(quest, 'title', 'Неизвестный квест')
+    st.subheader(f"📖 {title}")
+    
+    # Метаданные квеста с безопасным доступом
     meta_cols = st.columns(4)
     with meta_cols[0]:
-        st.metric("Жанр", quest.genre)
+        genre = getattr(quest, 'genre', 'неизвестно')
+        st.metric("Жанр", genre)
     with meta_cols[1]:
-        st.metric("Сцен", len(quest.scenes))
+        scenes = getattr(quest, 'scenes', [])
+        st.metric("Сцен", len(scenes) if scenes else 0)
     with meta_cols[2]:
-        st.metric("Путей", len(quest.paths) if quest.paths else "N/A")
+        paths = getattr(quest, 'paths', [])
+        st.metric("Путей", len(paths) if paths else "N/A")
     with meta_cols[3]:
-        st.metric("Время генерации", f"{quest.metadata.get('generation_time', 0):.1f}с")
+        metadata = getattr(quest, 'metadata', {})
+        gen_time = metadata.get('generation_time', 0) if metadata else 0
+        st.metric("Время генерации", f"{gen_time:.1f}с")
     
     # Табы для разных представлений
     view_tabs = st.tabs(["📝 Сцены", "🗺️ Граф квеста", "💾 JSON", "📊 Статистика"])
@@ -660,37 +666,59 @@ def show_quest_result():
         show_quest_statistics(quest)
     
     # Кнопки действий
+    import time
+    quest_title = getattr(quest, 'title', 'unknown').replace(' ', '_').replace(':', '').replace('.', '')[:20]
+    button_base_key = f"{quest_title}_{id(quest)}_{int(time.time() * 1000000) % 1000000}"
+    
     action_cols = st.columns(4)
     with action_cols[0]:
-        if st.button("💾 Сохранить", use_container_width=True):
+        if st.button("💾 Сохранить", use_container_width=True, key=f"save_quest_{button_base_key}"):
             save_quest(quest)
     with action_cols[1]:
-        if st.button("📤 Экспорт", use_container_width=True):
+        if st.button("📤 Экспорт", use_container_width=True, key=f"export_quest_{button_base_key}"):
             export_quest(quest)
     with action_cols[2]:
-        if st.button("🎮 Играть", use_container_width=True):
+        if st.button("🎮 Играть", use_container_width=True, key=f"play_quest_{button_base_key}"):
             st.info("Режим игры в разработке")
     with action_cols[3]:
-        if st.button("🔄 Новый квест", use_container_width=True):
+        if st.button("🔄 Новый квест", use_container_width=True, key=f"new_quest_{button_base_key}"):
             st.session_state.current_quest = None
             st.rerun()
 
 
 def show_scenes_view(quest):
     """Отображение сцен квеста"""
-    for i, scene in enumerate(quest.scenes):
-        with st.expander(f"Сцена {i+1}: {scene.scene_id}", expanded=(i==0)):
+    scenes = getattr(quest, 'scenes', [])
+    
+    if not scenes:
+        st.warning("Сцены не найдены в квесте")
+        return
+    
+    for i, scene in enumerate(scenes):
+        # Безопасное получение атрибутов сцены
+        scene_id = getattr(scene, 'scene_id', f'scene_{i+1}')
+        scene_text = getattr(scene, 'text', 'Текст сцены недоступен')
+        scene_mood = getattr(scene, 'mood', None)
+        scene_location = getattr(scene, 'location', None)
+        scene_choices = getattr(scene, 'choices', [])
+        
+        with st.expander(f"Сцена {i+1}: {scene_id}", expanded=(i==0)):
             st.markdown(f"**Текст сцены:**")
-            st.write(scene.text)
+            st.write(scene_text)
             
-            if scene.mood:
-                st.caption(f"Настроение: {scene.mood}")
-            if scene.location:
-                st.caption(f"Локация: {scene.location}")
+            if scene_mood:
+                st.caption(f"Настроение: {scene_mood}")
+            if scene_location:
+                st.caption(f"Локация: {scene_location}")
             
             st.markdown("**Варианты выбора:**")
-            for j, choice in enumerate(scene.choices):
-                st.write(f"{j+1}. {choice.text} → *{choice.next_scene}*")
+            if scene_choices:
+                for j, choice in enumerate(scene_choices):
+                    choice_text = getattr(choice, 'text', f'Выбор {j+1}')
+                    next_scene = getattr(choice, 'next_scene', 'неизвестно')
+                    st.write(f"{j+1}. {choice_text} → *{next_scene}*")
+            else:
+                st.info("Нет доступных вариантов выбора")
 
 
 def show_quest_graph(quest):
@@ -776,9 +804,11 @@ def show_quest_graph(quest):
         height=600
     )
     
-    # Используем уникальный ключ на основе ID квеста
-    quest_id = getattr(quest, 'title', 'unknown').replace(' ', '_').replace(':', '')[:20]
-    st.plotly_chart(fig, use_container_width=True, key=f"quest_graph_{quest_id}_{hash(str(quest))%1000}")
+    # Используем уникальный ключ на основе ID квеста и времени
+    import time
+    quest_id = getattr(quest, 'title', 'unknown').replace(' ', '_').replace(':', '').replace('.', '')[:20]
+    unique_id = f"{quest_id}_{id(quest)}_{int(time.time() * 1000000) % 1000000}"
+    st.plotly_chart(fig, use_container_width=True, key=f"quest_graph_{unique_id}")
 
 
 def show_json_view(quest):
@@ -786,19 +816,28 @@ def show_json_view(quest):
     quest_dict = quest.model_dump()
     json_str = json.dumps(quest_dict, ensure_ascii=False, indent=2)
     
+    # Ensure proper UTF-8 encoding for display
     st.code(json_str, language='json')
     
     # Кнопка копирования
+    import time
+    quest_title = getattr(quest, 'title', 'unknown').replace(' ', '_').replace(':', '').replace('.', '')[:20]
+    unique_key = f"download_json_{quest_title}_{id(quest)}_{int(time.time() * 1000000) % 1000000}"
     st.download_button(
         label="📥 Скачать JSON",
         data=json_str,
         file_name=f"quest_{quest.title.replace(' ', '_')}.json",
-        mime="application/json"
+        mime="application/json",
+        key=unique_key
     )
 
 
 def show_quest_statistics(quest):
     """Статистика квеста"""
+    import time
+    quest_title = getattr(quest, 'title', 'unknown').replace(' ', '_').replace(':', '').replace('.', '')[:20]
+    base_key = f"{quest_title}_{id(quest)}_{int(time.time() * 1000000) % 1000000}"
+    
     col1, col2 = st.columns(2)
     
     with col1:
@@ -813,7 +852,7 @@ def show_quest_statistics(quest):
         
         fig = px.bar(choices_data, x='Сцена', y='Выборов', 
                     title="Количество выборов по сценам")
-        st.plotly_chart(fig, use_container_width=True, key="choices_bar_chart")
+        st.plotly_chart(fig, use_container_width=True, key=f"choices_bar_chart_{base_key}")
         
         # Длина текста сцен
         text_lengths = pd.DataFrame({
@@ -823,7 +862,7 @@ def show_quest_statistics(quest):
         
         fig2 = px.line(text_lengths, x='Сцена', y='Длина текста',
                       title="Длина текста сцен", markers=True)
-        st.plotly_chart(fig2, use_container_width=True, key="text_length_line_chart")
+        st.plotly_chart(fig2, use_container_width=True, key=f"text_length_line_chart_{base_key}")
     
     with col2:
         # Статистика путей
@@ -839,49 +878,79 @@ def show_quest_statistics(quest):
             # График длин путей
             fig3 = px.bar(paths_data, x='Путь', y='Длина', color='Исход',
                          title="Длина различных путей")
-            st.plotly_chart(fig3, use_container_width=True, key="paths_length_bar_chart")
+            st.plotly_chart(fig3, use_container_width=True, key=f"paths_length_bar_chart_{base_key}")
             
             # Статистика исходов
             outcome_counts = paths_data['Исход'].value_counts()
             fig4 = px.pie(values=outcome_counts.values, names=outcome_counts.index,
                          title="Распределение исходов")
-            st.plotly_chart(fig4, use_container_width=True, key="outcomes_pie_chart")
+            st.plotly_chart(fig4, use_container_width=True, key=f"outcomes_pie_chart_{base_key}")
 
 
 def show_enhanced_results(result):
     """Отображение результатов расширенной генерации"""
-    st.markdown("---")
-    st.subheader("🎯 Результаты расширенной генерации")
+    quest = result.get('quest')
+    if quest:
+        # Основная информация о квесте
+        with st.container():
+            st.markdown(f"### {getattr(quest, 'title', 'Неизвестный квест')}")
+            
+            col_info1, col_info2, col_info3, col_info4 = st.columns(4)
+            with col_info1:
+                st.info(f"🎭 **Жанр:** {getattr(quest, 'genre', 'н/д')}")
+            with col_info2:
+                st.info(f"🧑 **Герой:** {getattr(quest, 'hero', 'н/д')}")
+            with col_info3:
+                st.info(f"🎯 **Цель:** {getattr(quest, 'goal', 'н/д')}")
+            with col_info4:
+                scenes = getattr(quest, 'scenes', [])
+                st.info(f"🎬 **Сцен:** {len(scenes)}")
+    
+    # Проверяем наличие улучшений
+    enhancements = result.get('enhancements', {})
     
     # Табы для разных улучшений
     tabs = ["📖 Квест"]
-    if 'logic' in result['enhancements']:
+    if 'logic' in enhancements:
         tabs.append("🧠 Логика")
-    if 'visualization' in result['enhancements']:
+    if 'visualization' in enhancements:
         tabs.append("🎨 Визуализация")
-    if 'generated_code' in result['enhancements']:
+    if 'generated_code' in enhancements:
         tabs.append("💻 Код")
     
     tabs_ui = st.tabs(tabs)
     
-    # Базовый квест
+    # Базовый квест - используем квест из result
     with tabs_ui[0]:
+        # Временно устанавливаем current_quest для show_quest_result
+        temp_quest = st.session_state.current_quest
+        st.session_state.current_quest = result.get('quest', temp_quest)
         show_quest_result()
+        st.session_state.current_quest = temp_quest
     
     # Логика
     if '🧠 Логика' in tabs:
         with tabs_ui[tabs.index('🧠 Логика')]:
-            show_logic_view(result['enhancements']['logic'])
+            if 'logic' in enhancements:
+                show_logic_view(enhancements['logic'])
+            else:
+                st.info("Данные о логике недоступны")
     
     # Визуализация
     if '🎨 Визуализация' in tabs:
         with tabs_ui[tabs.index('🎨 Визуализация')]:
-            show_visualization_view(result['enhancements']['visualization'])
+            if 'visualization' in enhancements:
+                show_visualization_view(enhancements['visualization'])
+            else:
+                st.info("Данные о визуализации недоступны")
     
     # Код
     if '💻 Код' in tabs:
         with tabs_ui[tabs.index('💻 Код')]:
-            show_code_view(result['enhancements']['generated_code'])
+            if 'generated_code' in enhancements:
+                show_code_view(enhancements['generated_code'])
+            else:
+                st.info("Сгенерированный код недоступен")
 
 
 def show_logic_view(logic_data):
@@ -957,7 +1026,7 @@ def show_visualization_view(viz_data):
                 st.write("**Макет сцены:**")
                 if 'layout_path' in scene_viz:
                     try:
-                        with open(scene_viz['layout_path'], 'r') as f:
+                        with open(scene_viz['layout_path'], 'r', encoding='utf-8') as f:
                             layout = json.load(f)
                         st.json(layout)
                     except:
@@ -1028,7 +1097,9 @@ def show_analytics_page():
         
         fig = px.pie(values=genre_counts.values, names=genre_counts.index,
                     title="Распределение по жанрам")
-        st.plotly_chart(fig, use_container_width=True, key="analytics_genres_pie")
+        import time
+        analytics_key = f"analytics_genres_pie_{int(time.time() * 1000000) % 1000000}"
+        st.plotly_chart(fig, use_container_width=True, key=analytics_key)
     
     with col2:
         # График по времени
@@ -1039,7 +1110,8 @@ def show_analytics_page():
         
         fig = px.line(daily_counts, x='date', y='count',
                      title="Квесты по дням", markers=True)
-        st.plotly_chart(fig, use_container_width=True, key="analytics_timeline")
+        analytics_timeline_key = f"analytics_timeline_{int(time.time() * 1000000) % 1000000}"
+        st.plotly_chart(fig, use_container_width=True, key=analytics_timeline_key)
     
     # Детальная аналитика
     st.subheader("🔍 Детальный анализ")
@@ -1064,12 +1136,35 @@ def show_analytics_page():
 
 
 def show_history_page():
-    """Страница истории"""
-    st.header("🗂️ История квестов")
+    """Страница сцен"""
+    st.header("🎬 Сцены квестов")
     
     if not st.session_state.quest_history:
-        st.info("История пуста. Сгенерируйте свой первый квест!")
+        st.info("Нет сохраненных сцен. Сгенерируйте свой первый квест!")
         return
+    
+    # Статистика вверху страницы
+    st.markdown("### 📊 Общая статистика")
+    col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
+    
+    with col_stat1:
+        st.metric("Всего квестов", len(st.session_state.quest_history))
+    
+    with col_stat2:
+        basic_count = len([h for h in st.session_state.quest_history if h['type'] == 'basic'])
+        st.metric("Базовых", basic_count)
+    
+    with col_stat3:
+        advanced_count = len([h for h in st.session_state.quest_history if h['type'] == 'advanced'])
+        st.metric("Расширенных", advanced_count)
+    
+    with col_stat4:
+        # Средняя длина квеста
+        total_scenes = sum(len(getattr(h['quest'], 'scenes', [])) for h in st.session_state.quest_history)
+        avg_scenes = total_scenes / len(st.session_state.quest_history) if st.session_state.quest_history else 0
+        st.metric("Средняя длина", f"{avg_scenes:.1f} сцен")
+    
+    st.markdown("---")
     
     # Фильтры
     col1, col2, col3 = st.columns(3)
@@ -1108,34 +1203,125 @@ def show_history_page():
     else:
         filtered_history = sorted(filtered_history, key=lambda x: getattr(x['quest'], 'title', 'Неизвестный квест'))
     
-    # Отображение
-    for i, history_item in enumerate(filtered_history):
-        quest = history_item['quest']
+    # Автоматически выбираем первый квест, если ничего не выбрано
+    if filtered_history:
+        # Проверяем, что индекс в пределах отфильтрованного списка
+        if hasattr(st.session_state, 'viewing_quest_index'):
+            if st.session_state.viewing_quest_index >= len(filtered_history):
+                st.session_state.viewing_quest_index = 0
         
-        title = getattr(quest, 'title', 'Неизвестный квест')
-        with st.expander(f"{title} - {history_item['timestamp'].strftime('%Y-%m-%d %H:%M')}"):
-            col1, col2 = st.columns([3, 1])
+        # Если квест не выбран, выбираем первый
+        if not st.session_state.current_quest or not hasattr(st.session_state, 'viewing_quest_index'):
+            st.session_state.current_quest = filtered_history[0]['quest']
+            st.session_state.viewing_quest_index = 0
+            if 'enhancements' in filtered_history[0]:
+                st.session_state.current_enhanced_result = {
+                    'quest': filtered_history[0]['quest'],
+                    'enhancements': filtered_history[0]['enhancements']
+                }
+    
+    # Отображение квестов
+    
+    # Проверяем есть ли выбранный квест
+    if st.session_state.current_quest and hasattr(st.session_state, 'viewing_quest_index'):
+        # Двухколоночный вид
+        col_list, col_view = st.columns([1, 2])
+        
+        # Левая колонка - список квестов (компактный)
+        with col_list:
+            st.markdown("### 📋 Список квестов")
             
-            with col1:
-                st.write(f"**Жанр:** {getattr(quest, 'genre', 'неизвестно')}")
-                st.write(f"**Герой:** {getattr(quest, 'hero', 'неизвестно')}")
-                st.write(f"**Цель:** {getattr(quest, 'goal', 'неизвестно')}")
-                scenes = getattr(quest, 'scenes', [])
-                st.write(f"**Сцен:** {len(scenes) if scenes else 0}")
-                st.write(f"**Тип генерации:** {history_item['type']}")
-            
-            with col2:
-                if st.button("👁️ Просмотр", key=f"view_{i}"):
-                    st.session_state.current_quest = quest
-                    st.info("Перейдите на вкладку Генератор для просмотра")
-                
-                if st.button("💾 Экспорт", key=f"export_{i}"):
-                    export_quest(quest)
-                
-                if st.button("🗑️ Удалить", key=f"delete_{i}"):
-                    st.session_state.quest_history.remove(history_item)
-                    save_persistent_data()  # Сохраняем изменения
+            # Контейнер с прокруткой для списка
+            with st.container(height=600):
+                for i, history_item in enumerate(filtered_history):
+                    quest = history_item['quest']
+                    title = getattr(quest, 'title', 'Неизвестный квест')
+                    
+                    # Компактная карточка квеста
+                    if i == st.session_state.viewing_quest_index:
+                        # Выделяем текущий квест
+                        st.success(f"▶ **{title}**")
+                        st.caption(f"{history_item['timestamp'].strftime('%d.%m')}")
+                    else:
+                        col_title, col_actions = st.columns([3, 1])
+                        with col_title:
+                            if st.button(f"{title}", key=f"quick_view_{i}", use_container_width=True):
+                                st.session_state.current_quest = quest
+                                st.session_state.viewing_quest_index = i
+                                if 'enhancements' in history_item:
+                                    st.session_state.current_enhanced_result = {
+                                        'quest': quest,
+                                        'enhancements': history_item['enhancements']
+                                    }
+                                st.rerun()
+                            st.caption(f"{history_item['timestamp'].strftime('%d.%m')}")
+                        
+                        with col_actions:
+                            # Кнопка удаления
+                            if st.button("🗑️", key=f"quick_delete_{i}", help="Удалить"):
+                                st.session_state.quest_history.remove(history_item)
+                                save_persistent_data()
+                                if st.session_state.viewing_quest_index == i:
+                                    st.session_state.current_quest = None
+                                    del st.session_state.viewing_quest_index
+                                st.rerun()
+        
+        # Правая колонка - детальный просмотр
+        with col_view:
+            # Заголовок с кнопками действий
+            col_header1, col_header2, col_header3 = st.columns([8, 1, 1])
+            with col_header1:
+                st.markdown("### 🎮 Просмотр квеста")
+            with col_header2:
+                if st.button("💾", key="export_view", help="Экспорт"):
+                    export_quest(st.session_state.current_quest)
+            with col_header3:
+                if st.button("✖", key="close_view", help="Закрыть"):
+                    st.session_state.current_quest = None
+                    if hasattr(st.session_state, 'viewing_quest_index'):
+                        del st.session_state.viewing_quest_index
+                    if hasattr(st.session_state, 'current_enhanced_result'):
+                        st.session_state.current_enhanced_result = None
                     st.rerun()
+            
+            # Отображение квеста
+            is_enhanced = hasattr(st.session_state, 'current_enhanced_result') and st.session_state.current_enhanced_result
+            
+            if is_enhanced:
+                show_enhanced_results(st.session_state.current_enhanced_result)
+            else:
+                # Организованный показ базового квеста
+                quest = st.session_state.current_quest
+                
+                # Основная информация
+                with st.container():
+                    st.markdown(f"### {getattr(quest, 'title', 'Неизвестный квест')}")
+                    
+                    col_info1, col_info2, col_info3, col_info4 = st.columns(4)
+                    with col_info1:
+                        st.info(f"🎭 **Жанр:** {getattr(quest, 'genre', 'н/д')}")
+                    with col_info2:
+                        st.info(f"🧑 **Герой:** {getattr(quest, 'hero', 'н/д')}")
+                    with col_info3:
+                        st.info(f"🎯 **Цель:** {getattr(quest, 'goal', 'н/д')}")
+                    with col_info4:
+                        scenes = getattr(quest, 'scenes', [])
+                        st.info(f"🎬 **Сцен:** {len(scenes)}")
+                
+                # Вкладки с разными представлениями
+                tabs = st.tabs(["🎬 Сцены", "🗺️ Граф", "📄 JSON", "📊 Статистика"])
+                
+                with tabs[0]:
+                    show_scenes_view(quest)
+                
+                with tabs[1]:
+                    show_quest_graph(quest)
+                
+                with tabs[2]:
+                    show_json_view(quest)
+                
+                with tabs[3]:
+                    show_quest_statistics(quest)
 
 
 def show_settings_page():
