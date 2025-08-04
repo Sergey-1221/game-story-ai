@@ -486,12 +486,29 @@ class SceneCraftVisualizer:
         composite_path = output_path / "composite.png"
         composite.save(composite_path)
         
+        # Для Streamlit Cloud используем относительные пути
+        base_path = Path(output_dir)
+        
+        # Конвертируем абсолютные пути в относительные
+        relative_image_paths = []
+        for img_path in image_paths:
+            try:
+                relative_path = Path(img_path).relative_to(Path.cwd())
+                relative_image_paths.append(str(relative_path).replace('\\', '/'))
+            except ValueError:
+                # Если не удается сделать относительным, используем как есть
+                relative_image_paths.append(img_path)
+        
+        relative_layout_path = str(layout_path.relative_to(Path.cwd())).replace('\\', '/')
+        relative_composite_path = str(composite_path.relative_to(Path.cwd())).replace('\\', '/')
+        relative_output_path = str(output_path.relative_to(Path.cwd())).replace('\\', '/')
+        
         return {
             "scene_id": scene_id,
-            "layout_path": str(layout_path),
-            "image_paths": image_paths,
-            "composite_path": str(composite_path),
-            "visualization_dir": str(output_path)
+            "layout_path": relative_layout_path,
+            "image_paths": relative_image_paths,
+            "composite_path": relative_composite_path,
+            "visualization_dir": relative_output_path
         }
     
     def _create_composite_view(self, images: List[Image.Image]) -> Image.Image:

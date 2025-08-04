@@ -33,6 +33,52 @@ from src.core.models import ScenarioInput, GenerationConfig, Genre
 from src.modules.knowledge_base import KnowledgeBase
 
 
+def get_github_raw_url(file_path: str, use_github: bool = True) -> str:
+    """
+    Преобразует локальный путь файла в GitHub raw URL.
+    
+    Args:
+        file_path: Локальный путь к файлу
+        use_github: Флаг использования GitHub URLs (True для Streamlit Cloud)
+    
+    Returns:
+        GitHub raw URL или локальный путь
+    """
+    if not use_github:
+        return file_path
+    
+    try:
+        # Конфигурация репозитория
+        GITHUB_OWNER = "Sergey-1221"
+        GITHUB_REPO = "game-story-ai"
+        GITHUB_BRANCH = "streamlit-cloud"
+        
+        # Преобразуем путь в относительный
+        path = Path(file_path)
+        if path.is_absolute():
+            # Пытаемся получить относительный путь от корня проекта
+            try:
+                rel_path = path.relative_to(Path.cwd())
+            except ValueError:
+                # Если не удается, используем путь как есть
+                rel_path = path
+        else:
+            rel_path = path
+        
+        # Формируем GitHub raw URL
+        github_url = f"https://raw.githubusercontent.com/{GITHUB_OWNER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{str(rel_path).replace(os.sep, '/')}"
+        
+        return github_url
+    except Exception as e:
+        # В случае ошибки возвращаем оригинальный путь
+        return file_path
+
+
+# Автоматическое определение окружения Streamlit Cloud
+# Streamlit Cloud устанавливает специфические переменные окружения
+if any(env in os.environ for env in ['STREAMLIT_SHARING_MODE', 'STREAMLIT_SERVER_ADDRESS']):
+    os.environ['STREAMLIT_CLOUD'] = 'true'
+
 # Настройка страницы
 st.set_page_config(
     page_title="AI Game Story Generator",
@@ -769,10 +815,24 @@ def show_scenes_view(quest):
                                 try:
                                     # Берем первое изображение (view_0.png)
                                     view_0_path = scene_viz['image_paths'][0]
-                                    image = Image.open(view_0_path)
-                                    st.image(image, use_container_width=True)
-                                except:
-                                    pass
+                                    
+                                    # Определяем, работаем в Streamlit Cloud или локально
+                                    is_cloud = os.environ.get('STREAMLIT_CLOUD', 'false').lower() == 'true'
+                                    
+                                    if is_cloud:
+                                        # В облаке используем GitHub URL
+                                        image_url = get_github_raw_url(view_0_path, use_github=True)
+                                        st.image(image_url, use_container_width=True)
+                                    else:
+                                        # Локально открываем файл
+                                        path_obj = Path(view_0_path)
+                                        if path_obj.exists():
+                                            image = Image.open(path_obj)
+                                            st.image(image, use_container_width=True)
+                                        else:
+                                            st.warning(f"Изображение не найдено: {view_0_path}")
+                                except Exception as e:
+                                    st.error(f"Ошибка при загрузке изображения: {e}")
                             break
                 # Для базовой генерации
                 elif hasattr(scene, 'image_prompt') and scene.image_prompt:
@@ -837,10 +897,24 @@ def show_scenes_view(quest):
                             try:
                                 # Берем первое изображение (view_0.png)
                                 view_0_path = scene_viz['image_paths'][0]
-                                image = Image.open(view_0_path)
-                                st.image(image, use_container_width=True)
-                            except:
-                                pass
+                                
+                                # Определяем, работаем в Streamlit Cloud или локально
+                                is_cloud = os.environ.get('STREAMLIT_CLOUD', 'false').lower() == 'true'
+                                
+                                if is_cloud:
+                                    # В облаке используем GitHub URL
+                                    image_url = get_github_raw_url(view_0_path, use_github=True)
+                                    st.image(image_url, use_container_width=True)
+                                else:
+                                    # Локально открываем файл
+                                    path_obj = Path(view_0_path)
+                                    if path_obj.exists():
+                                        image = Image.open(path_obj)
+                                        st.image(image, use_container_width=True)
+                                    else:
+                                        st.warning(f"Изображение не найдено: {view_0_path}")
+                            except Exception as e:
+                                st.error(f"Ошибка при загрузке изображения: {e}")
                         break
             # Для базовой генерации
             elif hasattr(scene, 'image_prompt') and scene.image_prompt:
@@ -1187,23 +1261,55 @@ def show_visualization_view(viz_data):
                 try:
                     # Берем первое изображение (view_0.png)
                     view_0_path = scene_viz['image_paths'][0]
-                    image = Image.open(view_0_path)
-                    st.image(image, caption="Визуализация сцены", 
-                            use_container_width=True)
-                    image_shown = True
+                    
+                    # Определяем, работаем в Streamlit Cloud или локально
+                    is_cloud = os.environ.get('STREAMLIT_CLOUD', 'false').lower() == 'true'
+                    
+                    if is_cloud:
+                        # В облаке используем GitHub URL
+                        image_url = get_github_raw_url(view_0_path, use_github=True)
+                        st.image(image_url, caption="Визуализация сцены", 
+                                use_container_width=True)
+                        image_shown = True
+                    else:
+                        # Локально открываем файл
+                        path_obj = Path(view_0_path)
+                        if path_obj.exists():
+                            image = Image.open(path_obj)
+                            st.image(image, caption="Визуализация сцены", 
+                                    use_container_width=True)
+                            image_shown = True
+                        else:
+                            st.warning(f"Изображение не найдено: {view_0_path}")
                 except Exception as e:
                     st.error(f"Ошибка загрузки изображения: {e}")
-                    pass
             
             # Если не найдены view_0 варианты, пробуем композитное изображение
             if not image_shown and 'composite_path' in scene_viz:
                 try:
-                    image = Image.open(scene_viz['composite_path'])
-                    st.image(image, caption="Многоракурсная визуализация", 
-                            use_container_width=True)
-                    image_shown = True
-                except:
-                    pass
+                    composite_path = scene_viz['composite_path']
+                    
+                    # Определяем, работаем в Streamlit Cloud или локально
+                    is_cloud = os.environ.get('STREAMLIT_CLOUD', 'false').lower() == 'true'
+                    
+                    if is_cloud:
+                        # В облаке используем GitHub URL
+                        image_url = get_github_raw_url(composite_path, use_github=True)
+                        st.image(image_url, caption="Многоракурсная визуализация", 
+                                use_container_width=True)
+                        image_shown = True
+                    else:
+                        # Локально открываем файл
+                        path_obj = Path(composite_path)
+                        if path_obj.exists():
+                            image = Image.open(path_obj)
+                            st.image(image, caption="Многоракурсная визуализация", 
+                                    use_container_width=True)
+                            image_shown = True
+                        else:
+                            st.warning(f"Композитное изображение не найдено: {composite_path}")
+                except Exception as e:
+                    st.error(f"Ошибка при загрузке композитного изображения: {e}")
             
             # Если ничего не найдено
             if not image_shown:
