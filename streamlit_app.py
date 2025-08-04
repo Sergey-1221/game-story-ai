@@ -586,6 +586,15 @@ def generate_advanced_quest(genre, hero, goal, with_logic, with_visuals,
             # Реальная генерация - используем thread pool для асинхронного кода
             import concurrent.futures
             
+            # Создаем уникальную директорию для этой генерации
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            # Удаляем недопустимые символы для имен папок в Windows
+            import re
+            quest_title = getattr(scenario, 'goal', 'quest')
+            quest_title = re.sub(r'[<>:"/\\|?*]', '_', quest_title)
+            quest_title = quest_title.replace(' ', '_')[:30]
+            unique_output_dir = f"saved_quests/{quest_title}_{timestamp}"
+            
             # Streamlit запускает свой event loop, поэтому используем thread pool
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 future = executor.submit(
@@ -594,7 +603,8 @@ def generate_advanced_quest(genre, hero, goal, with_logic, with_visuals,
                         scenario,
                         with_logic=with_logic,
                         with_visuals=with_visuals,
-                        export_code=export_code
+                        export_code=export_code,
+                        output_dir=unique_output_dir
                     )
                 )
                 result = future.result(timeout=300)  # 5 минут таймаут
@@ -602,11 +612,29 @@ def generate_advanced_quest(genre, hero, goal, with_logic, with_visuals,
             # Сохраняем результат
             st.session_state.current_quest = result['quest']
             st.session_state.current_enhanced_result = result
+            
+            # Сохраняем в уникальную папку
+            timestamp = datetime.now()
+            quest_title = getattr(result['quest'], 'title', 'quest')
+            # Удаляем недопустимые символы для имен папок в Windows
+            quest_title = re.sub(r'[<>:"/\\|?*]', '_', quest_title)
+            quest_title = quest_title.replace(' ', '_')[:30]
+            unique_folder = f"{quest_title}_{timestamp.strftime('%Y%m%d_%H%M%S')}"
+            save_dir = Path("saved_quests") / unique_folder
+            
+            # Сохраняем расширенный квест
+            if hasattr(st.session_state, 'integrated_generator'):
+                saved_path = st.session_state.integrated_generator.save_enhanced_quest(
+                    result, str(save_dir)
+                )
+                result['saved_path'] = str(saved_path)
+            
             st.session_state.quest_history.append({
-                'timestamp': datetime.now(),
+                'timestamp': timestamp,
                 'quest': result['quest'],
                 'type': 'advanced',
-                'enhancements': result['enhancements']
+                'enhancements': result['enhancements'],
+                'saved_path': str(save_dir)
             })
             
             # Автоматическое сохранение данных

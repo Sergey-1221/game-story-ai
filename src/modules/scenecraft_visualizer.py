@@ -584,21 +584,33 @@ class SceneCraftVisualizer:
         """Визуализация всего квеста"""
         logger.info(f"Визуализируем квест '{quest.title}'")
         
+        # Создаем уникальную директорию для этой генерации
+        from datetime import datetime
+        import re
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        # Удаляем недопустимые символы для имен папок в Windows
+        quest_id = re.sub(r'[<>:"/\\|?*]', '_', quest.title)
+        quest_id = quest_id.replace(" ", "_").lower()[:30]  # Ограничиваем длину
+        unique_output_dir = Path(output_dir) / f"{quest_id}_{timestamp}"
+        unique_output_dir.mkdir(parents=True, exist_ok=True)
+        
         results = {
-            "quest_id": quest.title.replace(" ", "_").lower(),
+            "quest_id": quest_id,
+            "timestamp": timestamp,
+            "output_directory": str(unique_output_dir),
             "scenes": []
         }
         
         # Визуализируем каждую сцену
         for scene in quest.scenes:
             try:
-                scene_viz = self.visualize_scene(scene, quest.genre, output_dir)
+                scene_viz = self.visualize_scene(scene, quest.genre, str(unique_output_dir))
                 results["scenes"].append(scene_viz)
             except Exception as e:
                 logger.error(f"Ошибка визуализации сцены {scene.scene_id}: {e}")
         
         # Создаем общую карту квеста (граф сцен)
-        quest_map = self._create_quest_map(quest, output_dir)
+        quest_map = self._create_quest_map(quest, str(unique_output_dir))
         results["quest_map"] = quest_map
         
         return results

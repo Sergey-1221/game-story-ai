@@ -54,7 +54,8 @@ class IntegratedQuestGenerator:
         scenario: ScenarioInput,
         with_logic: bool = True,
         with_visuals: bool = False,
-        export_code: bool = False
+        export_code: bool = False,
+        output_dir: str = None
     ) -> Dict[str, Any]:
         """Генерация расширенного квеста с логикой и визуализацией"""
         start_time = time.time()
@@ -82,7 +83,14 @@ class IntegratedQuestGenerator:
         
         # 3. Добавляем визуализацию (SceneCraft)
         if with_visuals:
-            visualization = await self._enhance_with_visuals(quest)
+            # Создаем уникальную директорию для визуализации
+            if not output_dir:
+                from datetime import datetime
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                quest_title = getattr(quest, 'title', 'quest').replace(' ', '_')[:30]
+                output_dir = f"output/quest_viz/{quest_title}_{timestamp}"
+            
+            visualization = await self._enhance_with_visuals(quest, output_dir)
             result["enhancements"]["visualization"] = visualization
         
         # 4. Интеграция логики и визуалов
@@ -157,7 +165,7 @@ class IntegratedQuestGenerator:
         
         return logic_data
     
-    async def _enhance_with_visuals(self, quest: Quest) -> Dict[str, Any]:
+    async def _enhance_with_visuals(self, quest: Quest, output_dir: str = None) -> Dict[str, Any]:
         """Добавление визуализации SceneCraft к квесту"""
         logger.info("Генерируем визуализацию для квеста")
         
@@ -175,7 +183,10 @@ class IntegratedQuestGenerator:
             }
         
         # Визуализируем весь квест
-        visualization = self.scenecraft.visualize_quest(quest)
+        if output_dir:
+            visualization = self.scenecraft.visualize_quest(quest, output_dir)
+        else:
+            visualization = self.scenecraft.visualize_quest(quest)
         
         # Добавляем дополнительные визуальные элементы
         visualization["enhanced_features"] = {
