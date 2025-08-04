@@ -129,23 +129,45 @@ class LLMInterface:
     
     async def _generate_openai(self, prompt: str) -> Dict[str, Any]:
         """Генерация через OpenAI API"""
-        response = await self.client.chat.completions.create(
-            model=self.model,
-            messages=[
+        # Подготавливаем параметры
+        params = {
+            "model": self.model,
+            "messages": [
                 {"role": "system", "content": "Ты создаешь интерактивные квесты. Отвечай только валидным JSON."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=self.config.temperature,
-            max_tokens=self.config.max_tokens,
-            top_p=self.config.top_p,
-            response_format={"type": "json_object"}
-        )
+            "temperature": self.config.temperature,
+            "max_tokens": self.config.max_tokens,
+            "top_p": self.config.top_p
+        }
+        
+        # response_format поддерживается только некоторыми моделями
+        if "gpt-4" in self.model and "mini" not in self.model:
+            params["response_format"] = {"type": "json_object"}
+        
+        response = await self.client.chat.completions.create(**params)
         
         content = response.choices[0].message.content
         tokens_used = response.usage.total_tokens
         
+        # Пытаемся распарсить JSON
+        try:
+            parsed_content = json.loads(content)
+        except json.JSONDecodeError:
+            # Пробуем извлечь JSON из текста
+            json_match = re.search(r'\{.*\}', content, re.DOTALL)
+            if json_match:
+                try:
+                    parsed_content = json.loads(json_match.group())
+                except:
+                    logger.error(f"Не удалось распарсить JSON из ответа: {content[:200]}...")
+                    raise ValueError("Невалидный JSON в ответе")
+            else:
+                logger.error(f"JSON не найден в ответе: {content[:200]}...")
+                raise ValueError("JSON не найден в ответе")
+        
         return {
-            "content": json.loads(content),
+            "content": parsed_content,
             "tokens_used": tokens_used
         }
     
@@ -310,8 +332,16 @@ class SceneGenerator:
         for i, (_, next_scene_id) in enumerate(planned_scene.choices):
             if i < len(response_data.get('choices', [])):
                 choice_data = response_data['choices'][i]
+                # Проверяем, является ли choice_data словарем
+                if isinstance(choice_data, dict):
+                    choice_text = choice_data.get('text', 'Продолжить')
+                elif isinstance(choice_data, str):
+                    choice_text = choice_data
+                else:
+                    choice_text = 'Продолжить'
+                
                 choices.append(Choice(
-                    text=choice_data.get('text', 'Продолжить'),
+                    text=choice_text,
                     next_scene=next_scene_id  # Используем ID из плана
                 ))
             else:

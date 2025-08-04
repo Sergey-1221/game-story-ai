@@ -88,8 +88,13 @@ def init_generators():
     """Инициализация генераторов"""
     if st.session_state.generator is None:
         with st.spinner("Инициализация системы..."):
-            st.session_state.generator = QuestGenerator()
-            st.session_state.integrated_generator = IntegratedQuestGenerator()
+            try:
+                st.session_state.generator = QuestGenerator()
+                st.session_state.integrated_generator = IntegratedQuestGenerator()
+            except Exception as e:
+                st.error(f"Ошибка инициализации: {e}")
+                st.info("Проверьте настройки API ключей и зависимости")
+                st.stop()
 
 
 def main():
@@ -103,7 +108,7 @@ def main():
     
     # Боковое меню
     with st.sidebar:
-        st.image("https://via.placeholder.com/300x100/667eea/ffffff?text=AI+Story+Generator", use_column_width=True)
+        st.image("https://via.placeholder.com/300x100/667eea/ffffff?text=AI+Story+Generator", use_container_width=True)
         
         selected = option_menu(
             "Меню",
@@ -192,7 +197,8 @@ def show_home_page():
                     "hero": quick_hero,
                     "goal": quick_goal
                 }
-                st.switch_page("pages/generator.py")
+                st.success("Сценарий сохранен! Перейдите на вкладку 'Генератор' для создания квеста.")
+                st.info("💡 Ваши данные автоматически заполнят форму в генераторе")
             else:
                 st.error("Заполните все поля!")
 
@@ -221,20 +227,42 @@ def show_basic_generator():
     with col1:
         st.subheader("Параметры сценария")
         
+        # Проверяем, есть ли быстрый сценарий
+        quick_scenario = st.session_state.get('quick_scenario', {})
+        
+        # Если есть быстрый сценарий, показываем уведомление
+        if quick_scenario:
+            st.info("📋 Используются данные из быстрой генерации")
+            if st.button("🗑️ Очистить", help="Очистить автозаполненные данные"):
+                st.session_state.quick_scenario = {}
+                st.rerun()
+        
+        # Получаем значения по умолчанию из быстрого сценария
+        default_genre_idx = 0
+        if quick_scenario.get('genre'):
+            genres = ["киберпанк", "фэнтези", "детектив", "хоррор", "научная фантастика", "постапокалипсис", "стимпанк"]
+            try:
+                default_genre_idx = genres.index(quick_scenario['genre'].lower())
+            except ValueError:
+                default_genre_idx = 0
+        
         genre = st.selectbox(
             "Жанр",
             ["киберпанк", "фэнтези", "детектив", "хоррор", "научная фантастика", "постапокалипсис", "стимпанк"],
+            index=default_genre_idx,
             help="Выберите жанр вашего квеста"
         )
         
         hero = st.text_input(
             "Главный герой",
+            value=quick_scenario.get('hero', ''),
             placeholder="Опишите протагониста",
             help="Например: молодой маг-ученик, опытный детектив, хакер-одиночка"
         )
         
         goal = st.text_area(
             "Цель квеста",
+            value=quick_scenario.get('goal', ''),
             placeholder="Опишите основную задачу героя",
             height=150,
             help="Чем подробнее описание, тем интереснее будет квест"
@@ -395,7 +423,7 @@ def generate_basic_quest(genre, hero, goal, language, temperature):
                 time.sleep(0.01)
             
             # Реальная генерация
-            quest = st.session_state.generator.generate(scenario.dict())
+            quest = st.session_state.generator.generate(scenario.model_dump())
             
             # Сохраняем результат
             st.session_state.current_quest = quest
@@ -441,24 +469,59 @@ def generate_advanced_quest(genre, hero, goal, with_logic, with_visuals,
                 stages = [s for s in stages if s is not None]
                 
                 # Симуляция прогресса
+                current_progress = 0.0
                 for progress, message in stages:
                     status_text.text(message)
-                    for i in range(int((progress - progress_bar.progress()) * 100)):
-                        progress_bar.progress(progress_bar.progress() + 0.01)
+                    target_progress = progress
+                    while current_progress < target_progress:
+                        current_progress = min(current_progress + 0.01, target_progress)
+                        progress_bar.progress(current_progress)
                         time.sleep(0.02)
             
-            # Реальная генерация (нужно сделать асинхронной)
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            
-            result = loop.run_until_complete(
-                st.session_state.integrated_generator.generate_enhanced_quest(
-                    scenario,
-                    with_logic=with_logic,
-                    with_visuals=with_visuals,
-                    export_code=export_code
-                )
-            )
+            # Реальная генерация (синхронная версия для Streamlit)
+            try:
+                # Проверяем, есть ли уже запущенный event loop
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    # Используем синхронную версию если loop уже запущен
+                    import asyncio
+                    import concurrent.futures
+                    
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future = executor.submit(
+                            asyncio.run,
+                            st.session_state.integrated_generator.generate_enhanced_quest(
+                                scenario,
+                                with_logic=with_logic,
+                                with_visuals=with_visuals,
+                                export_code=export_code
+                            )
+                        )
+                        result = future.result()
+                else:
+                    # Если нет активного loop, создаем новый
+                    result = asyncio.run(
+                        st.session_state.integrated_generator.generate_enhanced_quest(
+                            scenario,
+                            with_logic=with_logic,
+                            with_visuals=with_visuals,
+                            export_code=export_code
+                        )
+                    )
+            except RuntimeError:
+                # Fallback: используем thread pool для асинхронного кода
+                import concurrent.futures
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    future = executor.submit(
+                        asyncio.run,
+                        st.session_state.integrated_generator.generate_enhanced_quest(
+                            scenario,
+                            with_logic=with_logic,
+                            with_visuals=with_visuals,
+                            export_code=export_code
+                        )
+                    )
+                    result = future.result()
             
             # Сохраняем результат
             st.session_state.current_quest = result['quest']
@@ -626,7 +689,7 @@ def show_quest_graph(quest):
 
 def show_json_view(quest):
     """Отображение JSON представления"""
-    quest_dict = quest.dict()
+    quest_dict = quest.model_dump()
     json_str = json.dumps(quest_dict, ensure_ascii=False, indent=2)
     
     st.code(json_str, language='json')
@@ -790,7 +853,7 @@ def show_visualization_view(viz_data):
                     try:
                         image = Image.open(scene_viz['composite_path'])
                         st.image(image, caption="Многоракурсная визуализация", 
-                                use_column_width=True)
+                                use_container_width=True)
                     except:
                         st.info("Изображение недоступно")
                 else:
@@ -1009,7 +1072,7 @@ def show_settings_page():
             for h in st.session_state.quest_history:
                 history_data.append({
                     'timestamp': h['timestamp'].isoformat(),
-                    'quest': h['quest'].dict(),
+                    'quest': h['quest'].model_dump(),
                     'type': h['type']
                 })
             
@@ -1128,7 +1191,7 @@ def save_quest(quest):
         
         # Сохраняем
         with open(filepath, 'w', encoding='utf-8') as f:
-            json.dump(quest.dict(), f, ensure_ascii=False, indent=2)
+            json.dump(quest.model_dump(), f, ensure_ascii=False, indent=2)
         
         st.success(f"✅ Квест сохранен: {filename}")
         
