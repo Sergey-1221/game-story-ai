@@ -53,24 +53,42 @@ def get_github_raw_url(file_path: str, use_github: bool = True) -> str:
         GITHUB_REPO = "game-story-ai"
         GITHUB_BRANCH = "streamlit-cloud"
         
-        # Преобразуем путь в относительный
-        path = Path(file_path)
-        if path.is_absolute():
-            # Пытаемся получить относительный путь от корня проекта
-            try:
-                rel_path = path.relative_to(Path.cwd())
-            except ValueError:
-                # Если не удается, используем путь как есть
-                rel_path = path
-        else:
-            rel_path = path
+        # Нормализуем путь - заменяем все обратные слеши на прямые
+        normalized_path = str(file_path).replace('\\', '/')
         
-        # Формируем GitHub raw URL
-        github_url = f"https://raw.githubusercontent.com/{GITHUB_OWNER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{str(rel_path).replace(os.sep, '/')}"
+        # Если путь уже выглядит как относительный (начинается с saved_quests), используем его как есть
+        if normalized_path.startswith('saved_quests/'):
+            rel_path_str = normalized_path
+        else:
+            # Преобразуем путь в относительный
+            path = Path(normalized_path)
+            if path.is_absolute():
+                # Пытаемся получить относительный путь от корня проекта
+                try:
+                    rel_path = path.relative_to(Path.cwd())
+                    rel_path_str = str(rel_path).replace('\\', '/')
+                except ValueError:
+                    # Если не удается, проверяем, есть ли saved_quests в пути
+                    path_str = str(path).replace('\\', '/')
+                    if 'saved_quests' in path_str:
+                        # Извлекаем часть пути начиная с saved_quests
+                        rel_path_str = path_str[path_str.find('saved_quests'):]
+                    else:
+                        rel_path_str = path_str
+            else:
+                rel_path_str = normalized_path
+        github_url = f"https://raw.githubusercontent.com/{GITHUB_OWNER}/{GITHUB_REPO}/{GITHUB_BRANCH}/{rel_path_str}"
+        
+        # Логирование для отладки
+        if st.session_state.get('debug_mode', False):
+            st.sidebar.write(f"Original path: {file_path}")
+            st.sidebar.write(f"GitHub URL: {github_url}")
         
         return github_url
     except Exception as e:
         # В случае ошибки возвращаем оригинальный путь
+        if st.session_state.get('debug_mode', False):
+            st.sidebar.error(f"Error creating GitHub URL: {e}")
         return file_path
 
 
@@ -1643,6 +1661,33 @@ def show_settings_page():
 OPENAI_API_KEY=your_openai_api_key_here
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
         """)
+    
+    # Режим отладки
+    st.subheader("🐛 Режим отладки")
+    
+    if 'debug_mode' not in st.session_state:
+        st.session_state.debug_mode = False
+    
+    debug_mode = st.checkbox("Включить режим отладки", value=st.session_state.debug_mode)
+    st.session_state.debug_mode = debug_mode
+    
+    if debug_mode:
+        st.info("Режим отладки включен. Информация о путях к изображениям будет отображаться в боковой панели.")
+        
+        # Отображаем информацию об окружении
+        is_cloud = os.environ.get('STREAMLIT_CLOUD', 'false').lower() == 'true'
+        st.write(f"**Окружение:** {'Streamlit Cloud' if is_cloud else 'Локальное'}")
+        
+        # Проверяем переменные окружения для определения Streamlit Cloud
+        cloud_vars = {
+            'STREAMLIT_SHARING_MODE': os.environ.get('STREAMLIT_SHARING_MODE', 'Not set'),
+            'STREAMLIT_SERVER_ADDRESS': os.environ.get('STREAMLIT_SERVER_ADDRESS', 'Not set'),
+            'STREAMLIT_CLOUD': os.environ.get('STREAMLIT_CLOUD', 'Not set')
+        }
+        
+        with st.expander("Переменные окружения Streamlit Cloud"):
+            for var, value in cloud_vars.items():
+                st.write(f"**{var}:** {value}")
     
     # Настройки генерации
     st.subheader("🎯 Настройки генерации")
