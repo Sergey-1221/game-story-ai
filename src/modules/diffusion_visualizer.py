@@ -490,6 +490,112 @@ class DiffusionVisualizer:
         
         return result
     
+    def generate_scene_image(
+        self, 
+        scene_description: str, 
+        style: str = "realistic", 
+        aspect_ratio: str = "16:9"
+    ) -> Image.Image:
+        """Синхронная генерация изображения сцены для совместимости с SceneCraftVisualizer"""
+        
+        try:
+            # Определяем размер изображения по соотношению сторон
+            if aspect_ratio == "16:9":
+                size = (1024, 576)
+            elif aspect_ratio == "4:3":
+                size = (1024, 768)
+            elif aspect_ratio == "1:1":
+                size = (1024, 1024)
+            else:
+                size = (1024, 576)  # default
+            
+            # Создаем конфигурацию для генерации
+            config = VisualizationConfig(
+                image_size=size,
+                style=VisualizationStyle(style) if style in [s.value for s in VisualizationStyle] else VisualizationStyle.REALISTIC,
+                num_inference_steps=20,  # Быстрая генерация
+                guidance_scale=7.5
+            )
+            
+            # Обновляем промпт в зависимости от стиля
+            styled_prompt = f"{scene_description}, {style} style, high quality, detailed"
+            
+            # Запускаем базовую генерацию
+            pipeline = self._load_pipeline()
+            
+            generator = torch.Generator(device=self.device)
+            seed = torch.randint(0, 2**32, (1,)).item()
+            generator.manual_seed(seed)
+            
+            with torch.autocast(self.device):
+                result = pipeline(
+                    prompt=styled_prompt,
+                    negative_prompt="low quality, blurry, distorted, ugly, deformed",
+                    height=config.image_size[1],
+                    width=config.image_size[0],
+                    num_inference_steps=config.num_inference_steps,
+                    guidance_scale=config.guidance_scale,
+                    generator=generator
+                )
+            
+            return result.images[0]
+            
+        except Exception as e:
+            logger.error(f"Ошибка при генерации изображения сцены: {e}")
+            # Возвращаем заглушку
+            return self._create_placeholder_image(size)
+    
+    def generate_with_controlnet(
+        self, 
+        prompt: str, 
+        control_image: Image.Image, 
+        control_type: str = "canny"
+    ) -> Image.Image:
+        """Синхронная генерация с ControlNet для совместимости с SceneCraftVisualizer"""
+        
+        try:
+            # Преобразуем строковый тип в enum
+            controlnet_type_map = {
+                "canny": ControlNetType.CANNY,
+                "openpose": ControlNetType.OPENPOSE,
+                "depth": ControlNetType.DEPTH,
+                "lineart": ControlNetType.LINEART
+            }
+            
+            controlnet_type = controlnet_type_map.get(control_type, ControlNetType.CANNY)
+            
+            # Загружаем пайплайн с ControlNet
+            pipeline = self._load_controlnet_pipeline(controlnet_type)
+            
+            # Обрабатываем control image в зависимости от типа
+            processed_control = self.controlnet_processor.process_control_image(
+                control_image, controlnet_type
+            )
+            
+            generator = torch.Generator(device=self.device)
+            seed = torch.randint(0, 2**32, (1,)).item()
+            generator.manual_seed(seed)
+            
+            with torch.autocast(self.device):
+                result = pipeline(
+                    prompt=prompt,
+                    image=processed_control,
+                    negative_prompt="low quality, blurry, distorted, ugly, deformed",
+                    height=1024,
+                    width=1024,
+                    num_inference_steps=20,
+                    guidance_scale=7.5,
+                    controlnet_conditioning_scale=1.0,
+                    generator=generator
+                )
+            
+            return result.images[0]
+            
+        except Exception as e:
+            logger.error(f"Ошибка при генерации с ControlNet: {e}")
+            # Fallback на обычную генерацию
+            return self.generate_scene_image(prompt, "realistic", "1:1")
+    
     def _generate_basic(
         self, 
         prompt: str, 
